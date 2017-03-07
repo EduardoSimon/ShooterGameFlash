@@ -1,6 +1,6 @@
 package
 {
-	import flash.display.Sprite;
+	import flash.display.*;
 	import starling.events.*;
 	import starling.core.Starling;
 	
@@ -27,7 +27,6 @@ package
 			_starling = new Starling(Player,stage);
 			_starling.antiAliasing = 2;
 			_starling.start();
-			
 		}
 	}
 	

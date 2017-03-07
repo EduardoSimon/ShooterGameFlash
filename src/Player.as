@@ -1,6 +1,7 @@
 package 
 {
 	import flash.display.Sprite;
+	import flash.geom.Rectangle;
 	import starling.display.Image;
 	import starling.textures.Texture;
 	import starling.display.Sprite;
@@ -21,18 +22,19 @@ package
 		private var _mPlayerTexture:Texture;
 		private var _mPlayerImage:Image;
 		
+
+		
+		
 		public function Player() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			addEventListener(TouchEvent.TOUCH, onTouched);
+
 		}
 		
 		private function CenterPlayerToStage():void
 		{
 			_mPlayerImage.x = stage.stageWidth / 2 - PLAYER_CENTER_X;
 			_mPlayerImage.y = stage.stageWidth / 2 - PLAYER_CENTER_Y;
-			
-			
 		}
 		
 		private function onAdded(e:Event):void{
@@ -47,6 +49,8 @@ package
 			//display it on the stage
 			addChild(_mPlayerImage);
 			
+			stage.addEventListener(TouchEvent.TOUCH, onTouched);
+			
 			CenterPlayerToStage();
 			SetPivotToCenter();
 			
@@ -57,10 +61,12 @@ package
 			var touch:Touch = e.getTouch(stage);
 			if (touch)
 			{
-				if (touch.phase == TouchPhase.BEGAN) 
+				if (touch.phase == TouchPhase.HOVER) 
 				{
-
-					_mPlayerImage.rotation += degreesToRad(20);
+					var op:Number = _mPlayerImage.y - touch.globalY;
+					var cont:Number = _mPlayerImage.x - touch.globalX;
+					var angleToRotate:Number = Math.atan(op / cont);
+					_mPlayerImage.rotation = angleToRotate;
 				}
 			}
 		}
