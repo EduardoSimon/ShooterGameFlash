@@ -65,7 +65,7 @@ package
 				{
 					var op:Number = _mPlayerImage.y - touch.globalY;
 					var cont:Number = _mPlayerImage.x - touch.globalX;
-					var angleToRotate:Number = Math.atan(op / cont);
+					var angleToRotate:Number = Math.atan2(op,cont);
 					_mPlayerImage.rotation = angleToRotate;
 				}
 			}

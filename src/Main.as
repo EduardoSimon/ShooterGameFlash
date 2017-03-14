@@ -1,8 +1,9 @@
 package
 {
-	import flash.display.*;
-	import starling.events.*;
 	import starling.core.Starling;
+	import starling.events.*;
+	import starling.display.Sprite;
+	import flash.display.*;
 	
 	/**
 	 * ...
@@ -10,11 +11,12 @@ package
 	 */
 	
 	 [SWF(width = "800", height = "600", framerate = "50", backgroundColor = "#00b3b3")]
-	public class Main extends Sprite 
+	public class Main extends flash.display.Sprite
 	{
 		private var _starling:Starling;
+		private var _ball:Ball;
 		
-		public function Main() 
+		public function Main()
 		{
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
@@ -24,10 +26,11 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			//entry point
-			_starling = new Starling(Player,stage);
+			_starling = new Starling(Welcome, stage);
 			_starling.antiAliasing = 2;
 			_starling.start();
 		}
+		
 	}
 	
 }
