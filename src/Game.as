@@ -7,10 +7,12 @@ package
 	 * ...
 	 * @author Marc
 	 */
-	public class Welcome extends Sprite 
+	public class Game extends Sprite 
 	{
 		
-		public function Welcome() 
+		private var screenWelcome:Welcome;
+		
+		public function Game() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -19,7 +21,9 @@ package
 		
 		private function onAddedToStage(e:Event):void 
 		{
-			trace("welcome screen initialized");
+			trace("starling framework");
+			screenWelcome = new Welcome();
+			this.addChild(screenWelcome);
 		}
 		
 	}
