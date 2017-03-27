@@ -39,9 +39,21 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
+			drawLevel1();
+		}
+		
+		private function drawLevel1():void{
 			player = new Player();
 			addChild(player);
 			player.CenterPlayerToStage();
+		}
+		
+		public function disposeTemporarily():void{
+			this.visible = false;
+		}
+		
+		public function initialize():void{
+			this.visible = true;
 		}
 		
 	}
