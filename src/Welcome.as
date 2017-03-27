@@ -1,47 +1,26 @@
 package 
 {
 	import starling.display.Sprite;
-	import starling.events.*;
+	import starling.events.Event;
+	
 	/**
 	 * ...
-	 * @author EDUARDO SIMON
+	 * @author Marc
 	 */
-	public class Welcome extends Sprite
+	public class Welcome extends Sprite 
 	{
-		private var ball:Ball;
-		private var player:Player;
-		
-		public static const PLAYER_X:Number = 400;
-		public static const PLAYER_Y:Number = 300;
 		
 		public function Welcome() 
 		{
-			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			super();
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 		}
 		
-		private function onTouch(e:TouchEvent):void 
+		private function onAddedToStage(e:Event):void 
 		{
-			var touch:Touch = e.getTouch(stage);
-			if (touch)
-			{
-				if (touch.phase == TouchPhase.BEGAN)
-				{
-					ball = new Ball(PLAYER_X, PLAYER_Y);
-					addChild(ball);
-					var shootAngle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
-					ball.SetVelocityWithAngle(shootAngle,touch.globalX, touch.globalY);
-				}
-			}
-		}
-		
-		private function onAdded(e:Event):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			stage.addEventListener(TouchEvent.TOUCH, onTouch);
-			player = new Player();
-			addChild(player);
-			player.CenterPlayerToStage();
+			trace("welcome screen initialized");
+			var t;
 		}
 		
 	}
