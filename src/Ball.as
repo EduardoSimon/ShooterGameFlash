@@ -55,15 +55,7 @@ package
 			_mVelocity = new Vector2D(1, 1);
 			_mSpeed = 7;
 		}
-		
-		public function set SetX(x:Number):void
-		{
-			_mPosX = x;
-		}
-		
-		public function set SetY(y:Number):void{
-			_mPosY = y;
-		}
+
 		
 		private function UpdatePosition():void
 		{
@@ -76,14 +68,23 @@ package
 			_mVelocity = vel;
 		}
 		
-		public function SetVelocityWithAngle(angle:Number, x:Number, y:Number):void
+		public function SetVelocityWithAngle(angle:Number):void
 		{
-			var temp:Vector2D = new Vector2D(x, y);
 			
-			var _x:Number = temp.GetMagnitude() * Math.cos(angle);
-			var _y:Number = temp.GetMagnitude() * Math.sin(angle);
+			var _x:Number = Math.cos(angle);
+			var _y:Number = Math.sin(angle);
 			
-			_mVelocity = new Vector2D(_x, _y).GetDirection();
+			_mVelocity = new Vector2D(_x, _y);
+		}
+		
+				
+		public function set SetX(x:Number):void
+		{
+			_mPosX = x;
+		}
+		
+		public function set SetY(y:Number):void{
+			_mPosY = y;
 		}
 	}
 
