@@ -31,10 +31,10 @@ package
 
 		}
 		
-		private function CenterPlayerToStage():void
+		public function CenterPlayerToStage():void
 		{
-			_mPlayerImage.x = stage.stageWidth / 2 - PLAYER_CENTER_X;
-			_mPlayerImage.y = stage.stageWidth / 2 - PLAYER_CENTER_Y;
+			_mPlayerImage.x = Welcome.PLAYER_X;
+			_mPlayerImage.y = Welcome.PLAYER_Y;
 		}
 		
 		private function onAdded(e:Event):void{
@@ -49,11 +49,9 @@ package
 			//display it on the stage
 			addChild(_mPlayerImage);
 			
-			stage.addEventListener(TouchEvent.TOUCH, onTouched);
-			
-			CenterPlayerToStage();
 			SetPivotToCenter();
-			
+						
+			stage.addEventListener(TouchEvent.TOUCH, onTouched);
 		}
 		
 		private function onTouched(e:TouchEvent):void
