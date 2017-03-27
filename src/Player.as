@@ -33,8 +33,8 @@ package
 		
 		public function CenterPlayerToStage():void
 		{
-			_mPlayerImage.x = Welcome.PLAYER_X;
-			_mPlayerImage.y = Welcome.PLAYER_Y;
+			_mPlayerImage.x = Level1.PLAYER_X;
+			_mPlayerImage.y = Level1.PLAYER_Y;
 		}
 		
 		private function onAdded(e:Event):void{
