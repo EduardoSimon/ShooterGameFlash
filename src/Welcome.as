@@ -17,6 +17,7 @@ package
 		public function Welcome() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -29,7 +30,7 @@ package
 					ball = new Ball(PLAYER_X, PLAYER_Y);
 					addChild(ball);
 					var shootAngle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
-					ball.SetVelocityWithAngle(shootAngle);
+					ball.SetVelocityWithAngle(shootAngle,touch.globalX, touch.globalY);
 				}
 			}
 		}
@@ -39,7 +40,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			player = new Player();
-			addChildAt(player, 0);
+			addChild(player);
 			player.CenterPlayerToStage();
 		}
 		
