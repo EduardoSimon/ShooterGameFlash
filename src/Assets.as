@@ -10,18 +10,29 @@ package
 	public class Assets 
 	{
 		
-		[Embed(source = "../img/bgWelcome.jpg")]
+		[Embed(source = "../img/welcomeScreen/bgWelcome.jpg")]
 		public static const BgWelcome:Class;
 		
-		[Embed(source = "../img/welcome_title.png")]
+		[Embed(source = "../img/welcomeScreen/welcome_title.png")]
 		public static const WelcomeTitle:Class;
 		
-		[Embed(source = "../img/welcome_hero.png")]
+		[Embed(source = "../img/welcomeScreen/welcome_hero.png")]
 		public static const WelcomeHero:Class;
 		
-		[Embed(source = "../img/welcome_playButton.png")]
+		[Embed(source = "../img/welcomeScreen/welcome_playButton.png")]
 		public static const WelcomePlayBtn:Class;
 		
+		[Embed(source="../img/level/ball_red.png")]
+		public static const BallBitmap:Class;
+		
+		[Embed(source = "../img/level/cannon.png")]
+		public static const CannonBitmap:Class;
+		
+		[Embed(source = "../img/chooseLevel/level1.png")]
+		public static const Level1:Class;
+		
+		[Embed(source = "../img/chooseLevel/level2.png")]
+		public static const Level2:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary();
 		

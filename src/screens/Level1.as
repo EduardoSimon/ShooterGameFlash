@@ -1,5 +1,7 @@
-package 
+package screens 
 {
+	import main.Player;
+	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
 	/**
@@ -8,15 +10,15 @@ package
 	 */
 	public class Level1 extends Sprite
 	{
-		private var ball:Ball;
-		private var player:Player;
+		private var ball:objects.Ball;
+		private var player:main.Player;
 		
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
 		
 		public function Level1() 
 		{
-			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 		}
 		
@@ -27,23 +29,23 @@ package
 			{
 				if (touch.phase == TouchPhase.BEGAN)
 				{
-					ball = new Ball(PLAYER_X, PLAYER_Y);
-					addChild(ball);
+					ball = new objects.Ball(PLAYER_X, PLAYER_Y);
+					addChildAt(ball, stage.numChildren-1);
 					var shootAngle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
 					ball.SetVelocityWithAngle(shootAngle,touch.globalX, touch.globalY);
 				}
 			}
 		}
 		
-		private function onAdded(e:Event):void 
+		private function onAddedToStage(e:Event):void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			drawLevel1();
 		}
 		
 		private function drawLevel1():void{
-			player = new Player();
+			player = new main.Player();
 			addChild(player);
 			player.CenterPlayerToStage();
 		}

@@ -1,9 +1,11 @@
-package 
+package objects 
 {
+	import Assets;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
 	import starling.events.*;
+	import utils.Vector2D;
 	
 	/**
 	 * ...
@@ -11,15 +13,10 @@ package
 	 */
 	public class Ball extends Sprite
 	{
-		[Embed(source="../img/ball_red.png")]
-		public static const BallBitmap:Class;
-		
-		private var _mTouchData:Touch;
-		private var _mTexture:Texture;
 		private var _mImage:Image;
 		private var _mPosX:Number;
 		private var _mPosY:Number;
-		private var _mVelocity:Vector2D;
+		private var _mVelocity:utils.Vector2D;
 		private var _mSpeed:Number;
 		
 		
@@ -40,8 +37,7 @@ package
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			_mTexture = Texture.fromBitmap(new BallBitmap());
-			_mImage = new Image(_mTexture);
+			_mImage = new Image(Assets.getTexture("BallBitmap"));
 			
 			addChild(_mImage);
 			
@@ -52,8 +48,8 @@ package
 			_mImage.x = _mPosX - _mImage.width / 2;
 			_mImage.y = _mPosY - _mImage.height / 2;
 
-			_mVelocity = new Vector2D(1, 1);
-			_mSpeed = 7;
+			_mVelocity = new utils.Vector2D(1, 1);
+			_mSpeed = 10;
 		}
 		
 		public function set SetX(x:Number):void
@@ -71,19 +67,19 @@ package
 			this.y += _mVelocity.GetY() * _mSpeed;
 		}
 		
-		public function SetVelocity(vel:Vector2D):void
+		public function SetVelocity(vel:utils.Vector2D):void
 		{
 			_mVelocity = vel;
 		}
 		
 		public function SetVelocityWithAngle(angle:Number, x:Number, y:Number):void
 		{
-			var temp:Vector2D = new Vector2D(x, y);
+			var temp:utils.Vector2D = new utils.Vector2D(x, y);
 			
 			var _x:Number = temp.GetMagnitude() * Math.cos(angle);
 			var _y:Number = temp.GetMagnitude() * Math.sin(angle);
 			
-			_mVelocity = new Vector2D(_x, _y).GetDirection();
+			_mVelocity = new utils.Vector2D(_x, _y).GetDirection();
 		}
 	}
 

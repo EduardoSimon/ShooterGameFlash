@@ -1,5 +1,7 @@
-package 
+package main 
 {
+	import Assets;
+	import screens.Level1;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 	import starling.display.Image;
@@ -12,9 +14,6 @@ package
 	 */
 	public class Player extends Sprite
 	{
-		
-		[Embed(source = "../img/cannon.png")]
-		public static const CannonBitmap:Class;
 		
 		private var PLAYER_CENTER_X:Number;
 		private var PLAYER_CENTER_Y:Number;
@@ -33,15 +32,15 @@ package
 		
 		public function CenterPlayerToStage():void
 		{
-			_mPlayerImage.x = Level1.PLAYER_X;
-			_mPlayerImage.y = Level1.PLAYER_Y;
+			_mPlayerImage.x = screens.Level1.PLAYER_X;
+			_mPlayerImage.y = screens.Level1.PLAYER_Y;
 		}
 		
 		private function onAdded(e:Event):void{
 						
 			//starling sprite creation
-			_mPlayerTexture = Texture.fromBitmap(new CannonBitmap());
-			_mPlayerImage = new Image(_mPlayerTexture);
+			
+			_mPlayerImage = new Image(Assets.getTexture("CannonBitmap"));
 			
 			PLAYER_CENTER_X = (_mPlayerImage.width / 2);
 			PLAYER_CENTER_Y = (_mPlayerImage.height / 2);

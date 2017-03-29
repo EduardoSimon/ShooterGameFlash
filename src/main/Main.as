@@ -1,5 +1,7 @@
-package
+package main
 {
+	import main.Game;
+	import objects.Ball;
 	import starling.core.Starling;
 	import starling.events.*;
 	import starling.display.Sprite;
@@ -14,7 +16,7 @@ package
 	public class Main extends flash.display.Sprite
 	{
 		private var _starling:Starling;
-		private var _ball:Ball;
+		private var _ball:objects.Ball;
 		
 		public function Main()
 		{
@@ -26,7 +28,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			//entry point
-			_starling = new Starling(Game, stage);
+			_starling = new Starling(main.Game, stage);
 			_starling.antiAliasing = 2;
 			_starling.start();
 		}

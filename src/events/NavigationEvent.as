@@ -1,4 +1,4 @@
-package 
+package events 
 {
 	import starling.events.Event;
 	

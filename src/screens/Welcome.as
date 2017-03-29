@@ -1,5 +1,7 @@
-package 
+package screens 
 {
+	import events.NavigationEvent;
+	import Assets;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -61,7 +63,7 @@ package
 			var buttonClicked:Button = e.target as Button;
 
 			if((buttonClicked as Button) == playBtn){
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, {id: "play"}, true));
+				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "chooseLevel"}, true));
 			}
 			
 		}
