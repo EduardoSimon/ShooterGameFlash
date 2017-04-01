@@ -6,6 +6,7 @@ package screens
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import com.friendsofed.vector.*;
 	
 	/**
 	 * ...
@@ -19,6 +20,9 @@ package screens
 		
 		private var playBtn:Button;
 		private var aboutBtn:Button;
+		
+		private var model:VectorModel = new VectorModel();
+		private var view:VectorView = new VectorView(model,"status",1);
 		
 		public function Welcome() 
 		{
@@ -53,6 +57,9 @@ package screens
 			playBtn.x = 500;
 			playBtn.y = 360;
 			this.addChild(playBtn);
+			
+			
+			addChild(view);
 			
 			this.addEventListener(Event.TRIGGERED, onMainMenuClick);
 			
