@@ -72,6 +72,16 @@ package objects
 			_mVelocity = vel;
 		}
 		
+		public function GetX():Number
+		{
+			return _mPosX;
+		}
+		
+		public function GetY():Number
+		{
+			return _mPosY;
+		}
+		
 		public function SetVelocityWithAngle(angle:Number, x:Number, y:Number):void
 		{
 			var temp:utils.Vector2D = new utils.Vector2D(x, y);
