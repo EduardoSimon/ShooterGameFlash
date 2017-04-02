@@ -6,7 +6,7 @@ package main
 	import events.NavigationEvent;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import com.friendsofed.vector.*;
+	import com.friendsofed.*;
 	
 	/**
 	 * ...

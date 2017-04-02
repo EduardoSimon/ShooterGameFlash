@@ -59,8 +59,6 @@ package screens
 			this.addChild(playBtn);
 			
 			
-			addChild(view);
-			
 			this.addEventListener(Event.TRIGGERED, onMainMenuClick);
 			
 		}

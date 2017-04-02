@@ -1,7 +1,7 @@
 package main
 {
 	import main.Game;
-	import objects.Ball;
+	import objects.Projectile;
 	import starling.core.Starling;
 	import starling.events.*;
 	import starling.display.Sprite;
@@ -16,7 +16,7 @@ package main
 	public class Main extends flash.display.Sprite
 	{
 		private var _starling:Starling;
-		private var _ball:objects.Ball;
+		private var _ball:objects.Projectile;
 		
 		public function Main()
 		{

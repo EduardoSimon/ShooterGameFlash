@@ -1,7 +1,7 @@
 package screens 
 {
 	import main.Player;
-	import objects.Ball;
+	import objects.Projectile;
 	import starling.display.Sprite;
 	import starling.events.*;
 	/**
@@ -10,8 +10,9 @@ package screens
 	 */
 	public class Level1 extends Sprite
 	{
-		private var ball:objects.Ball;
+		private var ball:objects.Projectile;
 		private var player:main.Player;
+		private var projectiles:Vector.<Projectile>;
 		
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
@@ -19,7 +20,20 @@ package screens
 		public function Level1() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			projectiles = new Vector.<Projectile>();
 			
+		}
+		
+		public function OnEnterFrame(e:Event):void 
+		{
+			for (var i:int = 0; i < projectiles.length; i++) 
+			{
+				projectiles[i].update();
+				
+				projectiles[i].x = projectiles[i].posX;
+				projectiles[i].y = projectiles[i].posY;
+			}
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -29,10 +43,13 @@ package screens
 			{
 				if (touch.phase == TouchPhase.BEGAN)
 				{
-					ball = new objects.Ball(PLAYER_X, PLAYER_Y);
-					addChildAt(ball, stage.numChildren-1);
-					var shootAngle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
-					ball.SetVelocityWithAngle(shootAngle,touch.globalX, touch.globalY);
+					//calculate the angel which we will use to determine the speed in x and y
+					var angle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
+					
+					//push to the vector and add to the display list
+					ball = new objects.Projectile(angle, 4);
+					projectiles.push(ball);
+					addChildAt(ball, stage.numChildren - 1);
 				}
 			}
 		}
