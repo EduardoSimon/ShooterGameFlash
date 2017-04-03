@@ -23,8 +23,8 @@ package objects
 			
 			m_Speed = speed;
 			
-			this.SetX = speed * Math.cos(angle);
-			this.SetY = speed * Math.sin(angle);
+			this.posX = speed * Math.cos(angle);
+			this.posY = speed * Math.sin(angle);
 		}
 	
 		

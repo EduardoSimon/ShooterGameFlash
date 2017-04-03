@@ -3,12 +3,16 @@ package
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.geom.Point;
+	import objects.Projectile;
 	import starling.display.Sprite;
 	import starling.events.*;
 	
 	public class Basura extends Sprite 
 	{
-		private var pelotas:Vector.<Ball>;
+		private var pelotas:Vector.<Projectile>;
+		private var v1:VectorModel;
+		private var v2:VectorModel;
+		private var v3:VectorModel;
 		
 		public function Basura() 
 		{
@@ -22,16 +26,18 @@ package
 			
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
-			pelotas = new Vector.<Ball>();
+			pelotas = new Vector.<Projectile>();
+			v1 = new VectorModel();
+			v2 = new VectorModel();
+			v3 = new VectorModel();
 			
 			for (var i:int = 0; i < 20; i++)
 			{
-				var initX:int = Math.random() * stage.stageWidth;
-				var initY:int = Math.random() * stage.stageHeight;
-				var targetX:int = Math.random() * stage.stageWidth;
-				var targetY:int = Math.random() * stage.stageHeight;
+				var randomAngle:Number = Math.random() * 2 * Math.PI;
 				
-				var lasPelotasDeCarlos:Enemies = new Enemies(initX, initY, new VectorModel(initX, initY, targetX, targetY));
+				var lasPelotasDeCarlos:Projectile = new Projectile(randomAngle, 4);
+				lasPelotasDeCarlos.SetX = Math.random() * stage.stageWidth;
+				lasPelotasDeCarlos.SetY = Math.random() * stage.stageHeight;
 				
 				pelotas.push(lasPelotasDeCarlos);
 				
@@ -45,32 +51,17 @@ package
 			{
 				for (var i:int = pelotas.length - 1; i >= 0; i--)
 				{
-					if (!boundariesCollisions(i))
-					{
-						var speed:Point = pelotas[i].speed;
-						var newX:Number = pelotas[i].PosX + speed.x;
-						var newY:Number = pelotas[i].PosY + speed.y;
-			
-						pelotas[i].Update(newX, newY);
-					}
+						boundariesCollisions(pelotas[i]);
+						pelotas[i].update();
+					
 				}
 			}
 		}
 		
-		private function boundariesCollisions(i:int):Boolean
+		public function boundariesCollisions(entity:MovingEntity):void
 		{
-			var speed:Point = pelotas[i].Speed;
-			var ballVector:VectorModel = pelotas[i].Direction;
-			
-			var x:Number = pelotas[i].PosX + speed.x;
-			var y:Number = pelotas[i].PosY + speed.y;
-			
-			var v1:VectorModel = new VectorModel(pelotas[i].PosX, pelotas[i].PosY, x, y);
-			
-			var v2:VectorModel;
-			
-			var v3:VectorModel;
-			
+			v1.update(entity.posX, entity.posY, (entity.posX + entity.Vx), (entity.posY + entity.Vy));
+
 			if (v1.b.x <= 0)
 			{
 				//Vector pared izquierda
@@ -94,13 +85,14 @@ package
 				v2 = new VectorModel(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
 			}
 			
-			v3 = new VectorModel(v1.a.x, v1.a.y, v2.a.x, v2.a.y);
+			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.b.y);
 			
 			var dp1:Number = VectorMath.dotProduct(v3, v2);
 			var dp2:Number = VectorMath.dotProduct(v3, v2.ln);
 			
 			var collisionForce_Vx:Number;
 			var collisionForce_Vy:Number;
+			var overlap:Number;
 			
 			if (dp1 > -v2.m && dp1 < 0)
 			{				
@@ -109,10 +101,11 @@ package
 					collisionForce_Vx = v1.dx * Math.abs(dp2);
 					collisionForce_Vy = v1.dy * Math.abs(dp2);
 					
-					pelotas[i].Update(v1.a.x - collisionForce_Vx, v1.a.y - collisionForce_Vy)
+					entity.SetX = v1.a.x - collisionForce_Vx;
+					entity.SetY = v1.a.y - collisionForce_Vy;
 					
-					//pelotas[i].PosX = v1.a.x - collisionForce_Vx;
-					//pelotas[i].PosY = v1.a.y - collisionForce_Vy;
+					entity.Vx = 0;
+					entity.Vy = 0;
 					
 					var dp3:Number = VectorMath.dotProduct(v1, v2);
 					
@@ -130,16 +123,11 @@ package
 					var bounce_Vx:Number = p1_Vx + p2_Vx;
 					var bounce_Vy:Number = p1_Vy + p2_Vy;
 					
-					var newX:Number = v1.a.x + bounce_Vx;
-					var newY:Number = v1.a.y + bounce_Vy;
-					
-					pelotas[i].Update(newX, newY)
-					
-					return true;
+					entity.Vx = bounce_Vx;
+					entity.Vy = bounce_Vy;
 				}
 			}
-			return false;
-		}	
+		}
 	}
-
 }
+

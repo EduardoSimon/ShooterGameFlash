@@ -28,7 +28,7 @@ package main
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			//entry point
-			_starling = new Starling(main.Game, stage);
+			_starling = new Starling(Basura, stage);
 			_starling.antiAliasing = 2;
 			_starling.start();
 		}
