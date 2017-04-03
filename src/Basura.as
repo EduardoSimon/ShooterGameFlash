@@ -2,6 +2,7 @@ package
 {
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
+	import flash.display.Graphics;
 	import flash.geom.Point;
 	import objects.Projectile;
 	import starling.display.Sprite;
@@ -9,6 +10,7 @@ package
 	
 	public class Basura extends Sprite 
 	{
+		public const N_PROJECTILES:int = 200;
 		private var pelotas:Vector.<Projectile>;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
@@ -31,17 +33,20 @@ package
 			v2 = new VectorModel();
 			v3 = new VectorModel();
 			
-			for (var i:int = 0; i < 20; i++)
+			for (var i:int = 0; i < N_PROJECTILES; i++)
 			{
-				var randomAngle:Number = Math.random() * 2 * Math.PI;
+				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var lasPelotasDeCarlos:Projectile = new Projectile(randomAngle, 4);
-				lasPelotasDeCarlos.SetX = Math.random() * stage.stageWidth;
-				lasPelotasDeCarlos.SetY = Math.random() * stage.stageHeight;
+				var temp:Projectile = new Projectile(randomAngle, 20);
 				
-				pelotas.push(lasPelotasDeCarlos);
+				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
+				temp.x = temp.posX;
+				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
+				temp.y = temp.posY;
 				
-				addChild(lasPelotasDeCarlos);
+				pelotas.push(temp);
+				
+				addChild(temp);
 			}
 		}
 		
@@ -49,11 +54,13 @@ package
 		{
 			if (pelotas.length > 0)
 			{
-				for (var i:int = pelotas.length - 1; i >= 0; i--)
+				for (var i:int = 0; i < pelotas.length; i++)
 				{
 						boundariesCollisions(pelotas[i]);
 						pelotas[i].update();
-					
+						pelotas[i].x = pelotas[i].posX;
+						pelotas[i].y = pelotas[i].posY;
+						
 				}
 			}
 		}
@@ -65,34 +72,34 @@ package
 			if (v1.b.x <= 0)
 			{
 				//Vector pared izquierda
-				v2 = new VectorModel(0, 0, 0, stage.stageHeight);
+				v2.update(0, 0, 0, stage.stageHeight);
 			}
-			
 			else if(v1.b.x >= stage.stageWidth)
 			{
 				//Vector pared derecha
-				v2 = new VectorModel(stage.stageWidth, stage.stageHeight, stage.stageWidth, 0);
+				v2.update(stage.stageWidth, stage.stageHeight ,stage.stageWidth ,0)
 			}
 						
 			else if (v1.b.y < 0)
 			{
 				//Vector pared superior
-				v2 = new VectorModel(0, 0, stage.stageWidth, 0);
+				v2.update(0, 0, stage.stageWidth, 0);
 			}
 			else
 			{
 				//Vector pared inferior
-				v2 = new VectorModel(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
+				v2.update(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
 			}
 			
-			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.b.y);
+			
+			
+			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.a.y);
 			
 			var dp1:Number = VectorMath.dotProduct(v3, v2);
 			var dp2:Number = VectorMath.dotProduct(v3, v2.ln);
 			
 			var collisionForce_Vx:Number;
 			var collisionForce_Vy:Number;
-			var overlap:Number;
 			
 			if (dp1 > -v2.m && dp1 < 0)
 			{				
@@ -127,6 +134,8 @@ package
 					entity.Vy = bounce_Vy;
 				}
 			}
+		
+		
 		}
 	}
 }

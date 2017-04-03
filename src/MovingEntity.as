@@ -30,12 +30,11 @@ package
 			m_tempX = posX;
 			m_tempY = posY;
 			
-			posX = Vx;
-			posY = Vy;
+			posX += Vx;
+			posY += Vy;
 			
 			m_previousX = m_tempX;
 			m_previousY = m_tempY;
-			
 		}
 		
 		public function get Vx():Number

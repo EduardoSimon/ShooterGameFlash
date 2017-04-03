@@ -17,7 +17,7 @@ package objects
 		private var m_Speed:Number;
 		
 		
-		public function Projectile(angle:Number = 0,speed:Number = 2)
+		public function Projectile(angle:Number = 0,speed:Number = 20)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
@@ -35,15 +35,21 @@ package objects
 			m_Image = new Image(Assets.getTexture("BallBitmap"));
 			
 			addChild(m_Image);
-			
-						
+					
 			m_Image.scale = 0.1;
 			
-			
-			m_Image.x = m_Image.x - m_Image.width / 2;
-			m_Image.y = m_Image.y - m_Image.height / 2;
+			m_Image.alignPivot();
 
 		}
+		
+		/*
+		override public function update():void
+		{
+			super.update();
+			
+			m_Image.x = posX;
+			m_Image.y = posY;
+		}*/
 	}
 
 }

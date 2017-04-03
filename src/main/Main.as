@@ -16,7 +16,6 @@ package main
 	public class Main extends flash.display.Sprite
 	{
 		private var _starling:Starling;
-		private var _ball:objects.Projectile;
 		
 		public function Main()
 		{
