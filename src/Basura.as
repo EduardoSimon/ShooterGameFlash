@@ -10,11 +10,12 @@ package
 	
 	public class Basura extends Sprite 
 	{
-		public const N_PROJECTILES:int = 200;
+		public const N_PROJECTILES:int = 30;
 		private var pelotas:Vector.<Projectile>;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
+		private var spoke:VectorModel;
 		
 		public function Basura() 
 		{
@@ -32,6 +33,7 @@ package
 			v1 = new VectorModel();
 			v2 = new VectorModel();
 			v3 = new VectorModel();
+			spoke = new VectorModel();
 			
 			for (var i:int = 0; i < N_PROJECTILES; i++)
 			{
@@ -65,33 +67,50 @@ package
 			}
 		}
 		
-		public function boundariesCollisions(entity:MovingEntity):void
+		public function boundariesCollisions(entity:Projectile):void
 		{
-			v1.update(entity.posX, entity.posY, (entity.posX + entity.Vx), (entity.posY + entity.Vy));
 
 			if (v1.b.x <= 0)
 			{
 				//Vector pared izquierda
 				v2.update(0, 0, 0, stage.stageHeight);
+				spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.rn.dx * entity.Radius, 
+							entity.posY + v2.rn.dy * entity.Radius);
 			}
 			else if(v1.b.x >= stage.stageWidth)
 			{
 				//Vector pared derecha
-				v2.update(stage.stageWidth, stage.stageHeight ,stage.stageWidth ,0)
+				v2.update(stage.stageWidth, stage.stageHeight , stage.stageWidth , 0)
+				spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.ln.dx * entity.Radius, 
+							entity.posY + v2.ln.dy * entity.Radius);
 			}
 						
 			else if (v1.b.y < 0)
 			{
 				//Vector pared superior
 				v2.update(0, 0, stage.stageWidth, 0);
+				spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.ln.dx * entity.Radius, 
+							entity.posY + v2.ln.dy * entity.Radius);
 			}
 			else
 			{
 				//Vector pared inferior
 				v2.update(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
+				spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.rn.dx * entity.Radius, 
+							entity.posY + v2.rn.dy * entity.Radius);
 			}
 			
 			
+			//actualizamos el v1 para que salga a partir del final del radio
+			v1.update(spoke.b.x, spoke.b.y, spoke.b.x + entity.Vx, spoke.b.y + entity.Vy);
 			
 			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.a.y);
 			
@@ -130,8 +149,8 @@ package
 					var bounce_Vx:Number = p1_Vx + p2_Vx;
 					var bounce_Vy:Number = p1_Vy + p2_Vy;
 					
-					entity.Vx = bounce_Vx;
-					entity.Vy = bounce_Vy;
+					entity.Vx = bounce_Vx * 1;
+					entity.Vy = bounce_Vy * 1;
 				}
 			}
 		

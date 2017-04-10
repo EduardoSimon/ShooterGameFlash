@@ -2,6 +2,7 @@ package main
 {
 	import main.Game;
 	import objects.Projectile;
+	import screens.Welcome;
 	import starling.core.Starling;
 	import starling.events.*;
 	import starling.display.Sprite;

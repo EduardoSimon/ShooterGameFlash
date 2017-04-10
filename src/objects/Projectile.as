@@ -15,6 +15,7 @@ package objects
 	{
 		private var m_Image:Image;
 		private var m_Speed:Number;
+		private var m_Radius:Number;
 		
 		
 		public function Projectile(angle:Number = 0,speed:Number = 20)
@@ -25,6 +26,8 @@ package objects
 			
 			this.posX = speed * Math.cos(angle);
 			this.posY = speed * Math.sin(angle);
+			
+			m_Radius = 0;
 		}
 	
 		
@@ -39,8 +42,16 @@ package objects
 			m_Image.scale = 0.1;
 			
 			m_Image.alignPivot();
+			
+			m_Radius = m_Image.width;
 
 		}
+		
+		public function get Radius():Number
+		{
+			return m_Radius;
+		}
+		
 		
 		/*
 		override public function update():void
