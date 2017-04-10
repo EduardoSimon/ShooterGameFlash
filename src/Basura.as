@@ -39,7 +39,7 @@ package
 			{
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var temp:Projectile = new Projectile(randomAngle, 20);
+				var temp:Projectile = new Projectile(randomAngle, 5);
 				
 				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
 				temp.x = temp.posX;
@@ -58,55 +58,65 @@ package
 			{
 				for (var i:int = 0; i < pelotas.length; i++)
 				{
-						boundariesCollisions(pelotas[i]);
-						pelotas[i].update();
-						pelotas[i].x = pelotas[i].posX;
-						pelotas[i].y = pelotas[i].posY;
+					
+					if (TestBoundaries(pelotas[i])) 
+					{
+						bounceWithBoundarie(pelotas[i]);
+					}
+					
+					pelotas[i].update();
+					pelotas[i].x = pelotas[i].posX;
+					pelotas[i].y = pelotas[i].posY;
 						
 				}
 			}
+			
 		}
-		
-		public function boundariesCollisions(entity:Projectile):void
-		{
 
-			if (v1.b.x <= 0)
+		private function TestBoundaries(entity:Projectile):Boolean
+		{
+			if (entity.Vx < 0)
 			{
 				//Vector pared izquierda
-				v2.update(0, 0, 0, stage.stageHeight);
-				spoke.update(entity.posX,
-							entity.posY, 
-							entity.posX + v2.rn.dx * entity.Radius, 
-							entity.posY + v2.rn.dy * entity.Radius);
+				v2.update(0, stage.stageHeight,0 ,0);
+				
 			}
-			else if(v1.b.x >= stage.stageWidth)
+			else
 			{
 				//Vector pared derecha
-				v2.update(stage.stageWidth, stage.stageHeight , stage.stageWidth , 0)
-				spoke.update(entity.posX,
-							entity.posY, 
-							entity.posX + v2.ln.dx * entity.Radius, 
-							entity.posY + v2.ln.dy * entity.Radius);
+				v2.update(stage.stageWidth,0, stage.stageWidth , stage.stageHeight)
 			}
-						
-			else if (v1.b.y < 0)
+			
+			if (boundariesCollisions(entity)) 
+			{
+				return true;
+			}
+			
+			else if (entity.Vy < 0)
 			{
 				//Vector pared superior
 				v2.update(0, 0, stage.stageWidth, 0);
-				spoke.update(entity.posX,
-							entity.posY, 
-							entity.posX + v2.ln.dx * entity.Radius, 
-							entity.posY + v2.ln.dy * entity.Radius);
 			}
 			else
 			{
 				//Vector pared inferior
 				v2.update(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
-				spoke.update(entity.posX,
-							entity.posY, 
-							entity.posX + v2.rn.dx * entity.Radius, 
-							entity.posY + v2.rn.dy * entity.Radius);
 			}
+			
+			if (boundariesCollisions(entity)) 
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		public function boundariesCollisions(entity:Projectile):Boolean
+		{
+			spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.ln.dx * entity.Radius, 
+							entity.posY + v2.ln.dy * entity.Radius);
+							
 			
 			
 			//actualizamos el v1 para que salga a partir del final del radio
@@ -117,44 +127,33 @@ package
 			var dp1:Number = VectorMath.dotProduct(v3, v2);
 			var dp2:Number = VectorMath.dotProduct(v3, v2.ln);
 			
-			var collisionForce_Vx:Number;
-			var collisionForce_Vy:Number;
-			
 			if (dp1 > -v2.m && dp1 < 0)
 			{				
 				if (dp2 <= 0)
 				{
-					collisionForce_Vx = v1.dx * Math.abs(dp2);
-					collisionForce_Vy = v1.dy * Math.abs(dp2);
-					
-					entity.SetX = v1.a.x - collisionForce_Vx;
-					entity.SetY = v1.a.y - collisionForce_Vy;
-					
-					entity.Vx = 0;
-					entity.Vy = 0;
-					
-					var dp3:Number = VectorMath.dotProduct(v1, v2);
-					
-					var p1_Vx:Number = dp3 * v2.dx;
-					var p1_Vy:Number = dp3 * v2.dy;
-					
-					var dp4:Number = VectorMath.dotProduct(v1, v2.ln);
-					
-					var p2_Vx:Number = dp4 * v2.ln.dx;
-					var p2_Vy:Number = dp4 * v2.ln.dy;
-					
-					p2_Vx *= -1;
-					p2_Vy *= -1;
-					
-					var bounce_Vx:Number = p1_Vx + p2_Vx;
-					var bounce_Vy:Number = p1_Vy + p2_Vy;
-					
-					entity.Vx = bounce_Vx * 1;
-					entity.Vy = bounce_Vy * 1;
+					return true;
 				}
 			}
+			
+			return false;
 		
 		
+		}
+		
+		public function bounceWithBoundarie(entity:Projectile):void
+		{
+					var overlap:Number;
+					overlap = entity.Radius - spoke.m;
+					
+					entity.SetX = entity.posX - (overlap * spoke.dx);
+					entity.SetY = entity.posY - (overlap * spoke.dy);
+					
+					var motion:VectorModel = new VectorModel(entity.posX, entity.posY, entity.posX + entity.Vx , entity.posY + entity.Vy);
+					
+					var bounce:VectorModel = VectorMath.bounce(motion, spoke.rn);
+					
+					entity.Vx = bounce.vx;
+					entity.Vy = bounce.vy;
 		}
 	}
 }
