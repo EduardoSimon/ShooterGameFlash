@@ -39,11 +39,11 @@ package objects
 			
 			addChild(m_Image);
 					
-			m_Image.scale = 0.1;
+			m_Image.scale = 0.05;
 			
 			m_Image.alignPivot();
 			
-			m_Radius = m_Image.width;
+			m_Radius = m_Image.width/2;
 
 		}
 		

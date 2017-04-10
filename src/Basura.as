@@ -10,12 +10,14 @@ package
 	
 	public class Basura extends Sprite 
 	{
-		public const N_PROJECTILES:int = 30;
+		public const N_PROJECTILES:int = 10;
+		public const V_BOUNCE:int = 5;
 		private var pelotas:Vector.<Projectile>;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
 		private var spoke:VectorModel;
+		private var v0:VectorModel;
 		
 		public function Basura() 
 		{
@@ -30,6 +32,7 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
 			pelotas = new Vector.<Projectile>();
+			v0 = new VectorModel();
 			v1 = new VectorModel();
 			v2 = new VectorModel();
 			v3 = new VectorModel();
@@ -39,7 +42,7 @@ package
 			{
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var temp:Projectile = new Projectile(randomAngle, 5);
+				var temp:Projectile = new Projectile(randomAngle, V_BOUNCE);
 				
 				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
 				temp.x = temp.posX;
@@ -58,59 +61,65 @@ package
 			{
 				for (var i:int = 0; i < pelotas.length; i++)
 				{
-
-					for (var j:int = 0; j < pelotas.length; j++){
-						var v0:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[j].posX, pelotas[j].posY);
-						var totalRadio:Number = pelotas[i].Radius + pelotas[j].Radius;
-
-					
-
-						
-						if (v0.m < totalRadio){
-							var overlap:Number = totalRadio - v0.m;
-							
-							var collision_Vx:Number = v0.dx * overlap * 0.5;
-							var collision_Vy:Number = v0.dy * overlap * 0.5;
-							
-							var xSide:int;
-							var ySide:int;
-							
-							pelotas[i].posX > pelotas[j].posX ? xSide = 1 : xSide = -1;
-							pelotas[i].posY > pelotas[j].posY ? ySide = 1 : ySide = -1;
-							
-							pelotas[i].SetX = pelotas[i].posX + (collision_Vx * xSide);
-							pelotas[i].SetY = pelotas[i].posY + (collision_Vy * ySide);
-							
-							pelotas[j].SetX = pelotas[j].posX + (collision_Vx * -xSide);
-							pelotas[j].SetY = pelotas[j].posY + (collision_Vy * -ySide);
-							
-							var v1:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[i].posX + pelotas[i].Vx, pelotas[i].posY + pelotas[i].Vy);
-							var v2:VectorModel = new VectorModel(pelotas[j].posX, pelotas[j].posY, pelotas[j].posX + pelotas[j].Vx, pelotas[j].posY + pelotas[j].Vy);
-							
-							var p1a:VectorModel = VectorMath.project(v1, v0);
-							var p1b:VectorModel = VectorMath.project(v1, v0.ln);
-							
-							var p2a:VectorModel = VectorMath.project(v2, v0);
-							var p2b:VectorModel = VectorMath.project(v2, v0.ln);
-							
-							pelotas[i].Vx = p1b.vx + p2a.vx;
-							pelotas[i].Vy = p1b.vy + p2a.vy;
-							
-							pelotas[j].Vx = p1a.vx + p2b.vx;
-							pelotas[j].Vy = p1a.vy + p2bd.vy;
-							
-						}		
-					}
-
 					if (TestBoundaries(pelotas[i])) 
 					{
 						bounceWithBoundarie(pelotas[i]);
+					}
+					
+					for (var j:int = 0; j < i; j++)
+					{
+						if (TestBoundaries(pelotas[j])) 
+						{
+							bounceWithBoundarie(pelotas[j]);
+						}
+						BoundsBetweenBalls(i, j);
+						
 					}
 					
 					pelotas[i].update();
 					pelotas[i].x = pelotas[i].posX;
 					pelotas[i].y = pelotas[i].posY;	
 				}
+			}	
+		}
+		
+		private function BoundsBetweenBalls(b1:Number, b2:Number):void{
+			v0.update(pelotas[b1].posX, pelotas[b1].posY, pelotas[b2].posX, pelotas[b2].posY);
+			var totalRadio:Number = pelotas[b1].Radius + pelotas[b2].Radius;
+			
+			if (v0.m < totalRadio){
+				var overlap:Number = totalRadio - v0.m;
+				
+				var collision_Vx:Number = v0.dx * overlap;
+				var collision_Vy:Number = v0.dy * overlap;
+				
+				var xSide:int;
+				var ySide:int;
+				
+				pelotas[b1].posX > pelotas[b2].posX ? xSide = 1 : xSide = -1;
+				pelotas[b1].posY > pelotas[b2].posY ? ySide = 1 : ySide = -1;
+				
+				pelotas[b1].SetX = pelotas[b1].posX + (collision_Vx * xSide);
+				pelotas[b1].SetY = pelotas[b1].posY + (collision_Vy * ySide);
+				
+				pelotas[b2].SetX = pelotas[b2].posX + (collision_Vx * -xSide);
+				pelotas[b2].SetY = pelotas[b2].posY + (collision_Vy * -ySide);
+				
+				v1.update(pelotas[b1].posX, pelotas[b1].posY, pelotas[b1].posX + pelotas[b1].Vx, pelotas[b1].posY + pelotas[b1].Vy);
+				v2.update(pelotas[b2].posX, pelotas[b2].posY, pelotas[b2].posX + pelotas[b2].Vx, pelotas[b2].posY + pelotas[b2].Vy);
+				
+				var p1a:VectorModel = VectorMath.project(v1, v0);
+				var p1b:VectorModel = VectorMath.project(v1, v0.ln);
+				
+				var p2a:VectorModel = VectorMath.project(v2, v0);
+				var p2b:VectorModel = VectorMath.project(v2, v0.ln);
+				
+				pelotas[b1].Vx = V_BOUNCE*(p1b.dx + p2a.dx);
+				pelotas[b1].Vy = V_BOUNCE*(p1b.dy+ p2a.dy);
+				
+				pelotas[b2].Vx = V_BOUNCE*(p1a.dx + p2b.dx);
+				pelotas[b2].Vy = V_BOUNCE*(p1a.dy + p2b.dy);
+				
 			}	
 		}
 
