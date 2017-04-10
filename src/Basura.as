@@ -58,7 +58,50 @@ package
 			{
 				for (var i:int = 0; i < pelotas.length; i++)
 				{
+
+					for (var j:int = 0; j < pelotas.length; j++){
+						var v0:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[j].posX, pelotas[j].posY);
+						var totalRadio:Number = pelotas[i].Radius + pelotas[j].Radius;
+
 					
+
+						
+						if (v0.m < totalRadio){
+							var overlap:Number = totalRadio - v0.m;
+							
+							var collision_Vx:Number = v0.dx * overlap * 0.5;
+							var collision_Vy:Number = v0.dy * overlap * 0.5;
+							
+							var xSide:int;
+							var ySide:int;
+							
+							pelotas[i].posX > pelotas[j].posX ? xSide = 1 : xSide = -1;
+							pelotas[i].posY > pelotas[j].posY ? ySide = 1 : ySide = -1;
+							
+							pelotas[i].SetX = pelotas[i].posX + (collision_Vx * xSide);
+							pelotas[i].SetY = pelotas[i].posY + (collision_Vy * ySide);
+							
+							pelotas[j].SetX = pelotas[j].posX + (collision_Vx * -xSide);
+							pelotas[j].SetY = pelotas[j].posY + (collision_Vy * -ySide);
+							
+							var v1:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[i].posX + pelotas[i].Vx, pelotas[i].posY + pelotas[i].Vy);
+							var v2:VectorModel = new VectorModel(pelotas[j].posX, pelotas[j].posY, pelotas[j].posX + pelotas[j].Vx, pelotas[j].posY + pelotas[j].Vy);
+							
+							var p1a:VectorModel = VectorMath.project(v1, v0);
+							var p1b:VectorModel = VectorMath.project(v1, v0.ln);
+							
+							var p2a:VectorModel = VectorMath.project(v2, v0);
+							var p2b:VectorModel = VectorMath.project(v2, v0.ln);
+							
+							pelotas[i].Vx = p1b.vx + p2a.vx;
+							pelotas[i].Vy = p1b.vy + p2a.vy;
+							
+							pelotas[j].Vx = p1a.vx + p2b.vx;
+							pelotas[j].Vy = p1a.vy + p2bd.vy;
+							
+						}		
+					}
+
 					if (TestBoundaries(pelotas[i])) 
 					{
 						bounceWithBoundarie(pelotas[i]);
@@ -66,11 +109,9 @@ package
 					
 					pelotas[i].update();
 					pelotas[i].x = pelotas[i].posX;
-					pelotas[i].y = pelotas[i].posY;
-						
+					pelotas[i].y = pelotas[i].posY;	
 				}
-			}
-			
+			}	
 		}
 
 		private function TestBoundaries(entity:Projectile):Boolean
