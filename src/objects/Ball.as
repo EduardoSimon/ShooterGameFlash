@@ -11,14 +11,13 @@ package objects
 	 * ...
 	 * @author EDUARDO SIMON
 	 */
-	public class Projectile extends MovingEntity
+	public class Ball extends MovingEntity
 	{
-		private var m_Image:Image;
-		private var m_Speed:Number;
-		private var m_Radius:Number;
-		
-		
-		public function Projectile(angle:Number = 0,speed:Number = 20)
+		public var m_Image:Image;
+		public var m_Speed:Number;
+		public var m_Radius:Number;
+				
+		public function Ball(angle:Number = 0, speed:Number = 20, radius:Number = 0)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
@@ -27,9 +26,8 @@ package objects
 			this.posX = speed * Math.cos(angle);
 			this.posY = speed * Math.sin(angle);
 			
-			m_Radius = 0;
+			m_Radius = radius;
 		}
-	
 		
 		private function onAdded(e:Event):void 
 		{
@@ -39,11 +37,11 @@ package objects
 			
 			addChild(m_Image);
 					
-			m_Image.scale = 0.1;
+			m_Image.scale = 0.05;
 			
 			m_Image.alignPivot();
 			
-			m_Radius = m_Image.width;
+			m_Radius = m_Image.width/2;
 
 		}
 		

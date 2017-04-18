@@ -1,7 +1,8 @@
 package main
 {
 	import main.Game;
-	import objects.Projectile;
+	import objects.Ball;
+	import screens.Level1;
 	import screens.Welcome;
 	import starling.core.Starling;
 	import starling.events.*;
@@ -28,7 +29,7 @@ package main
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			//entry point
-			_starling = new Starling(Basura, stage);
+			_starling = new Starling(Level1, stage);
 			_starling.antiAliasing = 2;
 			_starling.start();
 		}
