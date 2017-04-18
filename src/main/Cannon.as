@@ -1,7 +1,7 @@
 package main 
 {
 	import Assets;
-	import objects.Projectile;
+	import objects.Ball;
 	import screens.Level1;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
@@ -13,7 +13,7 @@ package main
 	 * ...
 	 * @author EDUARDO SIMON
 	 */
-	public class Player extends Projectile
+	public class Cannon extends Ball
 	{
 		
 		private var PLAYER_CENTER_X:Number;
@@ -22,12 +22,13 @@ package main
 		private var _mPlayerTexture:Texture;
 		private var _mPlayerImage:Image;
 		
-		private var m_Radius:Number;
 		
-		public function Player() 
+		public function Cannon() 
 		{
+			super(0,0);
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			m_Radius = 20;
+			
 		}
 		
 		public function CenterPlayerToStage():void
@@ -81,10 +82,7 @@ package main
 			return degrees * (Math.PI / 180);
 		}
 		
-		public function get Radius():Number
-		{
-			return m_Radius;
-		}
+	
 	}
 
 }

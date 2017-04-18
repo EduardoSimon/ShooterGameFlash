@@ -11,14 +11,14 @@ package objects
 	 * ...
 	 * @author EDUARDO SIMON
 	 */
-	public class Projectile extends MovingEntity
+	public class Ball extends MovingEntity
 	{
-		private var m_Image:Image;
-		private var m_Speed:Number;
-		private var m_Radius:Number;
+		protected var m_Image:Image;
+		protected var m_Speed:Number;
+		protected var m_Radius:Number;
 		
 		
-		public function Projectile(angle:Number,speed:Number = 20)
+		public function Ball(angle:Number = 0,speed:Number = 20)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
