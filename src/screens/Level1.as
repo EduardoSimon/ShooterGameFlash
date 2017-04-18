@@ -15,16 +15,16 @@ package screens
 	 */
 	public class Level1 extends Sprite
 	{
+		private var score:Score;
 		private var ball:objects.Projectile;
 		private var player:main.Player;
 		private var projectiles:Vector.<Projectile>;
 		private var basura:Basura;
 		
-		public const N_PROJECTILES:int = 10;
-
-		
+		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
+		public static const SCORE_DELTA:Number = 0.2;
 		
 		public function Level1() 
 		{
@@ -32,6 +32,7 @@ package screens
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			projectiles = new Vector.<Projectile>();
 			basura = new Basura();
+			score = new Score(5000, 0, 0, 100, 100, 0.1);
 
 		}
 		
@@ -56,12 +57,14 @@ package screens
 				
 				addChild(temp);
 				addChild(basura);
+				addChild(score);
 			}
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
 			basura.MoveBalls(projectiles);
+			score.UpdateScore(SCORE_DELTA);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
