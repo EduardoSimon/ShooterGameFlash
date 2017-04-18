@@ -18,7 +18,7 @@ package objects
 		private var m_Radius:Number;
 		
 		
-		public function Projectile(angle:Number = 0,speed:Number = 20)
+		public function Projectile(angle:Number,speed:Number = 20)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			

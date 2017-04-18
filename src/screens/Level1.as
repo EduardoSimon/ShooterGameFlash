@@ -1,6 +1,11 @@
 package screens 
 {
 	import main.Player;
+	
+	import com.friendsofed.vector.*;
+	import com.friendsofed.utils.TextBox;
+	import flash.display.Graphics;
+	import flash.geom.Point;
 	import objects.Projectile;
 	import starling.display.Sprite;
 	import starling.events.*;
@@ -13,6 +18,10 @@ package screens
 		private var ball:objects.Projectile;
 		private var player:main.Player;
 		private var projectiles:Vector.<Projectile>;
+		private var basura:Basura;
+		
+		public const N_PROJECTILES:int = 10;
+
 		
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
@@ -22,18 +31,37 @@ package screens
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			projectiles = new Vector.<Projectile>();
+			basura = new Basura();
+
+		}
+		
+		private function onAddedToStage(e:Event):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			stage.addEventListener(TouchEvent.TOUCH, onTouch);
+			drawLevel1();
 			
+			for (var i:int = 0; i < N_PROJECTILES; i++)
+			{
+				var randomAngle:Number = Math.random() * (2 * Math.PI);
+				
+				var temp:Projectile = new Projectile(randomAngle, 5);
+				
+				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
+				temp.x = temp.posX;
+				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
+				temp.y = temp.posY;
+				
+				projectiles.push(temp);
+				
+				addChild(temp);
+				addChild(basura);
+			}
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
-			for (var i:int = 0; i < projectiles.length; i++) 
-			{
-				projectiles[i].update();
-				
-				projectiles[i].x = projectiles[i].posX;
-				projectiles[i].y = projectiles[i].posY;
-			}
+			basura.MoveBalls(projectiles);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -47,19 +75,15 @@ package screens
 					var angle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
 					
 					//push to the vector and add to the display list
-					ball = new objects.Projectile(angle, 4);
+					ball = new objects.Projectile(angle, 10);
+					ball.SetX = PLAYER_X + (Math.cos(angle) * 40);
+					ball.SetY = PLAYER_Y + (Math.sin(angle) * 40);
 					projectiles.push(ball);
 					addChildAt(ball, stage.numChildren - 1);
 				}
 			}
 		}
 		
-		private function onAddedToStage(e:Event):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			stage.addEventListener(TouchEvent.TOUCH, onTouch);
-			drawLevel1();
-		}
 		
 		private function drawLevel1():void{
 			player = new main.Player();

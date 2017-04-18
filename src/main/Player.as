@@ -1,6 +1,7 @@
 package main 
 {
 	import Assets;
+	import objects.Projectile;
 	import screens.Level1;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
@@ -12,7 +13,7 @@ package main
 	 * ...
 	 * @author EDUARDO SIMON
 	 */
-	public class Player extends Sprite
+	public class Player extends Projectile
 	{
 		
 		private var PLAYER_CENTER_X:Number;
@@ -21,13 +22,12 @@ package main
 		private var _mPlayerTexture:Texture;
 		private var _mPlayerImage:Image;
 		
-
-		
+		private var m_Radius:Number;
 		
 		public function Player() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-
+			m_Radius = 20;
 		}
 		
 		public function CenterPlayerToStage():void
@@ -44,6 +44,8 @@ package main
 			
 			PLAYER_CENTER_X = (_mPlayerImage.width / 2);
 			PLAYER_CENTER_Y = (_mPlayerImage.height / 2);
+			
+			_mPlayerImage.scale *= 0.6;
 			
 			//display it on the stage
 			addChild(_mPlayerImage);
@@ -79,6 +81,10 @@ package main
 			return degrees * (Math.PI / 180);
 		}
 		
+		public function get Radius():Number
+		{
+			return m_Radius;
+		}
 	}
 
 }
