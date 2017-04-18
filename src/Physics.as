@@ -14,12 +14,14 @@ package
 	public class Physics extends Sprite 
 	{
 		//private var pelotas:Vector.<Projectile>;
+		private const V_BOUNCE:Number = 5;
+		
+		private var v0:VectorModel;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
 		private var spoke:VectorModel;
-		private var v0:VectorModel;
-		private const V_BOUNCE:Number = 5;
+
 		private var player:Cannon;
 		
 		public function Physics() 
@@ -42,26 +44,33 @@ package
 		
 		public function MoveBalls(pelotas:Vector.<Ball>):void 
 		{
+			//if there are balls
 			if (pelotas.length > 0)
 			{
 				for (var i:int = pelotas.length - 1; i >= 0 ; i--)
 				{
+					//check if theres collision with the stage boundaries
 					if (TestBoundaries(pelotas[i])) 
 					{
+						//if there is collision calculate the bounce vector
 						bounceWithBoundarie(pelotas[i]);
 					}
 					
+					 //check for every other ball but without comparing them twice // j < i
 					for (var j:int = 0; j < i; j++)
 					{
+						//check again against the boundaries
 						if (TestBoundaries(pelotas[j])) 
 						{
 							bounceWithBoundarie(pelotas[j]);
 						}
+						
 						BoundsBetweenBalls(pelotas[i], pelotas[j]);
 						
-						if(BoundsBetweenBalls(player, pelotas[i])){
+						/*if (BoundsBetweenBalls(player, pelotas[i]))
+						{
 							bounceWithPlayer(pelotas[i]);
-						}
+						}*/
 						
 					}
 					
@@ -72,6 +81,7 @@ package
 			}	
 		}
 		
+		//check if theres collision between balls and calculates the bounce 
 		private function BoundsBetweenBalls(b1:Ball, b2:Ball ):void{
 			
 			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
@@ -96,7 +106,7 @@ package
 				b2.SetY = b2.posY + (collision_Vy * -ySide);
 				
 				v1.update(b1.posX, b1.posY, b1.posX + b1.Vx, b1.posY + b1.Vy);
-				v2.update(b1.posX, b1.posY, b2.posX + b2.Vx, b2.posY + b2.Vy);
+				v2.update(b2.posX, b2.posY, b2.posX + b2.Vx, b2.posY + b2.Vy);
 				
 				var p1a:VectorModel = VectorMath.project(v1, v0);
 				var p1b:VectorModel = VectorMath.project(v1, v0.ln);
@@ -104,11 +114,14 @@ package
 				var p2a:VectorModel = VectorMath.project(v2, v0);
 				var p2b:VectorModel = VectorMath.project(v2, v0.ln);
 				
-				b1.Vx = V_BOUNCE*(p1b.dx + p2a.dx);
-				b1.Vy = V_BOUNCE*(p1b.dy+ p2a.dy);
+				var bouceB1:VectorModel = new VectorModel(0, 0, 0, 0, p1b.vx + p2a.vx, p1b.vy + p2a.vy);
+				var bouceB2:VectorModel = new VectorModel(0, 0, 0, 0, p1a.vx + p2b.vx, p1a.vy + p2b.vy);
 				
-				b2.Vx = V_BOUNCE*(p1a.dx + p2b.dx);
-				b2.Vy = V_BOUNCE*(p1a.dy + p2b.dy);
+				b1.Vx = V_BOUNCE*bouceB1.dx;
+				b1.Vy = V_BOUNCE*bouceB1.dy;
+				
+				b2.Vx = V_BOUNCE*bouceB2.dx;
+				b2.Vy = V_BOUNCE*bouceB2.dy;
 				
 			}	
 		}
@@ -166,6 +179,8 @@ package
 			
 			return false;
 		}
+		
+		
 		public function boundariesCollisions(entity:Ball):Boolean
 		{
 			spoke.update(entity.posX,

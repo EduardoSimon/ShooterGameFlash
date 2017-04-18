@@ -9,29 +9,29 @@ package screens
 	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
-	/**
-	 * ...
-	 * @author EDUARDO SIMON
-	 */
+
 	public class Level1 extends Sprite
 	{
+
+		private var score:Score;
 		private var ball:objects.Ball;
 		private var player:main.Cannon;
 		private var projectiles:Vector.<Ball>;
 		private var basura:Physics;
 		
-		public const N_PROJECTILES:int = 10;
-	
+		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
+		public static const SCORE_DELTA:Number = 0.2;
 		
 		public function Level1() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+
+			score = new Score(5000, 10, 10, 100, 30, 2);
 			projectiles = new Vector.<Ball>();
 			basura = new Physics();
-
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -55,12 +55,14 @@ package screens
 				
 				addChild(temp);
 				addChild(basura);
+				addChild(score);
 			}
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
 			basura.MoveBalls(projectiles);
+			score.UpdateScore(SCORE_DELTA);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
