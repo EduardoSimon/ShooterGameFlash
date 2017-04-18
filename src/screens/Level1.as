@@ -19,8 +19,7 @@ package screens
 		private var projectiles:Vector.<Ball>;
 		private var basura:Physics;
 		
-		public const N_PROJECTILES:int = 10;
-	
+		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
 		public static const SCORE_DELTA:Number = 0.2;
@@ -30,7 +29,7 @@ package screens
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 
-			score = new Score(5000, 0, 0, 100, 100, 0.1);
+			score = new Score(5000, 10, 10, 100, 30, 2);
 			projectiles = new Vector.<Ball>();
 			basura = new Physics();
 		}

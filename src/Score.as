@@ -12,30 +12,30 @@ package
 	{
 		private var score:TextField;
 		private var scoreInt:int;
-		private var scale:Number;
+		private var scaleFactor:Number;
 		private var posX:Number;
 		private var posY:Number;
 		
 	
-		public function Score(maxScore:int,x:int,y:int, width:int, height:int, scale:Number, text:String= "", font:String = "Verdana", size:int = 10, color:int = 0x0, bold:Boolean = false) 
+		public function Score(maxScore:int,x:int,y:int, width:int, height:int, scaleToApply:Number, text:String= "", font:String = "Verdana", size:int = 10, color:int = 0x0, bold:Boolean = false) 
 		{
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			score = new TextField(width, height, text, font, size, color, bold);
 			
-			this.scale = scale;
+			this.scaleFactor = scaleToApply;
 			this.posX = x;
 			this.posY = y;
+			this.scoreInt  = maxScore;
 
 		}
 		
 		private function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 
 			addChild(score);
 			
-			score.scale = scale;
+			score.scale = scaleFactor;
 			score.x = posX;
 			score.y = posY;
 		}
