@@ -1,110 +1,68 @@
 package 
 {
+	import adobe.utils.ProductManager;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import main.Player;
+	import mx.resources.IResourceBundle;
 	import objects.Projectile;
 	import starling.display.Sprite;
 	import starling.events.*;
 	
 	public class Basura extends Sprite 
 	{
-		public const N_PROJECTILES:int = 30;
-		private var pelotas:Vector.<Projectile>;
+		//private var pelotas:Vector.<Projectile>;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
 		private var spoke:VectorModel;
+		private var v0:VectorModel;
+		private const V_BOUNCE:Number = 5;
+		private var player:Player;
 		
 		public function Basura() 
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
+			player = new Player();
 		}
 		
 		private function onAdded(e:Event):void 
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			
+		{			
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
-			pelotas = new Vector.<Projectile>();
+			v0 = new VectorModel();
 			v1 = new VectorModel();
 			v2 = new VectorModel();
 			v3 = new VectorModel();
 			spoke = new VectorModel();
-			
-			for (var i:int = 0; i < N_PROJECTILES; i++)
-			{
-				var randomAngle:Number = Math.random() * (2 * Math.PI);
-				
-				var temp:Projectile = new Projectile(randomAngle, 5);
-				
-				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
-				temp.x = temp.posX;
-				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
-				temp.y = temp.posY;
-				
-				pelotas.push(temp);
-				
-				addChild(temp);
-			}
 		}
 		
-		private function onEnterFrame(e:Event):void 
+		public function MoveBalls(pelotas:Vector.<Projectile>):void 
 		{
 			if (pelotas.length > 0)
 			{
-				for (var i:int = 0; i < pelotas.length; i++)
+				for (var i:int = pelotas.length - 1; i >= 0 ; i--)
 				{
-
-					for (var j:int = 0; j < pelotas.length; j++){
-						var v0:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[j].posX, pelotas[j].posY);
-						var totalRadio:Number = pelotas[i].Radius + pelotas[j].Radius;
-
-					
-
-						
-						if (v0.m < totalRadio){
-							var overlap:Number = totalRadio - v0.m;
-							
-							var collision_Vx:Number = v0.dx * overlap * 0.5;
-							var collision_Vy:Number = v0.dy * overlap * 0.5;
-							
-							var xSide:int;
-							var ySide:int;
-							
-							pelotas[i].posX > pelotas[j].posX ? xSide = 1 : xSide = -1;
-							pelotas[i].posY > pelotas[j].posY ? ySide = 1 : ySide = -1;
-							
-							pelotas[i].SetX = pelotas[i].posX + (collision_Vx * xSide);
-							pelotas[i].SetY = pelotas[i].posY + (collision_Vy * ySide);
-							
-							pelotas[j].SetX = pelotas[j].posX + (collision_Vx * -xSide);
-							pelotas[j].SetY = pelotas[j].posY + (collision_Vy * -ySide);
-							
-							var v1:VectorModel = new VectorModel(pelotas[i].posX, pelotas[i].posY, pelotas[i].posX + pelotas[i].Vx, pelotas[i].posY + pelotas[i].Vy);
-							var v2:VectorModel = new VectorModel(pelotas[j].posX, pelotas[j].posY, pelotas[j].posX + pelotas[j].Vx, pelotas[j].posY + pelotas[j].Vy);
-							
-							var p1a:VectorModel = VectorMath.project(v1, v0);
-							var p1b:VectorModel = VectorMath.project(v1, v0.ln);
-							
-							var p2a:VectorModel = VectorMath.project(v2, v0);
-							var p2b:VectorModel = VectorMath.project(v2, v0.ln);
-							
-							pelotas[i].Vx = p1b.vx + p2a.vx;
-							pelotas[i].Vy = p1b.vy + p2a.vy;
-							
-							pelotas[j].Vx = p1a.vx + p2b.vx;
-							pelotas[j].Vy = p1a.vy + p2bd.vy;
-							
-						}		
-					}
-
 					if (TestBoundaries(pelotas[i])) 
 					{
 						bounceWithBoundarie(pelotas[i]);
+					}
+					
+					for (var j:int = 0; j < i; j++)
+					{
+						if (TestBoundaries(pelotas[j])) 
+						{
+							bounceWithBoundarie(pelotas[j]);
+						}
+						BoundsBetweenBalls(pelotas[i], pelotas[j]);
+						
+						if(BoundsBetweenBalls(player, pelotas[i])){
+							bounceWithPlayer(pelotas[i]);
+						}
+						
 					}
 					
 					pelotas[i].update();
@@ -112,6 +70,63 @@ package
 					pelotas[i].y = pelotas[i].posY;	
 				}
 			}	
+		}
+		
+		private function BoundsBetweenBalls(b1:Projectile, b2:Projectile ):void{
+			
+			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
+			var totalRadio:Number = b1.Radius + b2.Radius;
+			
+			if (v0.m < totalRadio){
+				var overlap:Number = totalRadio - v0.m;
+				
+				var collision_Vx:Number = v0.dx * overlap;
+				var collision_Vy:Number = v0.dy * overlap;
+				
+				var xSide:int;
+				var ySide:int;
+				
+				b1.posX > b2.posX ? xSide = 1 : xSide = -1;
+				b1.posY > b2.posY ? ySide = 1 : ySide = -1;
+				
+				b1.SetX = b1.posX + (collision_Vx * xSide);
+				b1.SetY = b1.posY + (collision_Vy * ySide);
+				
+				b2.SetX = b2.posX + (collision_Vx * -xSide);
+				b2.SetY = b2.posY + (collision_Vy * -ySide);
+				
+				v1.update(b1.posX, b1.posY, b1.posX + b1.Vx, b1.posY + b1.Vy);
+				v2.update(b1.posX, b1.posY, b2.posX + b2.Vx, b2.posY + b2.Vy);
+				
+				var p1a:VectorModel = VectorMath.project(v1, v0);
+				var p1b:VectorModel = VectorMath.project(v1, v0.ln);
+				
+				var p2a:VectorModel = VectorMath.project(v2, v0);
+				var p2b:VectorModel = VectorMath.project(v2, v0.ln);
+				
+				b1.Vx = V_BOUNCE*(p1b.dx + p2a.dx);
+				b1.Vy = V_BOUNCE*(p1b.dy+ p2a.dy);
+				
+				b2.Vx = V_BOUNCE*(p1a.dx + p2b.dx);
+				b2.Vy = V_BOUNCE*(p1a.dy + p2b.dy);
+				
+			}	
+		}
+		
+		public function bounceWithPlayer(b:Projectile):void 
+		{
+			var totalRadii:Number = b.Radius + player.Radius;
+			var overlap:Number = totalRadii - v0.m;
+			
+			b.SetX = b.posX - (overlap * v0.dx);
+			b.SetY = b.posY - (overlap * v0.dy);
+			
+			v1.update(b.posX, b.posY, b.posX + b.Vx, b.posY + b.Vy);
+			
+			var bounce:VectorModel = VectorMath.bounce(v1, v0.ln);
+			
+			b.Vx = bounce.vx;
+			b.Vy = bounce.vy;
 		}
 
 		private function TestBoundaries(entity:Projectile):Boolean

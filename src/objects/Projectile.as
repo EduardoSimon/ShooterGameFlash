@@ -18,7 +18,7 @@ package objects
 		private var m_Radius:Number;
 		
 		
-		public function Projectile(angle:Number = 0,speed:Number = 20)
+		public function Projectile(angle:Number,speed:Number = 20)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
@@ -39,11 +39,11 @@ package objects
 			
 			addChild(m_Image);
 					
-			m_Image.scale = 0.1;
+			m_Image.scale = 0.05;
 			
 			m_Image.alignPivot();
 			
-			m_Radius = m_Image.width;
+			m_Radius = m_Image.width/2;
 
 		}
 		
