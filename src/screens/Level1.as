@@ -1,7 +1,6 @@
 package screens 
 {
 	import main.Cannon;
-	
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
@@ -15,10 +14,10 @@ package screens
 
 		private var score:Score;
 		private var ball:objects.Ball;
-		private var player:main.Cannon;
 		private var projectiles:Vector.<Ball>;
-		private var basura:Physics;
-		
+		private var physics:Physics;
+
+		public static var cannon:Cannon;
 		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
@@ -31,7 +30,8 @@ package screens
 
 			score = new Score(5000, 10, 10, 100, 30, 2);
 			projectiles = new Vector.<Ball>();
-			basura = new Physics();
+			physics = new Physics();
+
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -39,7 +39,7 @@ package screens
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			drawLevel1();
-			
+				
 			for (var i:int = 0; i < N_PROJECTILES; i++)
 			{
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
@@ -54,15 +54,20 @@ package screens
 				projectiles.push(temp);
 				
 				addChild(temp);
-				addChild(basura);
-				addChild(score);
 			}
+			
+			addChild(score);
+			addChild(physics);
+			
+			cannon.SetX = 400;
+			cannon.SetY = 300;
+
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
-			basura.MoveBalls(projectiles);
 			score.UpdateScore(SCORE_DELTA);
+			physics.MoveBalls(projectiles);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -86,9 +91,8 @@ package screens
 		}
 				
 		private function drawLevel1():void{
-			player = new main.Cannon();
-			addChild(player);
-			player.CenterPlayerToStage();
+			addChild(cannon);
+			cannon.CenterPlayerToStage();
 		}
 		
 		public function disposeTemporarily():void{

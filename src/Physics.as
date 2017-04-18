@@ -10,25 +10,25 @@ package
 	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
+	import screens.*;
 	
 	public class Physics extends Sprite 
 	{
 		//private var pelotas:Vector.<Projectile>;
 		private const V_BOUNCE:Number = 5;
-		
+
 		private var v0:VectorModel;
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
 		private var spoke:VectorModel;
 
-		private var player:Cannon;
-		
+		private var cannon:Cannon;
+
 		public function Physics() 
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			player = new Cannon();
 		}
 		
 		private function onAdded(e:Event):void 
@@ -40,6 +40,7 @@ package
 			v2 = new VectorModel();
 			v3 = new VectorModel();
 			spoke = new VectorModel();
+			cannon = Level1.cannon;
 		}
 		
 		public function MoveBalls(pelotas:Vector.<Ball>):void 
@@ -65,70 +66,88 @@ package
 							bounceWithBoundarie(pelotas[j]);
 						}
 						
-						BoundsBetweenBalls(pelotas[i], pelotas[j]);
-						
-						/*if (BoundsBetweenBalls(player, pelotas[i]))
+						if (AreBallsBouncing(pelotas[i], pelotas[j]))
 						{
-							bounceWithPlayer(pelotas[i]);
-						}*/
-						
+							BounceBetweenBalls(pelotas[i], pelotas[j]);
+						}		
+					}
+					
+					if (AreBallsBouncing(pelotas[i], cannon))
+					{
+						bounceWithPlayer(pelotas[i]);
 					}
 					
 					pelotas[i].update();
 					pelotas[i].x = pelotas[i].posX;
-					pelotas[i].y = pelotas[i].posY;	
+					pelotas[i].y = pelotas[i].posY;
+						
 				}
 			}	
 		}
 		
+
 		//check if theres collision between balls and calculates the bounce 
-		private function BoundsBetweenBalls(b1:Ball, b2:Ball ):void{
-			
+		private function AreBallsBouncing(b1:Ball, b2:Ball)
+		{
 			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
+
 			var totalRadio:Number = b1.Radius + b2.Radius;
 			
-			if (v0.m < totalRadio){
-				var overlap:Number = totalRadio - v0.m;
-				
-				var collision_Vx:Number = v0.dx * overlap;
-				var collision_Vy:Number = v0.dy * overlap;
-				
-				var xSide:int;
-				var ySide:int;
-				
-				b1.posX > b2.posX ? xSide = 1 : xSide = -1;
-				b1.posY > b2.posY ? ySide = 1 : ySide = -1;
-				
-				b1.SetX = b1.posX + (collision_Vx * xSide);
-				b1.SetY = b1.posY + (collision_Vy * ySide);
-				
-				b2.SetX = b2.posX + (collision_Vx * -xSide);
-				b2.SetY = b2.posY + (collision_Vy * -ySide);
-				
-				v1.update(b1.posX, b1.posY, b1.posX + b1.Vx, b1.posY + b1.Vy);
-				v2.update(b2.posX, b2.posY, b2.posX + b2.Vx, b2.posY + b2.Vy);
-				
-				var p1a:VectorModel = VectorMath.project(v1, v0);
-				var p1b:VectorModel = VectorMath.project(v1, v0.ln);
-				
-				var p2a:VectorModel = VectorMath.project(v2, v0);
-				var p2b:VectorModel = VectorMath.project(v2, v0.ln);
-				
-				var bouceB1:VectorModel = new VectorModel(0, 0, 0, 0, p1b.vx + p2a.vx, p1b.vy + p2a.vy);
-				var bouceB2:VectorModel = new VectorModel(0, 0, 0, 0, p1a.vx + p2b.vx, p1a.vy + p2b.vy);
-				
-				b1.Vx = V_BOUNCE*bouceB1.dx;
-				b1.Vy = V_BOUNCE*bouceB1.dy;
-				
-				b2.Vx = V_BOUNCE*bouceB2.dx;
-				b2.Vy = V_BOUNCE*bouceB2.dy;
-				
-			}	
+			if (v0.m < totalRadio)
+			{
+				return true;
+			}
+			
+			return false;
 		}
 		
-		public function bounceWithPlayer(b:Ball):void 
+
+		private function BounceBetweenBalls(b1:Ball, b2:Ball ):void{
+			
+			var totalRadio:Number = b1.Radius + b2.Radius;
+			
+			var overlap:Number = totalRadio - v0.m;
+				
+			var collision_Vx:Number = v0.dx * overlap;
+			var collision_Vy:Number = v0.dy * overlap;
+				
+			var xSide:int;
+			var ySide:int;
+				
+			b1.posX > b2.posX ? xSide = 1 : xSide = -1;
+			b1.posY > b2.posY ? ySide = 1 : ySide = -1;
+				
+			b1.SetX = b1.posX + (collision_Vx * xSide);
+			b1.SetY = b1.posY + (collision_Vy * ySide);
+				
+			b2.SetX = b2.posX + (collision_Vx * -xSide);
+			b2.SetY = b2.posY + (collision_Vy * -ySide);
+				
+			v1.update(b1.posX, b1.posY, b1.posX + b1.Vx, b1.posY + b1.Vy);
+			v2.update(b2.posX, b2.posY, b2.posX + b2.Vx, b2.posY + b2.Vy);
+				
+			var p1a:VectorModel = VectorMath.project(v1, v0);
+			var p1b:VectorModel = VectorMath.project(v1, v0.ln);
+				
+			var p2a:VectorModel = VectorMath.project(v2, v0);
+			var p2b:VectorModel = VectorMath.project(v2, v0.ln);
+				
+			var bouceB1:VectorModel = new VectorModel(0, 0, 0, 0, p1b.vx + p2a.vx, p1b.vy + p2a.vy);
+			var bouceB2:VectorModel = new VectorModel(0, 0, 0, 0, p1a.vx + p2b.vx, p1a.vy + p2b.vy);
+				
+			b1.Vx = V_BOUNCE*bouceB1.dx;
+			b1.Vy = V_BOUNCE*bouceB1.dy;
+				
+			b2.Vx = V_BOUNCE*bouceB2.dx;
+			b2.Vy = V_BOUNCE*bouceB2.dy;
+
+				
+		}	
+		
+		
+		private function bounceWithPlayer(b:Ball):void 
 		{
-			var totalRadii:Number = b.Radius + player.Radius;
+			var totalRadii:Number = b.Radius + cannon.Radius;
 			var overlap:Number = totalRadii - v0.m;
 			
 			b.SetX = b.posX - (overlap * v0.dx);
@@ -213,18 +232,18 @@ package
 		
 		public function bounceWithBoundarie(entity:Ball):void
 		{
-					var overlap:Number;
-					overlap = entity.Radius - spoke.m;
-					
-					entity.SetX = entity.posX - (overlap * spoke.dx);
-					entity.SetY = entity.posY - (overlap * spoke.dy);
-					
-					var motion:VectorModel = new VectorModel(entity.posX, entity.posY, entity.posX + entity.Vx , entity.posY + entity.Vy);
-					
-					var bounce:VectorModel = VectorMath.bounce(motion, spoke.rn);
-					
-					entity.Vx = bounce.vx;
-					entity.Vy = bounce.vy;
+			var overlap:Number;
+			overlap = entity.Radius - spoke.m;
+			
+			entity.SetX = entity.posX - (overlap * spoke.dx);
+			entity.SetY = entity.posY - (overlap * spoke.dy);
+			
+			var motion:VectorModel = new VectorModel(entity.posX, entity.posY, entity.posX + entity.Vx , entity.posY + entity.Vy);
+			
+			var bounce:VectorModel = VectorMath.bounce(motion, spoke.rn);
+			
+			entity.Vx = bounce.vx;
+			entity.Vy = bounce.vy;
 		}
 	}
 }
