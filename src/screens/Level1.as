@@ -9,6 +9,7 @@ package screens
 	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
+	import main.*
 	/**
 	 * ...
 	 * @author EDUARDO SIMON
@@ -16,11 +17,11 @@ package screens
 	public class Level1 extends Sprite
 	{
 		private var ball:objects.Ball;
-		private var player:main.Cannon;
 		private var projectiles:Vector.<Ball>;
-		private var basura:Physics;
+		private var physics:Physics;
+		public static var cannon:Cannon;
 		
-		public const N_PROJECTILES:int = 10;
+		public const N_PROJECTILES:int = 0;
 	
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
@@ -30,8 +31,8 @@ package screens
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			projectiles = new Vector.<Ball>();
-			basura = new Physics();
-
+			physics = new Physics();
+			cannon = new Cannon();
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -39,6 +40,8 @@ package screens
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			drawLevel1();
+			
+			
 			
 			for (var i:int = 0; i < N_PROJECTILES; i++)
 			{
@@ -54,13 +57,18 @@ package screens
 				projectiles.push(temp);
 				
 				addChild(temp);
-				addChild(basura);
 			}
+			
+			addChild(physics);
+			
+			cannon.SetX = 400;
+			cannon.SetY = 300;
+
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
-			basura.MoveBalls(projectiles);
+			physics.MoveBalls(projectiles);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -84,9 +92,8 @@ package screens
 		}
 				
 		private function drawLevel1():void{
-			player = new main.Cannon();
-			addChild(player);
-			player.CenterPlayerToStage();
+			addChild(cannon);
+			cannon.CenterPlayerToStage();
 		}
 		
 		public function disposeTemporarily():void{
