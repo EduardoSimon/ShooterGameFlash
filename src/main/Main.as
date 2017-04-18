@@ -1,7 +1,7 @@
 package main
 {
 	import main.Game;
-	import objects.Projectile;
+	import objects.Ball;
 	import screens.Level1;
 	import screens.Welcome;
 	import starling.core.Starling;

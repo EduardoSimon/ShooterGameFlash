@@ -5,13 +5,13 @@ package
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
-	import main.Player;
+	import main.Cannon;
 	import mx.resources.IResourceBundle;
-	import objects.Projectile;
+	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
 	
-	public class Basura extends Sprite 
+	public class Physics extends Sprite 
 	{
 		//private var pelotas:Vector.<Projectile>;
 		private var v1:VectorModel;
@@ -20,13 +20,13 @@ package
 		private var spoke:VectorModel;
 		private var v0:VectorModel;
 		private const V_BOUNCE:Number = 5;
-		private var player:Player;
+		private var player:Cannon;
 		
-		public function Basura() 
+		public function Physics() 
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			player = new Player();
+			player = new Cannon();
 		}
 		
 		private function onAdded(e:Event):void 
@@ -40,7 +40,7 @@ package
 			spoke = new VectorModel();
 		}
 		
-		public function MoveBalls(pelotas:Vector.<Projectile>):void 
+		public function MoveBalls(pelotas:Vector.<Ball>):void 
 		{
 			if (pelotas.length > 0)
 			{
@@ -72,7 +72,7 @@ package
 			}	
 		}
 		
-		private function BoundsBetweenBalls(b1:Projectile, b2:Projectile ):void{
+		private function BoundsBetweenBalls(b1:Ball, b2:Ball ):void{
 			
 			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
 			var totalRadio:Number = b1.Radius + b2.Radius;
@@ -113,7 +113,7 @@ package
 			}	
 		}
 		
-		public function bounceWithPlayer(b:Projectile):void 
+		public function bounceWithPlayer(b:Ball):void 
 		{
 			var totalRadii:Number = b.Radius + player.Radius;
 			var overlap:Number = totalRadii - v0.m;
@@ -129,7 +129,7 @@ package
 			b.Vy = bounce.vy;
 		}
 
-		private function TestBoundaries(entity:Projectile):Boolean
+		private function TestBoundaries(entity:Ball):Boolean
 		{
 			if (entity.Vx < 0)
 			{
@@ -166,7 +166,7 @@ package
 			
 			return false;
 		}
-		public function boundariesCollisions(entity:Projectile):Boolean
+		public function boundariesCollisions(entity:Ball):Boolean
 		{
 			spoke.update(entity.posX,
 							entity.posY, 
@@ -196,7 +196,7 @@ package
 		
 		}
 		
-		public function bounceWithBoundarie(entity:Projectile):void
+		public function bounceWithBoundarie(entity:Ball):void
 		{
 					var overlap:Number;
 					overlap = entity.Radius - spoke.m;

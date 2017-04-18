@@ -1,12 +1,12 @@
 package screens 
 {
-	import main.Player;
+	import main.Cannon;
 	
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
-	import objects.Projectile;
+	import objects.Ball;
 	import starling.display.Sprite;
 	import starling.events.*;
 	/**
@@ -15,14 +15,13 @@ package screens
 	 */
 	public class Level1 extends Sprite
 	{
-		private var ball:objects.Projectile;
-		private var player:main.Player;
-		private var projectiles:Vector.<Projectile>;
-		private var basura:Basura;
+		private var ball:objects.Ball;
+		private var player:main.Cannon;
+		private var projectiles:Vector.<Ball>;
+		private var basura:Physics;
 		
 		public const N_PROJECTILES:int = 10;
-
-		
+	
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
 		
@@ -30,8 +29,8 @@ package screens
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			projectiles = new Vector.<Projectile>();
-			basura = new Basura();
+			projectiles = new Vector.<Ball>();
+			basura = new Physics();
 
 		}
 		
@@ -45,7 +44,7 @@ package screens
 			{
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var temp:Projectile = new Projectile(randomAngle, 5);
+				var temp:Ball = new Ball(randomAngle, 5);
 				
 				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
 				temp.x = temp.posX;
@@ -75,7 +74,7 @@ package screens
 					var angle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
 					
 					//push to the vector and add to the display list
-					ball = new objects.Projectile(angle, 10);
+					ball = new objects.Ball(angle, 10);
 					ball.SetX = PLAYER_X + (Math.cos(angle) * 40);
 					ball.SetY = PLAYER_Y + (Math.sin(angle) * 40);
 					projectiles.push(ball);
@@ -83,10 +82,9 @@ package screens
 				}
 			}
 		}
-		
-		
+				
 		private function drawLevel1():void{
-			player = new main.Player();
+			player = new main.Cannon();
 			addChild(player);
 			player.CenterPlayerToStage();
 		}
