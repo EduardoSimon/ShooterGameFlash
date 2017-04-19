@@ -6,31 +6,37 @@ package screens
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import objects.Ball;
+	import objects.Enemy;
+	import objects.Bullet;
 	import starling.display.Sprite;
 	import starling.events.*;
 
 	public class Level1 extends Sprite
 	{
-
-		private var score:Score;
-		private var ball:objects.Ball;
-		private var projectiles:Vector.<Ball>;
-		private var physics:Physics;
-
-		public static var cannon:Cannon;
+				
 		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
 		public static const SCORE_DELTA:Number = 0.2;
-		
+
+		private var score:Score;
+		private var bullet:objects.Ball;
+		private var enemies:Vector.<Ball>;
+		private var bullets:Vector.<Ball>;
+		private var physics:Physics;
+
+		public static var CANNON:Cannon;
+
 		public function Level1() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 
 			score = new Score(5000, 10, 10, 100, 30, 2);
-			projectiles = new Vector.<Ball>();
+			enemies = new Vector.<Ball>();
+			bullets = new Vector.<Ball>();
 			physics = new Physics();
+			CANNON = new Cannon();
 
 		}
 		
@@ -51,7 +57,7 @@ package screens
 				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
 				temp.y = temp.posY;
 				
-				projectiles.push(temp);
+				enemies.push(temp);
 				
 				addChild(temp);
 			}
@@ -59,15 +65,16 @@ package screens
 			addChild(score);
 			addChild(physics);
 			
-			cannon.SetX = 400;
-			cannon.SetY = 300;
+			CANNON.SetX = 400;
+			CANNON.SetY = 300;
 
 		}
 		
 		public function OnEnterFrame(e:Event):void 
 		{
 			score.UpdateScore(SCORE_DELTA);
-			physics.MoveBalls(projectiles);
+			physics.MoveBalls(enemies);
+			physics.MoveBullets(bullets);
 		}
 		
 		private function onTouch(e:TouchEvent):void 
@@ -81,18 +88,18 @@ package screens
 					var angle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
 					
 					//push to the vector and add to the display list
-					ball = new objects.Ball(angle, 10);
-					ball.SetX = PLAYER_X + (Math.cos(angle) * 40);
-					ball.SetY = PLAYER_Y + (Math.sin(angle) * 40);
-					projectiles.push(ball);
-					addChildAt(ball, stage.numChildren - 1);
+					bullet = new Ball(angle, 10);
+					bullet.SetX = PLAYER_X + (Math.cos(angle) * 40);
+					bullet.SetY = PLAYER_Y + (Math.sin(angle) * 40);
+					bullets.push(bullet);
+					addChild(bullet);
 				}
 			}
 		}
 				
 		private function drawLevel1():void{
-			addChild(cannon);
-			cannon.CenterPlayerToStage();
+			addChild(CANNON);
+			CANNON.CenterPlayerToStage();
 		}
 		
 		public function disposeTemporarily():void{

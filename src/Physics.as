@@ -40,7 +40,7 @@ package
 			v2 = new VectorModel();
 			v3 = new VectorModel();
 			spoke = new VectorModel();
-			cannon = Level1.cannon;
+			cannon = Level1.CANNON;
 		}
 		
 		public function MoveBalls(pelotas:Vector.<Ball>):void 
@@ -71,7 +71,7 @@ package
 							BounceBetweenBalls(pelotas[i], pelotas[j]);
 						}		
 					}
-					
+				
 					if (AreBallsBouncing(pelotas[i], cannon))
 					{
 						bounceWithPlayer(pelotas[i]);
@@ -79,15 +79,37 @@ package
 					
 					pelotas[i].update();
 					pelotas[i].x = pelotas[i].posX;
-					pelotas[i].y = pelotas[i].posY;
-						
+					pelotas[i].y = pelotas[i].posY;	
 				}
 			}	
 		}
 		
+		public function MoveBullets(bullets:Vector.<Ball>):void
+		{
+			if (bullets.length > 0) 
+			{
+				for (var i:int = 0; i < bullets.length; i++ ) 
+				{
+					if (!TestBoundaries(bullets[i])) 
+					{
+						bullets[i].update();
+						bullets[i].x = bullets[i].posX;
+						bullets[i].y = bullets[i].posY;
+					}
+					else
+					{
+						
+						removeChild(bullets[i]);
+						bullets.removeAt(i);
+						
+					}
+				}
+			}
+		}
+		
 
 		//check if theres collision between balls and calculates the bounce 
-		private function AreBallsBouncing(b1:Ball, b2:Ball)
+		private function AreBallsBouncing(b1:Ball, b2:Ball):Boolean
 		{
 			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
 
@@ -102,14 +124,15 @@ package
 		}
 		
 
-		private function BounceBetweenBalls(b1:Ball, b2:Ball ):void{
+		private function BounceBetweenBalls(b1:Ball, b2:Ball ):void
+		{
 			
 			var totalRadio:Number = b1.Radius + b2.Radius;
 			
 			var overlap:Number = totalRadio - v0.m;
 				
-			var collision_Vx:Number = v0.dx * overlap;
-			var collision_Vy:Number = v0.dy * overlap;
+			var collision_Vx:Number = Math.abs(v0.dx * overlap);
+			var collision_Vy:Number = Math.abs(v0.dy * overlap);
 				
 			var xSide:int;
 			var ySide:int;

@@ -49,16 +49,6 @@ package objects
 		{
 			return m_Radius;
 		}
-		
-		
-		/*
-		override public function update():void
-		{
-			super.update();
-			
-			m_Image.x = posX;
-			m_Image.y = posY;
-		}*/
 	}
 
 }
