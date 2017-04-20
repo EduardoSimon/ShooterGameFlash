@@ -1,13 +1,13 @@
 package 
 {
-	import adobe.utils.ProductManager;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import main.Cannon;
-	import mx.resources.IResourceBundle;
 	import objects.Ball;
+	import objects.Bullet;
+	import objects.Enemy;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import screens.*;
@@ -21,9 +21,8 @@ package
 		private var v1:VectorModel;
 		private var v2:VectorModel;
 		private var v3:VectorModel;
+		private var v4:VectorModel;
 		private var spoke:VectorModel;
-
-		private var cannon:Cannon;
 
 		public function Physics() 
 		{
@@ -39,77 +38,12 @@ package
 			v1 = new VectorModel();
 			v2 = new VectorModel();
 			v3 = new VectorModel();
+			v4 = new VectorModel();
 			spoke = new VectorModel();
-			cannon = Level1.CANNON;
 		}
 		
-		public function MoveBalls(pelotas:Vector.<Ball>):void 
-		{
-			//if there are balls
-			if (pelotas.length > 0)
-			{
-				for (var i:int = pelotas.length - 1; i >= 0 ; i--)
-				{
-					//check if theres collision with the stage boundaries
-					if (TestBoundaries(pelotas[i])) 
-					{
-						//if there is collision calculate the bounce vector
-						bounceWithBoundarie(pelotas[i]);
-					}
-					
-					 //check for every other ball but without comparing them twice // j < i
-					for (var j:int = 0; j < i; j++)
-					{
-						//check again against the boundaries
-						if (TestBoundaries(pelotas[j])) 
-						{
-							bounceWithBoundarie(pelotas[j]);
-						}
-						
-						if (AreBallsBouncing(pelotas[i], pelotas[j]))
-						{
-							BounceBetweenBalls(pelotas[i], pelotas[j]);
-						}		
-					}
-				
-					if (AreBallsBouncing(pelotas[i], cannon))
-					{
-						bounceWithPlayer(pelotas[i]);
-					}
-					
-					pelotas[i].update();
-					pelotas[i].x = pelotas[i].posX;
-					pelotas[i].y = pelotas[i].posY;	
-				}
-			}	
-		}
-		
-		public function MoveBullets(bullets:Vector.<Ball>):void
-		{
-			if (bullets.length > 0) 
-			{
-				for (var i:int = 0; i < bullets.length; i++ ) 
-				{
-					if (!TestBoundaries(bullets[i])) 
-					{
-						bullets[i].update();
-						bullets[i].x = bullets[i].posX;
-						bullets[i].y = bullets[i].posY;
-					}
-					else
-					{
-						
-						removeChild(bullets[i]);
-						bullets.removeAt(i);
-						
-					}
-				}
-			}
-		}
-		
-
 		//check if theres collision between balls and calculates the bounce 
-		private function AreBallsBouncing(b1:Ball, b2:Ball):Boolean
+		public function AreBallsColliding(b1:Ball, b2:Ball):Boolean
 		{
 			v0.update(b1.posX, b1.posY, b2.posX, b2.posY);
 
@@ -123,8 +57,71 @@ package
 			return false;
 		}
 		
-
-		private function BounceBetweenBalls(b1:Ball, b2:Ball ):void
+		public  function CheckCollisionWithBoundary(entity:Ball):Boolean
+		{
+			spoke.update(entity.posX,
+							entity.posY, 
+							entity.posX + v2.ln.dx * entity.Radius, 
+							entity.posY + v2.ln.dy * entity.Radius);
+							
+			//actualizamos el v1 para que salga a partir del final del radio
+			v1.update(spoke.b.x, spoke.b.y, spoke.b.x + entity.Vx, spoke.b.y + entity.Vy);
+			
+			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.a.y);
+			
+			var dp1:Number = VectorMath.dotProduct(v3, v2);
+			var dp2:Number = VectorMath.dotProduct(v3, v2.ln);
+			
+			if (dp1 > -v2.m && dp1 < 0)
+			{				
+				if (dp2 <= 0)
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		
+		public  function TestBoundaries(entity:Ball):Boolean
+		{
+			if (entity.Vx < 0)
+			{
+				//Vector pared izquierda
+				v2.update(0, stage.stageHeight,0 ,0);		
+			}
+			else
+			{
+				//Vector pared derecha
+				v2.update(stage.stageWidth,0, stage.stageWidth , stage.stageHeight)
+			}
+			
+			if (CheckCollisionWithBoundary(entity))
+			{
+				return true;
+			}
+			
+			else if (entity.Vy < 0)
+			{
+				//Vector pared superior
+				v2.update(0, 0, stage.stageWidth, 0);
+			}
+			else
+			{
+				//Vector pared inferior
+				v2.update(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
+			}
+			
+			if (CheckCollisionWithBoundary(entity)) 
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
+		public  function BounceBetweenBalls(b1:Ball, b2:Ball):void
 		{
 			
 			var totalRadio:Number = b1.Radius + b2.Radius;
@@ -168,7 +165,7 @@ package
 		}	
 		
 		
-		private function bounceWithPlayer(b:Ball):void 
+		public function bounceWithPlayer(b:Ball, cannon:Ball):void 
 		{
 			var totalRadii:Number = b.Radius + cannon.Radius;
 			var overlap:Number = totalRadii - v0.m;
@@ -184,76 +181,7 @@ package
 			b.Vy = bounce.vy;
 		}
 
-		private function TestBoundaries(entity:Ball):Boolean
-		{
-			if (entity.Vx < 0)
-			{
-				//Vector pared izquierda
-				v2.update(0, stage.stageHeight,0 ,0);
-				
-			}
-			else
-			{
-				//Vector pared derecha
-				v2.update(stage.stageWidth,0, stage.stageWidth , stage.stageHeight)
-			}
-			
-			if (boundariesCollisions(entity)) 
-			{
-				return true;
-			}
-			
-			else if (entity.Vy < 0)
-			{
-				//Vector pared superior
-				v2.update(0, 0, stage.stageWidth, 0);
-			}
-			else
-			{
-				//Vector pared inferior
-				v2.update(stage.stageWidth, stage.stageHeight, 0, stage.stageHeight);
-			}
-			
-			if (boundariesCollisions(entity)) 
-			{
-				return true;
-			}
-			
-			return false;
-		}
-		
-		
-		public function boundariesCollisions(entity:Ball):Boolean
-		{
-			spoke.update(entity.posX,
-							entity.posY, 
-							entity.posX + v2.ln.dx * entity.Radius, 
-							entity.posY + v2.ln.dy * entity.Radius);
-							
-			
-			
-			//actualizamos el v1 para que salga a partir del final del radio
-			v1.update(spoke.b.x, spoke.b.y, spoke.b.x + entity.Vx, spoke.b.y + entity.Vy);
-			
-			v3.update(v1.a.x, v1.a.y, v2.a.x, v2.a.y);
-			
-			var dp1:Number = VectorMath.dotProduct(v3, v2);
-			var dp2:Number = VectorMath.dotProduct(v3, v2.ln);
-			
-			if (dp1 > -v2.m && dp1 < 0)
-			{				
-				if (dp2 <= 0)
-				{
-					return true;
-				}
-			}
-			
-			return false;
-		
-		
-		}
-		
-		public function bounceWithBoundarie(entity:Ball):void
+		public  function bounceWithBoundarie(entity:Ball):void
 		{
 			var overlap:Number;
 			overlap = entity.Radius - spoke.m;

@@ -7,10 +7,10 @@ package
 	 */
 	public class MovingEntity extends Sprite
 	{
-		private var m_tempX:Number;
-		private var m_tempY:Number;
-		private var m_previousX:Number;
-		private var m_previousY:Number;
+		protected var m_tempX:Number;
+		protected var m_tempY:Number;
+		protected var m_previousX:Number;
+		protected var m_previousY:Number;
 		
 		public var posX:Number;
 		public var posY:Number;

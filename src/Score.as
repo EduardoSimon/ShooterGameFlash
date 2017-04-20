@@ -40,9 +40,15 @@ package
 			score.y = posY;
 		}
 		
-		public function UpdateScore(delta:Number):void
+		public function UpdateScoreWithDelta(delta:Number):void
 		{
 			scoreInt -= delta;
+			score.text = scoreInt.toString();
+		}
+		
+		public function AddScore(delta:Number): void
+		{
+			scoreInt += delta;
 			score.text = scoreInt.toString();
 		}
 		
