@@ -19,10 +19,10 @@ package screens
 		public static const PLAYER_Y:Number = 300;
 		public static const SCORE_DELTA:Number = 0.2;
 
-		private var score:Score;
-		private var enemies:Vector.<Enemy>;
-		private var bullets:Vector.<Bullet>; 
-		private var physics:Physics;
+		protected var score:Score;
+		protected var enemies:Vector.<Enemy>;
+		protected var bullets:Vector.<Bullet>; 
+		protected var physics:Physics;
 
 		public static var CANNON:Cannon;
 
@@ -111,7 +111,7 @@ package screens
 			this.visible = true;
 		}
 		
-		private function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
+		protected function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
 			//if there are balls
 			if (pelotas.length > 0)
@@ -155,6 +155,8 @@ package screens
 							//reomve the bullet
 							removeChild(bullets[k].removeChild(bullets[k].m_Image));
 							bullets.removeAt(k);
+							
+							return;
 						}
 					}
 					
@@ -174,7 +176,7 @@ package screens
 			}	
 		}
 		
-		private function MoveBullets(bullets:Vector.<Bullet>):void
+		protected function MoveBullets(bullets:Vector.<Bullet>):void
 		{
 			if (bullets.length > 0) 
 			{

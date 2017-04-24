@@ -1,7 +1,7 @@
 package main 
 {
-	import screens.ChooseLevel;
-	import screens.Level1;
+	
+	import screens.*;
 	import screens.Welcome;
 	import events.NavigationEvent;
 	import starling.display.Sprite;
@@ -15,9 +15,10 @@ package main
 	public class Game extends Sprite 
 	{
 		
-		private var screenWelcome:screens.Welcome;
-		private var screenLevel1:screens.Level1;
-		private var screenChooseLevel:screens.ChooseLevel;
+		private var screenWelcome:Welcome;
+		private var screenLevel1:Level1;
+		private var screenLevel2:Level2;
+		private var screenChooseLevel:ChooseLevel;
 		
 		public function Game() 
 		{
@@ -34,6 +35,10 @@ package main
 			screenLevel1 = new screens.Level1();
 			screenLevel1.disposeTemporarily();
 			this.addChild(screenLevel1);
+			
+			screenLevel2 = new screens.Level2();
+			screenLevel2.disposeTemporarily();
+			this.addChild(screenLevel2);
 			
 			screenWelcome = new screens.Welcome();
 			this.addChild(screenWelcome);
@@ -52,6 +57,12 @@ package main
 					screenChooseLevel.disposeTemporarily();
 					screenLevel1.initialize();
 					break;
+					
+				case "level2":
+					screenChooseLevel.disposeTemporarily();
+					screenLevel2.initialize();
+					break;
+					
 				case "chooseLevel":
 					screenWelcome.disposeTemporarily();
 					screenChooseLevel.initialize();
