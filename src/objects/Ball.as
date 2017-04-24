@@ -13,12 +13,11 @@ package objects
 	 */
 	public class Ball extends MovingEntity
 	{
-		protected var m_Image:Image;
-		protected var m_Speed:Number;
-		protected var m_Radius:Number;
-		
-		
-		public function Ball(angle:Number = 0,speed:Number = 20)
+		public var m_Image:Image;
+		public var m_Speed:Number;
+		public var m_Radius:Number;
+				
+		public function Ball(angle:Number = 0, speed:Number = 20, radius:Number = 0)
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
@@ -27,9 +26,8 @@ package objects
 			this.posX = speed * Math.cos(angle);
 			this.posY = speed * Math.sin(angle);
 			
-			m_Radius = 0;
+			m_Radius = radius;
 		}
-	
 		
 		private function onAdded(e:Event):void 
 		{
@@ -37,7 +35,7 @@ package objects
 			
 			m_Image = new Image(Assets.getTexture("BallBitmap"));
 			
-			addChild(m_Image);
+			this.addChild(m_Image);
 					
 			m_Image.scale = 0.05;
 			
@@ -52,15 +50,6 @@ package objects
 			return m_Radius;
 		}
 		
-		
-		/*
-		override public function update():void
-		{
-			super.update();
-			
-			m_Image.x = posX;
-			m_Image.y = posY;
-		}*/
 	}
 
 }

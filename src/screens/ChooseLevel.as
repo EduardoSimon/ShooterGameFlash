@@ -56,6 +56,10 @@ package screens
 				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "level1"}, true));
 			}
 			
+			if((buttonClicked as Button) == btnPlayLevel2){
+				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "level2"}, true));
+			}
+			
 		}
 		
 		
