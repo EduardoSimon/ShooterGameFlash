@@ -111,67 +111,70 @@ package screens
 			this.visible = true;
 		}
 		
-		private function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
+		private function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
 			//if there are balls
-			if (pelotas.length > 0)
+			if (enemigos.length > 0)
 			{
-				for (var i:int = pelotas.length - 1; i >= 0 ; i--)
+				for (var i:int = enemigos.length - 1; i >= 0 ; i--)
 				{
 					//check if theres collision with the stage boundaries
-					if (physics.TestBoundaries(pelotas[i])) 
+					if (physics.TestBoundaries(enemigos[i])) 
 					{
 						//if there is collision calculate the bounce vector
-						physics.bounceWithBoundarie(pelotas[i]);
+						physics.bounceWithBoundarie(enemigos[i]);
 					}
 					
 					 //check for every other ball but without comparing them twice // j < i
 					for (var j:int = 0; j < i; j++)
 					{
 						//check again against the boundaries
-						if (physics.TestBoundaries(pelotas[j])) 
+						if (physics.TestBoundaries(enemigos[j])) 
 						{
-							physics.bounceWithBoundarie(pelotas[j]);
+							physics.bounceWithBoundarie(enemigos[j]);
 						}
 						
-						if (physics.AreBallsColliding(pelotas[i], pelotas[j]))
+						if (physics.AreBallsColliding(enemigos[i], enemigos[j]))
 						{
-							physics.BounceBetweenBalls(pelotas[i], pelotas[j]);
+							physics.BounceBetweenBalls(enemigos[i], enemigos[j]);
 						}		
 					}
 					
 					//check if there's collision between bullets and enemies
 					for (var k:int = bullets.length - 1; k >= 0; k--) 
 					{
-						if (physics.AreBallsColliding(bullets[k],pelotas[i]))
+						if (physics.AreBallsColliding(bullets[k],enemigos[i]))
 						{
 							//TODO add score, this should be done on level class
 							score.AddScore(300);
 							
 							//remove the enemy
-							removeChild(pelotas[i].removeChild(pelotas[i].m_Image));
-							pelotas.removeAt(i);
+							removeChild(enemigos[i].removeChild(enemigos[i].m_Image));
+							enemigos.removeAt(i);
 							
-							//reomve the bullet
+							//remove the bullet
 							removeChild(bullets[k].removeChild(bullets[k].m_Image));
 							bullets.removeAt(k);
+							
+							//this return is preventing the access of an invalid i index
+							return;
 						}
 					}
 					
-					
-					//Test if they collide with the player
-					if (physics.AreBallsColliding(pelotas[i], CANNON))
-					{
-						physics.bounceWithPlayer(pelotas[i],CANNON);
-					}
-					
-					pelotas[i].update();
-					pelotas[i].x = pelotas[i].posX;
-					pelotas[i].y = pelotas[i].posY;	
+					enemigos[i].update();
+					enemigos[i].x = enemigos[i].posX;
+					enemigos[i].y = enemigos[i].posY;	
 				}
 				
 				MoveBullets(bullets);
-			}	
+				CheckCollisionWithPlayer(enemigos);
+			}
+			else
+			{
+				DestroyAllBullets(bullets);
+				ShowLevelEndScore(); // TODO
+			}
+			
 		}
 		
 		private function MoveBullets(bullets:Vector.<Bullet>):void
@@ -195,6 +198,32 @@ package screens
 					}
 				}
 			}
+		}
+		
+		private function CheckCollisionWithPlayer(balls:Vector.<Enemy>):void
+		{
+			for (var i:int = balls.length - 1; i >= 0; i--) 
+			{
+				//Test if they collide with the player
+				if (physics.AreBallsColliding(balls[i], CANNON))
+				{
+					physics.bounceWithPlayer(balls[i],CANNON);
+				}
+			}
+		}
+		
+		private function DestroyAllBullets(bullets:Vector.<Bullet>):void
+		{
+			for (var i:int = 0; i < bullets.length; i++) 
+			{
+				removeChild(bullets[i].removeChild(bullets[i].m_Image));
+				bullets.removeAt(i);
+			}
+		}
+		
+		private function ShowLevelEndScore():void
+		{
+			//TODO
 		}
 		
 	}
