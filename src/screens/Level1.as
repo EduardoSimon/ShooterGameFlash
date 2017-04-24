@@ -10,14 +10,10 @@ package screens
 	import objects.Bullet;
 	import starling.display.Sprite;
 	import starling.events.*;
+	import utils.Constants;
 
 	public class Level1 extends Sprite
 	{
-				
-		public static const N_PROJECTILES:int = 10;
-		public static const PLAYER_X:Number = 400;
-		public static const PLAYER_Y:Number = 300;
-		public static const SCORE_DELTA:Number = 0.2;
 
 		protected var score:Score;
 		protected var enemies:Vector.<Enemy>;
@@ -48,7 +44,7 @@ package screens
 		
 		private function OnEnterFrame(e:Event):void 
 		{
-			score.UpdateScoreWithDelta(SCORE_DELTA);
+			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 			MoveEntities(enemies, bullets);
 		}
 		
@@ -60,12 +56,12 @@ package screens
 				if (touch.phase == TouchPhase.BEGAN)
 				{
 					//calculate the angel which we will use to determine the speed in x and y
-					var angle:Number = Math.atan2(touch.globalY - PLAYER_Y, touch.globalX - PLAYER_X);
+					var angle:Number = Math.atan2(touch.globalY - Constants.PLAYER_Y, touch.globalX -  Constants.PLAYER_X);
 					
 					//push to the vector and add to the display list
-					var bullet:Bullet = new Bullet(angle, 10);
-					bullet.SetX = PLAYER_X + (Math.cos(angle) * 40);
-					bullet.SetY = PLAYER_Y + (Math.sin(angle) * 40);
+					var bullet:Bullet = new Bullet(angle, Constants.SPEED);
+					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 40);
+					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
 					bullets.push(bullet);
 					addChild(bullet);
 				}
@@ -76,7 +72,7 @@ package screens
 		{
 			
 			//create and display the enemies
-			for (var i:int = 0; i < N_PROJECTILES; i++)
+			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
 			{
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
@@ -99,8 +95,8 @@ package screens
 			//set the cannon in its correct position
 			addChild(CANNON);
 			CANNON.CenterPlayerToStage();
-			CANNON.SetX = PLAYER_X;
-			CANNON.SetY = PLAYER_Y;
+			CANNON.SetX = Constants.PLAYER_X;
+			CANNON.SetY = Constants.PLAYER_Y;
 		}
 		
 		public function disposeTemporarily():void{
@@ -112,7 +108,7 @@ package screens
 		}
 		
 
-		protected function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
+		protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 
 
 		{

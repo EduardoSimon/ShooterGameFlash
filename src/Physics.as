@@ -11,11 +11,11 @@ package
 	import starling.display.Sprite;
 	import starling.events.*;
 	import screens.*;
+	import utils.Constants;
 	
 	public class Physics extends Sprite 
 	{
 		//private var pelotas:Vector.<Projectile>;
-		private const V_BOUNCE:Number = 5;
 
 		private var v0:VectorModel;
 		private var v1:VectorModel;
@@ -155,11 +155,10 @@ package
 			var bouceB1:VectorModel = new VectorModel(0, 0, 0, 0, p1b.vx + p2a.vx, p1b.vy + p2a.vy);
 			var bouceB2:VectorModel = new VectorModel(0, 0, 0, 0, p1a.vx + p2b.vx, p1a.vy + p2b.vy);
 				
-			b1.Vx = V_BOUNCE*bouceB1.dx;
-			b1.Vy = V_BOUNCE*bouceB1.dy;
-				
-			b2.Vx = V_BOUNCE*bouceB2.dx;
-			b2.Vy = V_BOUNCE*bouceB2.dy;
+			b1.Vx = Constants.SPEED*bouceB1.dx;
+			b1.Vy = Constants.SPEED*bouceB1.dy;
+			b2.Vx = Constants.SPEED*bouceB2.dx;
+			b2.Vy = Constants.SPEED*bouceB2.dy;
 
 				
 		}	
