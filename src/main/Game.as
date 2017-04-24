@@ -19,6 +19,7 @@ package main
 		private var screenLevel1:Level1;
 		private var screenLevel2:Level2;
 		private var screenChooseLevel:ChooseLevel;
+		private var screenGameOver:GameOverShowScore;
 		
 		public function Game() 
 		{
@@ -48,6 +49,12 @@ package main
 			screenChooseLevel.disposeTemporarily();
 			this.addChild(screenChooseLevel);
 			
+			screenGameOver = new GameOverShowScore()
+			screenGameOver.disposeTemporarily();
+			this.addChild(screenGameOver);
+			
+			
+			
 		}
 		
 		private function onChangeScreen(e:events.NavigationEvent):void 
@@ -66,6 +73,16 @@ package main
 				case "chooseLevel":
 					screenWelcome.disposeTemporarily();
 					screenChooseLevel.initialize();
+					break;
+					
+				case "gameOver":
+					if(screenLevel1.Visible){
+						screenLevel1.disposeTemporarily();
+					}
+					else if (screenLevel2.Visible){
+						screenLevel2.disposeTemporarily();
+					}
+					screenGameOver.initialize();
 					break;
 			}
 		}
