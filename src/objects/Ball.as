@@ -35,7 +35,7 @@ package objects
 			
 			m_Image = new Image(Assets.getTexture("BallBitmap"));
 			
-			addChild(m_Image);
+			this.addChild(m_Image);
 					
 			m_Image.scale = 0.05;
 			
@@ -50,15 +50,6 @@ package objects
 			return m_Radius;
 		}
 		
-		
-		/*
-		override public function update():void
-		{
-			super.update();
-			
-			m_Image.x = posX;
-			m_Image.y = posY;
-		}*/
 	}
 
 }
