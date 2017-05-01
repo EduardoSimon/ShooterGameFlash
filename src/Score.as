@@ -52,7 +52,7 @@ package
 			score.text = scoreInt.toString();
 		}
 		
-		public function get ScoreInt(){
+		public function get ScoreInt():int{
 			return this.scoreInt;
 		}
 		

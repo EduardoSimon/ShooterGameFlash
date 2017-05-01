@@ -19,7 +19,7 @@ package main
 		private var screenLevel1:Level1;
 		private var screenLevel2:Level2;
 		private var screenChooseLevel:ChooseLevel;
-		private var screenGameOver:GameOverShowScore;
+		private var screenGameOver:GameOver;
 		
 		public function Game() 
 		{
@@ -45,11 +45,11 @@ package main
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
 			
-			screenChooseLevel = new ChooseLevel()
+			screenChooseLevel = new ChooseLevel();
 			screenChooseLevel.disposeTemporarily();
 			this.addChild(screenChooseLevel);
 			
-			screenGameOver = new GameOverShowScore()
+			screenGameOver = new GameOver();
 			screenGameOver.disposeTemporarily();
 			this.addChild(screenGameOver);
 			

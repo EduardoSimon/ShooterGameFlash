@@ -1,5 +1,6 @@
 package screens 
 {
+	import events.GameOverEvent;
 	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
@@ -16,7 +17,7 @@ package screens
 	public class Level1 extends Sprite
 	{
 
-		protected var score:Score;
+		public var score:Score;
 		protected var enemies:Vector.<Enemy>;
 		protected var bullets:Vector.<Bullet>; 
 		protected var physics:Physics;
@@ -108,7 +109,7 @@ package screens
 			this.visible = true;
 		}
 		
-		public function get Visible(){
+		public function get Visible(): Boolean{
 			return this.visible;
 		}
 		
@@ -176,10 +177,16 @@ package screens
 			}
 			else
 			{
-				DestroyAllBullets(bullets);
-				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "gameOver"}, true));
+				EndLevel();
 			}
 			
+		}
+		
+		private function EndLevel(){
+			DestroyAllBullets(bullets);
+			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			this.dispatchEvent(new GameOverEvent(GameOverEvent.GAME_OVER, score, true));
+			this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "gameOver"}, true));
 		}
 		
 		protected function MoveBullets(bullets:Vector.<Bullet>):void
