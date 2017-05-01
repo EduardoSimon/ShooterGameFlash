@@ -11,6 +11,7 @@ package screens
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.Constants;
+	import events.NavigationEvent;
 
 	public class Level1 extends Sprite
 	{
