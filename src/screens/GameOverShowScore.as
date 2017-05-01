@@ -26,12 +26,14 @@ package screens
 		
 		private function onAddedToStage(e:Event):void 
 		{ 
+			trace('stb');
 			drawScreen();
 		}
 		
 		private function drawScreen():void 
 		{
 			score = new TextField();
+			score.text = 'alaba';
 			score.x = stage.width / 2;
 			score.y = stage.height / 2;
 			
@@ -43,6 +45,7 @@ package screens
 		}
 		
 		public function initialize():void{
+			trace('visible');
 			this.visible = true;
 		}
 		
