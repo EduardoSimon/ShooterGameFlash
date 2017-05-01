@@ -33,11 +33,8 @@ package screens
 		}
 		
 		private function onAddedToStage(e:Event):void 
-		{
-			trace("welcome screen initialized");
-			
-			drawScreen();
-			
+		{			
+			drawScreen();			
 		}
 		
 		private function drawScreen():void 

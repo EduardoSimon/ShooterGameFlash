@@ -52,6 +52,9 @@ package
 			score.text = scoreInt.toString();
 		}
 		
+		public function get ScoreInt(){
+			return this.scoreInt;
+		}
 		
 	}
 

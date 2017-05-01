@@ -107,6 +107,10 @@ package screens
 			this.visible = true;
 		}
 		
+		public function get Visible(){
+			return this.visible;
+		}
+		
 
 		protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
@@ -170,7 +174,7 @@ package screens
 			else
 			{
 				DestroyAllBullets(bullets);
-				ShowLevelEndScore(); // TODO
+				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "gameOver"}, true));
 			}
 			
 		}
@@ -217,11 +221,6 @@ package screens
 				removeChild(bullets[i].removeChild(bullets[i].m_Image));
 				bullets.removeAt(i);
 			}
-		}
-		
-		private function ShowLevelEndScore():void
-		{
-			//TODO
 		}
 		
 	}
