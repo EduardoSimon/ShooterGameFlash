@@ -3,7 +3,7 @@ package main
 	import main.Game;
 	import objects.Ball;
 	import screens.ChooseLevel;
-	import screens.Level1;
+	import screens.Level;
 	import screens.Welcome;
 	import starling.core.Starling;
 	import starling.events.*;

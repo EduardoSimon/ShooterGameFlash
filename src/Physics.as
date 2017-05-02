@@ -155,10 +155,10 @@ package
 			var bouceB1:VectorModel = new VectorModel(0, 0, 0, 0, p1b.vx + p2a.vx, p1b.vy + p2a.vy);
 			var bouceB2:VectorModel = new VectorModel(0, 0, 0, 0, p1a.vx + p2b.vx, p1a.vy + p2b.vy);
 				
-			b1.Vx = Constants.SPEED*bouceB1.dx;
-			b1.Vy = Constants.SPEED*bouceB1.dy;
-			b2.Vx = Constants.SPEED*bouceB2.dx;
-			b2.Vy = Constants.SPEED*bouceB2.dy;
+			b1.Vx = Constants.BOUNCE_SPEED*bouceB1.dx;
+			b1.Vy = Constants.BOUNCE_SPEED*bouceB1.dy;
+			b2.Vx = Constants.BOUNCE_SPEED*bouceB2.dx;
+			b2.Vy = Constants.BOUNCE_SPEED*bouceB2.dy;
 
 				
 		}	

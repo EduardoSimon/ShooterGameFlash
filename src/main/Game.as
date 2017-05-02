@@ -16,7 +16,7 @@ package main
 	{
 		
 		private var screenWelcome:Welcome;
-		private var screenLevel1:Level1;
+		private var screenLevel1:Level;
 		private var screenLevel2:Level2;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
@@ -33,7 +33,7 @@ package main
 			
 			this.addEventListener(events.NavigationEvent.CHANGE_SCREEN, onChangeScreen);
 
-			screenLevel1 = new screens.Level1();
+			screenLevel1 = new Level();
 			screenLevel1.disposeTemporarily();
 			this.addChild(screenLevel1);
 			
@@ -62,12 +62,16 @@ package main
 			switch(e.params.id){
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
-					screenLevel1.initialize();
+					removeChild(screenLevel1);
+					screenLevel1 = new Level();
+					addChild(screenLevel1);
 					break;
 					
 				case "level2":
 					screenChooseLevel.disposeTemporarily();
-					screenLevel2.initialize();
+					removeChild(screenLevel2);
+					screenLevel2 = new Level2();
+					addChild(screenLevel2);
 					break;
 					
 				case "chooseLevel":

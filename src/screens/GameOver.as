@@ -29,12 +29,12 @@ package screens
 		private function onAddedToStage(e:Event):void 
 		{ 
 			stage.addEventListener(GameOverEvent.GAME_OVER, onGameOver);
-			trace('stb');
 		}
 		
 		private function onGameOver(e:GameOverEvent):void 
 		{
 			score = e.score;
+			addChild(score);
 			drawScreen();
 			
 			this.addEventListener(Event.TRIGGERED, onBackToMenuClick);
@@ -46,6 +46,7 @@ package screens
 
 			if((buttonClicked as Button) == backToMenu){
 				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "chooseLevel"}, true));
+				removeChild(score);
 			}
 			
 			backToMenu.visible = false;
@@ -53,10 +54,7 @@ package screens
 		}
 		
 		private function drawScreen():void 
-		{
-			
-			addChild(score);
-			
+		{	
 			backToMenu = new Button(Assets.getTexture("WelcomePlayBtn"));
 			backToMenu.x = 500;
 			backToMenu.y = 360;

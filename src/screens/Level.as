@@ -14,7 +14,7 @@ package screens
 	import utils.Constants;
 	import events.NavigationEvent;
 
-	public class Level1 extends Sprite
+	public class Level extends Sprite
 	{
 
 		public var score:Score;
@@ -24,19 +24,12 @@ package screens
 
 		public static var CANNON:Cannon;
 
-		public function Level1() 
+		public function Level() 
 		{
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
-
-			score = new Score(5000, 10, 10, 100, 30, 2);
-			enemies = new Vector.<Enemy>();
-			bullets = new Vector.<Bullet>();
-			physics = new Physics();
-			CANNON = new Cannon();
+			initialize();
 		}
 		
-		private function onAddedToStage(e:Event):void 
+		protected function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
@@ -44,7 +37,7 @@ package screens
 			drawLevel();
 		}
 		
-		private function OnEnterFrame(e:Event):void 
+		protected function OnEnterFrame(e:Event):void 
 		{
 			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 			MoveEntities(enemies, bullets);
@@ -105,8 +98,16 @@ package screens
 			this.visible = false;
 		}
 		
-		public function initialize():void{
-			this.visible = true;
+		public function initialize():void
+		{
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+
+			score = new Score(5000, 10, 10, 100, 30, 2);
+			enemies = new Vector.<Enemy>();
+			bullets = new Vector.<Bullet>();
+			physics = new Physics();
+			CANNON = new Cannon();
 		}
 		
 		public function get Visible(): Boolean{
@@ -180,7 +181,7 @@ package screens
 			
 		}
 		
-		private function EndLevel(){
+		protected function EndLevel(){
 			DestroyAllBullets(bullets);
 			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			this.dispatchEvent(new GameOverEvent(GameOverEvent.GAME_OVER, score, true));
