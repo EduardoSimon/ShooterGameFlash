@@ -1,6 +1,9 @@
 package screens 
 {
 	import events.GameOverEvent;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.URLRequest;
 	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
@@ -21,6 +24,8 @@ package screens
 		protected var enemies:Vector.<Enemy>;
 		protected var bullets:Vector.<Bullet>; 
 		protected var physics:Physics;
+		protected var track:Sound;
+		protected var channel:SoundChannel;
 
 		public static var CANNON:Cannon;
 
@@ -33,8 +38,16 @@ package screens
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
+			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 			
 			drawLevel();
+		}
+		
+		private function onRemovedFromStage(e:Event):void 
+		{
+			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
+			stage.removeEventListener(TouchEvent.TOUCH, onAddedToStage);
+			channel.stop();
 		}
 		
 		protected function OnEnterFrame(e:Event):void 
@@ -42,6 +55,8 @@ package screens
 			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 			MoveEntities(enemies, bullets);
 		}
+		
+		
 		
 		private function onTouch(e:TouchEvent):void 
 		{
@@ -59,6 +74,7 @@ package screens
 					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
 					bullets.push(bullet);
 					addChild(bullet);
+					channel = track.play();
 				}
 			}
 		}
@@ -108,6 +124,8 @@ package screens
 			bullets = new Vector.<Bullet>();
 			physics = new Physics();
 			CANNON = new Cannon();
+			track = new Sound(new URLRequest("../sound/laser.mp3"));
+			
 		}
 		
 		public function get Visible(): Boolean{

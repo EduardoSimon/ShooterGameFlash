@@ -34,6 +34,8 @@ package
 		[Embed(source = "../img/chooseLevel/level2.png")]
 		public static const Level2:Class;
 		
+		
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		public static function getTexture(name:String):Texture

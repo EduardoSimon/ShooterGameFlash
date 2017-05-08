@@ -1,7 +1,10 @@
 package main 
 {
-	
+	import flash.media.Sound;
+	import flash.net.URLRequest;
+	import flash.media.SoundChannel;
 	import screens.*;
+	import flash.media.Sound;
 	import screens.Welcome;
 	import events.NavigationEvent;
 	import starling.display.Sprite;
@@ -20,26 +23,24 @@ package main
 		private var screenLevel2:Level2;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
+		private var track:Sound;
+		private var channel:SoundChannel;
 		
 		public function Game() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
+			track = new Sound();
+			channel = new SoundChannel();
+			
+			track.load(new URLRequest("../media/levelSong.mp3"));	
 		}
 		
 		private function onAddedToStage(e:Event):void 
 		{
 			
 			this.addEventListener(events.NavigationEvent.CHANGE_SCREEN, onChangeScreen);
-
-			screenLevel1 = new Level();
-			screenLevel1.disposeTemporarily();
-			this.addChild(screenLevel1);
-			
-			screenLevel2 = new screens.Level2();
-			screenLevel2.disposeTemporarily();
-			this.addChild(screenLevel2);
 			
 			screenWelcome = new screens.Welcome();
 			this.addChild(screenWelcome);
@@ -53,6 +54,8 @@ package main
 			screenGameOver.disposeTemporarily();
 			this.addChild(screenGameOver);
 			
+			channel = track.play();
+			
 			
 			
 		}
@@ -65,6 +68,7 @@ package main
 					removeChild(screenLevel1);
 					screenLevel1 = new Level();
 					addChild(screenLevel1);
+					channel.stop();
 					break;
 					
 				case "level2":
