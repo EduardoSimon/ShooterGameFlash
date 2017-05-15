@@ -4,18 +4,16 @@ package screens
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.net.URLRequest;
-	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
-	import objects.Ball;
-	import objects.Enemy;
-	import objects.Bullet;
 	import starling.display.Sprite;
 	import starling.events.*;
-	import utils.Constants;
+	import utils.*;
 	import events.NavigationEvent;
+	import gameObjects.*;
+
 
 	public class Level extends Sprite
 	{
@@ -124,7 +122,7 @@ package screens
 			bullets = new Vector.<Bullet>();
 			physics = new Physics();
 			CANNON = new Cannon();
-			track = new Sound(new URLRequest("../sound/laser.mp3"));
+			track = new Sound(new URLRequest("../media/sound/laser.mp3"));
 			
 		}
 		
@@ -194,7 +192,8 @@ package screens
 			}
 		}
 		
-		protected function EndLevel():void{
+		protected function EndLevel():void
+		{
 			DestroyAllBullets(bullets);
 			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			this.dispatchEvent(new GameOverEvent(GameOverEvent.GAME_OVER, score, true));

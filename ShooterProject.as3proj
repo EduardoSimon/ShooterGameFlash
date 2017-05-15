@@ -16,8 +16,8 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="Starling-Framework-1.8\Starling-Framework-1.8\starling\src" />
-    <class path="Advanced_games_design\Advanced_games_design" />
+    <class path="libs\Advanced_games_design\Advanced_games_design" />
+    <class path="libs\Starling-Framework-1.8\Starling-Framework-1.8\starling\src" />
   </classpaths>
   <!-- Build options -->
   <build>

@@ -1,7 +1,7 @@
 package screens 
 {
 	import events.NavigationEvent;
-	import Assets;
+	import utils.*;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;

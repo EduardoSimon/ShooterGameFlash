@@ -10,7 +10,6 @@ package screens
 		public function Level3() 
 		{
 			super();
-			
 		}
 		
 	}

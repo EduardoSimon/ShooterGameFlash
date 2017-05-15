@@ -5,17 +5,14 @@ package screens
 	 * @author Marc
 	 */
 	
-	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
-	import objects.Ball;
-	import objects.Enemy;
-	import objects.Bullet;
+	import gameObjects.*;
 	import starling.display.Sprite;
 	import starling.events.*;
-	import utils.Constants;
+	import utils.*;
 	
 	public class Level2 extends Level 
 	{
@@ -32,7 +29,7 @@ package screens
 			
 			if (frozenEnemies == Constants.N_PROJECTILES) 
 			{
-				EndLevel();
+				super.EndLevel();
 				return;
 			}
 		}

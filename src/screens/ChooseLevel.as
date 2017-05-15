@@ -1,6 +1,6 @@
 package screens 
 {
-	import Assets;
+	import utils.*;
 	import com.adobe.tvsdk.mediacore.TextFormat;
 	import starling.display.Sprite;
 	import events.NavigationEvent;

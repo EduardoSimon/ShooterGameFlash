@@ -1,12 +1,10 @@
-package objects 
+package gameObjects 
 {
-	import Assets;
+	import utils.Assets;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
-	import starling.events.*;
-	import utils.Vector2D;
-	
+	import starling.events.*;	
 	/**
 	 * ...
 	 * @author EDUARDO SIMON
