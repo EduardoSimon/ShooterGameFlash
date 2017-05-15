@@ -1,6 +1,7 @@
 package main 
 {
 	import flash.media.Sound;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.media.SoundChannel;
 	import screens.*;
@@ -24,18 +25,23 @@ package main
 		private var screenLevel3:Level3;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
-		private var track:Sound;
-		private var channel:SoundChannel;
+		private var trackMain:Sound;
+		private var trackLevel:Sound;
+		private var channelMain:SoundChannel;
+		private var channelLevel:SoundChannel;
 		
 		public function Game() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
-			track = new Sound();
-			channel = new SoundChannel();
+			trackMain = new Sound();
+			channelMain = new SoundChannel();
 			
-			track.load(new URLRequest("../media/sound/levelSong.mp3"));	
+			trackLevel = new Sound();
+			channelLevel = new SoundChannel();
+			
+			trackMain.load(new URLRequest("../media/sound/levelSong.mp3"));
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -55,7 +61,7 @@ package main
 			screenGameOver.disposeTemporarily();
 			this.addChild(screenGameOver);
 			
-			channel = track.play();
+			channelMain = trackMain.play();
 
 		}
 		
@@ -64,25 +70,33 @@ package main
 			switch(e.params.id){
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
-
 					screenLevel1 = new Level1();
 					addChild(screenLevel1);
-					channel.stop();
+					channelMain.stop();
+					trackLevel.load(new URLRequest("../media/sound/level1.mp3"));
+					channelLevel = trackLevel.play();
 					break;
 					
 				case "level2":
 					screenChooseLevel.disposeTemporarily();
 					screenLevel2 = new Level2();
 					addChild(screenLevel2);
+					channelMain.stop();
+					trackLevel.load(new URLRequest("../media/sound/level2.mp3"));
+					channelLevel = trackLevel.play();
 					break;
 					
 				case "level3":
 					screenChooseLevel.disposeTemporarily();
 					screenLevel3 = new Level3();
 					addChild(screenLevel3);
+					channelMain.stop();
+					trackLevel.load(new URLRequest("../media/sound/level3.mp3"));
+					channelLevel = trackLevel.play();
 					break;
 					
 				case "chooseLevel":
+					
 					screenWelcome.disposeTemporarily();
 					screenChooseLevel.initialize();
 					break;
@@ -98,7 +112,9 @@ package main
 						removeChild(screenLevel3);
 					}
 					
+					
 					screenGameOver.initialize();
+					channelMain = trackMain.play();
 					break;
 			}
 		}
