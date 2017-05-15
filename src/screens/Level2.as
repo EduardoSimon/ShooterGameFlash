@@ -33,6 +33,7 @@ package screens
 			if (frozenEnemies == Constants.N_PROJECTILES) 
 			{
 				EndLevel();
+				return;
 			}
 		}
 		

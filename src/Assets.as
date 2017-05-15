@@ -34,6 +34,10 @@ package
 		[Embed(source = "../img/chooseLevel/level2.png")]
 		public static const Level2:Class;
 		
+		[Embed(source = "../img/chooseLevel/level3.png")]
+		public static const Level3:Class;
+		
+		
 		
 		
 		private static var gameTextures:Dictionary = new Dictionary();
