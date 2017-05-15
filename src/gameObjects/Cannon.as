@@ -19,47 +19,34 @@ package gameObjects
 		private var PLAYER_CENTER_X:Number;
 		private var PLAYER_CENTER_Y:Number;
 		
-		private var _mPlayerTexture:Texture;
-		private var _mPlayerImage:Image;
-		
-		
 		public function Cannon() 
 		{
-			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			
 		}
 		
-		public function CenterPlayerToStage():void
+
+		private function onAdded(e:Event):void
 		{
-			_mPlayerImage.x = 400;
-			_mPlayerImage.y = 300;
-			
-			posX = stage.stageWidth/2;
-			posY = stage.stageHeight/2;
-		}
-		
-		private function onAdded(e:Event):void{
 						
 			//starling sprite creation
 			
-			_mPlayerImage = new Image(Assets.getTexture("CannonBitmap"));
+			m_Image = new Image(Assets.getTexture("CannonBitmap"));
 			
-			PLAYER_CENTER_X = (_mPlayerImage.width / 2);
-			PLAYER_CENTER_Y = (_mPlayerImage.height / 2);
+			PLAYER_CENTER_X = (m_Image.width / 2);
+			PLAYER_CENTER_Y = (m_Image.height / 2);
 
-			_mPlayerImage.scale *= 0.6;
+			m_Image.scale *= 0.6;
 						
 			//display it on the stage
-			addChild(_mPlayerImage);
+			addChild(m_Image);
 			
 			SetPivotToCenter();
 						
 			stage.addEventListener(TouchEvent.TOUCH, onTouched);
 			
-			m_Radius = _mPlayerImage.width / 2;
+			m_Radius = m_Image.width / 2;
 			
-			m_Image.visible = false;
+			m_Image.visible = true;
 		}
 		
 		private function onTouched(e:TouchEvent):void
@@ -69,18 +56,28 @@ package gameObjects
 			{
 				if (touch.phase == TouchPhase.HOVER) 
 				{
-					var op:Number = _mPlayerImage.y - touch.globalY;
-					var cont:Number = _mPlayerImage.x - touch.globalX;
+					var op:Number = m_Image.y - touch.globalY;
+					var cont:Number = m_Image.x - touch.globalX;
 					var angleToRotate:Number = Math.atan2(op,cont);
-					_mPlayerImage.rotation = angleToRotate;
+					m_Image.rotation = angleToRotate;
 				}
 			}
 		}
 		
+		public function CenterPlayerToStage():void
+		{
+			m_Image.x = 400;
+			m_Image.y = 300;
+			
+			posX = stage.stageWidth/2;
+			posY = stage.stageHeight/2;
+		}
+		
+		
 		private function SetPivotToCenter():void
 		{
-			_mPlayerImage.pivotX = PLAYER_CENTER_X;
-			_mPlayerImage.pivotY = PLAYER_CENTER_Y;
+			m_Image.pivotX = PLAYER_CENTER_X;
+			m_Image.pivotY = PLAYER_CENTER_Y;
 		}
 		
 		private function degreesToRad(degrees:Number):Number

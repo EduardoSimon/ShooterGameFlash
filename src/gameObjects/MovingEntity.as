@@ -1,5 +1,6 @@
 package gameObjects
 {
+	import starling.display.Image;
 	import starling.display.Sprite;
 	/**
 	 * ...
@@ -68,7 +69,6 @@ package gameObjects
 			m_previousY = value - Vy;
 			posY = value;
 		}
-		
 		
 	}
 

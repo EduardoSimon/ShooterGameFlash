@@ -35,7 +35,7 @@ package main
 			track = new Sound();
 			channel = new SoundChannel();
 			
-			track.load(new URLRequest("../media/sound/levelSong.mp3"));	
+			track.load(new URLRequest("../sound/levelSong.mp3"));	
 		}
 		
 		private function onAddedToStage(e:Event):void 
