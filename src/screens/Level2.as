@@ -28,13 +28,12 @@ package screens
 		
 		protected override function OnEnterFrame(e:Event):void
 		{
+			super.OnEnterFrame(e);
+			
 			if (frozenEnemies == Constants.N_PROJECTILES) 
 			{
 				EndLevel();
 			}
-			
-			MoveEntities(enemies, bullets);
-			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 		}
 		
 		protected override function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 

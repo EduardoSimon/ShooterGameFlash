@@ -8,7 +8,7 @@
     <movie fps="30" />
     <movie width="800" />
     <movie height="600" />
-    <movie version="21" />
+    <movie version="23" />
     <movie minorVersion="0" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
@@ -17,6 +17,7 @@
   <classpaths>
     <class path="src" />
     <class path="Starling-Framework-1.8\Starling-Framework-1.8\starling\src" />
+    <class path="Advanced_games_design\Advanced_games_design" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -86,7 +87,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Default" />
+    <option testMovie="Unknown" />
     <option testMovieCommand="" />
   </options>
   <!-- Plugin storage -->
