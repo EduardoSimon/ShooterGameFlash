@@ -6,7 +6,6 @@ package utils
 	 */
 	public class Constants 
 	{
-		
 		public static const N_PROJECTILES:int = 10;
 		public static const PLAYER_X:Number = 400;
 		public static const PLAYER_Y:Number = 300;
