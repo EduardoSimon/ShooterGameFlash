@@ -115,8 +115,6 @@ package screens
 		
 
 		protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
-
-
 		{
 			//if there are balls
 			if (enemigos.length > 0)

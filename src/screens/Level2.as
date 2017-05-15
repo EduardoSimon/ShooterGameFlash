@@ -32,7 +32,6 @@ package screens
 			//if there are balls
 			if (pelotas.length > 0)
 			{
-	
 					for (var i:int = pelotas.length - 1; i >= 0 ; i--)
 					{
 							
@@ -43,7 +42,8 @@ package screens
 							physics.bounceWithBoundarie(pelotas[i]);
 						}
 					
-						if (!pelotas[i].Frozen){
+						if (!pelotas[i].Frozen)
+						{
 
 							//check for every other ball but without comparing them twice // j < i
 							for (var j:int = 0; j < i; j++)
@@ -56,7 +56,10 @@ package screens
 								
 								if (physics.AreBallsColliding(pelotas[i], pelotas[j]))
 								{
-									physics.BounceBetweenBalls(pelotas[i], pelotas[j]);
+									if (!pelotas[i].Frozen && !pelotas[j].Frozen) 
+									{
+										physics.BounceBetweenBalls(pelotas[i], pelotas[j]);
+									}
 								}		
 							}
 							
@@ -69,15 +72,19 @@ package screens
 						{
 							if (physics.AreBallsColliding(bullets[k],pelotas[i]))
 							{
-								if (!pelotas[i].Frozen){
+								if (!pelotas[i].Frozen)
+								{
 									pelotas[i].Frozen = true;
+									pelotas[i].m_Image.alpha = 0.1;
 									pelotas[i].Vx = 0;
 									pelotas[i].Vy = 0;
 								}
-								else {
+								else 
+								{
 									pelotas[i].Frozen = false;
-									pelotas[i].Vx = Constants.SPEED;
-									pelotas[i].Vy = Constants.SPEED;
+									pelotas[i].m_Image.alpha = 1;
+									pelotas[i].Vx = Constants.SPEED * Math.cos(Math.random());
+									pelotas[i].Vy = Constants.SPEED * Math.sin(Math.random());
 								}
 								
 								//TODO add score, this should be done on level class
@@ -91,7 +98,6 @@ package screens
 								removeChild(bullets[k].removeChild(bullets[k].m_Image));
 								bullets.removeAt(k);
 								
-								return;
 							}
 						}
 						
