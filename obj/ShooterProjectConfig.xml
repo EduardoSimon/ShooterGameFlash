@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'08/05/2017'</value>
+      <value>'15/05/2017'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -32,14 +32,14 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\JuegosWeb\ShooterProject\ShooterGameJuegosWeb\src</path-element>
-      <path-element>D:\JuegosWeb\ShooterProject\ShooterGameJuegosWeb\Starling-Framework-1.8\Starling-Framework-1.8\starling\src</path-element>
-      <path-element>D:\Descargas\Advanced_games_design\Advanced_games_design</path-element>
+      <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\src</path-element>
+      <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\Starling-Framework-1.8\Starling-Framework-1.8\starling\src</path-element>
+      <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\Advanced_games_design\Advanced_games_design</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>D:\JuegosWeb\ShooterProject\ShooterGameJuegosWeb\src\main\Main.as</path-element>
+    <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\src\main\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

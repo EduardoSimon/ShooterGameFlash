@@ -65,7 +65,6 @@ package main
 			switch(e.params.id){
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
-					removeChild(screenLevel1);
 					screenLevel1 = new Level();
 					addChild(screenLevel1);
 					channel.stop();
@@ -73,7 +72,6 @@ package main
 					
 				case "level2":
 					screenChooseLevel.disposeTemporarily();
-					removeChild(screenLevel2);
 					screenLevel2 = new Level2();
 					addChild(screenLevel2);
 					break;
@@ -84,11 +82,11 @@ package main
 					break;
 					
 				case "gameOver":
-					if(screenLevel1.Visible){
-						screenLevel1.disposeTemporarily();
+					if(screenLevel1 != null){
+						removeChild(screenLevel1);
 					}
-					else if (screenLevel2.Visible){
-						screenLevel2.disposeTemporarily();
+					else if (screenLevel2 != null){
+						removeChild(screenLevel2);
 					}
 					screenGameOver.initialize();
 					break;
