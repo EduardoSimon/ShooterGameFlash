@@ -21,6 +21,7 @@ package main
 		private var screenWelcome:Welcome;
 		private var screenLevel1:Level;
 		private var screenLevel2:Level2;
+		private var screenLevel3:Level3;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
 		private var track:Sound;
@@ -55,9 +56,7 @@ package main
 			this.addChild(screenGameOver);
 			
 			channel = track.play();
-			
-			
-			
+					
 		}
 		
 		private function onChangeScreen(e:events.NavigationEvent):void 
@@ -76,6 +75,12 @@ package main
 					addChild(screenLevel2);
 					break;
 					
+				case "level3":
+					screenChooseLevel.disposeTemporarily();
+					screenLevel3 = new Level3();
+					addChild(screenLevel3);
+					break;
+					
 				case "chooseLevel":
 					screenWelcome.disposeTemporarily();
 					screenChooseLevel.initialize();
@@ -88,6 +93,10 @@ package main
 					else if (screenLevel2 != null){
 						removeChild(screenLevel2);
 					}
+					else if (screenLevel3 != null){
+						removeChild(screenLevel3);
+					}
+					
 					screenGameOver.initialize();
 					break;
 			}
