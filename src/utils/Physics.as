@@ -1,13 +1,10 @@
-package 
+package utils
 {
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
-	import main.Cannon;
-	import objects.Ball;
-	import objects.Bullet;
-	import objects.Enemy;
+	import gameObjects.*;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import screens.*;

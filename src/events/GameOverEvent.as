@@ -1,6 +1,7 @@
 package events 
 {
 	import starling.events.Event;
+	import gameObjects.Score;
 	
 	/**
 	 * ...

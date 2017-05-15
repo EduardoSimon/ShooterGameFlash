@@ -1,7 +1,7 @@
-package main 
+package gameObjects 
 {
-	import Assets;
-	import objects.Ball;
+	import utils.Assets;
+	import gameObjects.Ball;
 	import screens.Level;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;

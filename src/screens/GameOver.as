@@ -2,7 +2,8 @@ package screens
 {
 	import flash.text.TextField;
 	import starling.display.Sprite;
-	import Assets;
+	import utils.*;
+	import gameObjects.*;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.events.Event;

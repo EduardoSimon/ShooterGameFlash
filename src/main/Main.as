@@ -1,7 +1,6 @@
 package main
 {
 	import main.Game;
-	import objects.Ball;
 	import screens.ChooseLevel;
 	import screens.Level;
 	import screens.Welcome;

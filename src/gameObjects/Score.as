@@ -1,4 +1,4 @@
-package 
+package gameObjects
 {
 	import starling.display.Sprite;
 	import starling.text.TextField;

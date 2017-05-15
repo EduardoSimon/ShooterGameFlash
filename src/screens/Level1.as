@@ -3,18 +3,15 @@ package screens
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.net.URLRequest;
-	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import mx.core.SoundAsset;
-	import objects.Ball;
-	import objects.Enemy;
-	import objects.Bullet;
+	import gameObjects.*;
 	import starling.display.Sprite;
 	import starling.events.*;
-	import utils.Constants;
+	import utils.*;
 
 	public class Level1 extends Level
 	{
