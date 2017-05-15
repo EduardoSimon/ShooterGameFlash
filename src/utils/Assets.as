@@ -20,7 +20,10 @@ package utils
 		public static const WelcomePlayBtn:Class;
 		
 		[Embed(source="/../media/img/level/ball_red.png")]
-		public static const BallBitmap:Class;
+		public static const BallBitmapEnemy:Class;
+		
+		[Embed(source="../../media/img/level/ball_blue.png")]
+		public static const BallBitmapBullet:Class;
 		
 		[Embed(source = "/../media/img/level/cannon.png")]
 		public static const CannonBitmap:Class;
