@@ -34,7 +34,7 @@ package main
 			track = new Sound();
 			channel = new SoundChannel();
 			
-			track.load(new URLRequest("../media/levelSong.mp3"));	
+			track.load(new URLRequest("../sound/levelSong.mp3"));	
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -55,9 +55,6 @@ package main
 			this.addChild(screenGameOver);
 			
 			channel = track.play();
-			
-			
-			
 		}
 		
 		private function onChangeScreen(e:events.NavigationEvent):void 
@@ -66,7 +63,7 @@ package main
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
 					removeChild(screenLevel1);
-					screenLevel1 = new Level();
+					screenLevel1 = new Level1();
 					addChild(screenLevel1);
 					channel.stop();
 					break;

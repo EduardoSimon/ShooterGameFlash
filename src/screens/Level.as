@@ -20,7 +20,7 @@ package screens
 	public class Level extends Sprite
 	{
 
-		public var score:Score;
+		protected var score:Score;
 		protected var enemies:Vector.<Enemy>;
 		protected var bullets:Vector.<Bullet>; 
 		protected var physics:Physics;
@@ -43,7 +43,7 @@ package screens
 			drawLevel();
 		}
 		
-		private function onRemovedFromStage(e:Event):void 
+		protected function onRemovedFromStage(e:Event):void 
 		{
 			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 			stage.removeEventListener(TouchEvent.TOUCH, onAddedToStage);
@@ -58,7 +58,7 @@ package screens
 		
 		
 		
-		private function onTouch(e:TouchEvent):void 
+		protected function onTouch(e:TouchEvent):void 
 		{
 			var touch:Touch = e.getTouch(stage);
 			if (touch)
@@ -114,7 +114,7 @@ package screens
 			this.visible = false;
 		}
 		
-		public function initialize():void
+		protected function initialize():void
 		{
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
@@ -192,14 +192,9 @@ package screens
 				MoveBullets(bullets);
 				CheckCollisionWithPlayer(enemigos);
 			}
-			else
-			{
-				EndLevel();
-			}
-			
 		}
 		
-		protected function EndLevel(){
+		protected function EndLevel():void{
 			DestroyAllBullets(bullets);
 			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
 			this.dispatchEvent(new GameOverEvent(GameOverEvent.GAME_OVER, score, true));
@@ -229,7 +224,7 @@ package screens
 			}
 		}
 		
-		private function CheckCollisionWithPlayer(balls:Vector.<Enemy>):void
+		protected function CheckCollisionWithPlayer(balls:Vector.<Enemy>):void
 		{
 			for (var i:int = balls.length - 1; i >= 0; i--) 
 			{
@@ -241,7 +236,7 @@ package screens
 			}
 		}
 		
-		private function DestroyAllBullets(bullets:Vector.<Bullet>):void
+		protected function DestroyAllBullets(bullets:Vector.<Bullet>):void
 		{
 			for (var i:int = 0; i < bullets.length; i++) 
 			{

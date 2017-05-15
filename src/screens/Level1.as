@@ -16,109 +16,27 @@ package screens
 	import starling.events.*;
 	import utils.Constants;
 
-	public class Level1 extends Sprite
+	public class Level1 extends Level
 	{
-
-		protected var score:Score;
-		protected var enemies:Vector.<Enemy>;
-		protected var bullets:Vector.<Bullet>; 
-		protected var physics:Physics;
-		private var track:Sound;
-		private var channel:SoundChannel;
+		protected var enemyHits:int;
 		
-		public static var CANNON:Cannon;
-
 		public function Level1() 
 		{
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+			super();
+		}
 
-			score = new Score(5000, 10, 10, 100, 30, 2);
-			enemies = new Vector.<Enemy>();
-			bullets = new Vector.<Bullet>();
-			physics = new Physics();
-			CANNON = new Cannon();
+		override protected function OnEnterFrame(e:Event):void 
+		{
+			super.OnEnterFrame(e);
 			
-
-		}
-		
-		private function onAddedToStage(e:Event):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			stage.addEventListener(TouchEvent.TOUCH, onTouch);
-			
-			drawLevel();
-
-		}
-		
-		private function OnEnterFrame(e:Event):void 
-		{
-			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
-			MoveEntities(enemies, bullets);
-		}
-		
-		private function onTouch(e:TouchEvent):void 
-		{
-			var touch:Touch = e.getTouch(stage);
-			if (touch)
+			if (enemyHits == Constants.N_PROJECTILES) 
 			{
-				if (touch.phase == TouchPhase.BEGAN)
-				{
-					//calculate the angel which we will use to determine the speed in x and y
-					var angle:Number = Math.atan2(touch.globalY - Constants.PLAYER_Y, touch.globalX -  Constants.PLAYER_X);
-					
-					//push to the vector and add to the display list
-					var bullet:Bullet = new Bullet(angle, Constants.SPEED);
-					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 40);
-					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
-					bullets.push(bullet);
-					addChild(bullet);	
-
-				}
+				super.EndLevel();
+				return;
 			}
 		}
-				
-		private function drawLevel():void
-		{
-			
-			//create and display the enemies
-			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
-			{
-				var randomAngle:Number = Math.random() * (2 * Math.PI);
-				
-				var temp:Enemy = new Enemy(randomAngle, 5);
-				
-				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
-				temp.x = temp.posX;
-				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
-				temp.y = temp.posY;
-				
-				enemies.push(temp);
-				
-				addChild(temp);
-			}
-			
-			//show the score
-			addChild(score);
-			addChild(physics);
-			
-			//set the cannon in its correct position
-			addChild(CANNON);
-			CANNON.CenterPlayerToStage();
-			CANNON.SetX = Constants.PLAYER_X;
-			CANNON.SetY = Constants.PLAYER_Y;
-		}
 		
-		public function disposeTemporarily():void{
-			this.visible = false;
-		}
-		
-		public function initialize():void{
-			this.visible = true;
-		}
-		
-
-		protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
+		override protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
 			//if there are balls
 			if (enemigos.length > 0)
@@ -163,6 +81,9 @@ package screens
 							removeChild(bullets[k].removeChild(bullets[k].m_Image));
 							bullets.removeAt(k);
 							
+							//we add a hit to our enemyHits count
+							enemyHits += 1;
+							
 
 							//this return is preventing the access of an invalid i index
 							return;
@@ -175,65 +96,9 @@ package screens
 				}
 				
 				MoveBullets(bullets);
-				CheckCollisionWithPlayer(enemigos);
-			}
-			else
-			{
-				DestroyAllBullets(bullets);
-				ShowLevelEndScore(); // TODO
-			}
-			
-		}
-		
-		protected function MoveBullets(bullets:Vector.<Bullet>):void
-		{
-			if (bullets.length > 0) 
-			{
-				for (var i:int = bullets.length - 1; i >= 0; i-- ) 
-				{
-					if (!physics.TestBoundaries(bullets[i])) 
-					{
-						bullets[i].update();
-						bullets[i].x = bullets[i].posX;
-						bullets[i].y = bullets[i].posY;
-					}
-					else
-					{
-						
-						removeChild(bullets[i].removeChild(bullets[i].m_Image));
-						bullets.removeAt(i);
-						
-					}
-				}
+				super.CheckCollisionWithPlayer(enemigos);
 			}
 		}
-		
-		private function CheckCollisionWithPlayer(balls:Vector.<Enemy>):void
-		{
-			for (var i:int = balls.length - 1; i >= 0; i--) 
-			{
-				//Test if they collide with the player
-				if (physics.AreBallsColliding(balls[i], CANNON))
-				{
-					physics.bounceWithPlayer(balls[i],CANNON);
-				}
-			}
-		}
-		
-		private function DestroyAllBullets(bullets:Vector.<Bullet>):void
-		{
-			for (var i:int = 0; i < bullets.length; i++) 
-			{
-				removeChild(bullets[i].removeChild(bullets[i].m_Image));
-				bullets.removeAt(i);
-			}
-		}
-		
-		private function ShowLevelEndScore():void
-		{
-			//TODO
-		}
-		
 	}
 
 }
