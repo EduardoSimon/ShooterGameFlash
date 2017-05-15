@@ -2,7 +2,7 @@ package main
 {
 	import Assets;
 	import objects.Ball;
-	import screens.Level1;
+	import screens.Level;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 	import starling.display.Image;

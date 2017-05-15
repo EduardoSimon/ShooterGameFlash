@@ -1,27 +1,31 @@
 package screens 
 {
-	import events.GameOverEvent;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.URLRequest;
 	import main.Cannon;
 	import com.friendsofed.vector.*;
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import mx.core.SoundAsset;
 	import objects.Ball;
 	import objects.Enemy;
 	import objects.Bullet;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.Constants;
-	import events.NavigationEvent;
 
 	public class Level1 extends Sprite
 	{
 
-		public var score:Score;
+		protected var score:Score;
 		protected var enemies:Vector.<Enemy>;
 		protected var bullets:Vector.<Bullet>; 
 		protected var physics:Physics;
-
+		private var track:Sound;
+		private var channel:SoundChannel;
+		
 		public static var CANNON:Cannon;
 
 		public function Level1() 
@@ -34,6 +38,8 @@ package screens
 			bullets = new Vector.<Bullet>();
 			physics = new Physics();
 			CANNON = new Cannon();
+			
+
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -42,6 +48,7 @@ package screens
 			stage.addEventListener(TouchEvent.TOUCH, onTouch);
 			
 			drawLevel();
+
 		}
 		
 		private function OnEnterFrame(e:Event):void 
@@ -65,7 +72,8 @@ package screens
 					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 40);
 					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
 					bullets.push(bullet);
-					addChild(bullet);
+					addChild(bullet);	
+
 				}
 			}
 		}
@@ -107,10 +115,6 @@ package screens
 		
 		public function initialize():void{
 			this.visible = true;
-		}
-		
-		public function get Visible(): Boolean{
-			return this.visible;
 		}
 		
 
@@ -175,16 +179,10 @@ package screens
 			}
 			else
 			{
-				EndLevel();
+				DestroyAllBullets(bullets);
+				ShowLevelEndScore(); // TODO
 			}
 			
-		}
-		
-		private function EndLevel(){
-			DestroyAllBullets(bullets);
-			removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
-			this.dispatchEvent(new GameOverEvent(GameOverEvent.GAME_OVER, score, true));
-			this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "gameOver"}, true));
 		}
 		
 		protected function MoveBullets(bullets:Vector.<Bullet>):void
@@ -229,6 +227,11 @@ package screens
 				removeChild(bullets[i].removeChild(bullets[i].m_Image));
 				bullets.removeAt(i);
 			}
+		}
+		
+		private function ShowLevelEndScore():void
+		{
+			//TODO
 		}
 		
 	}

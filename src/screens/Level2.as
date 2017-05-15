@@ -17,15 +17,25 @@ package screens
 	import starling.events.*;
 	import utils.Constants;
 	
-	public class Level2 extends Level1 
+	public class Level2 extends Level 
 	{
+		private var frozenEnemies:int = 0;
 		
 		public function Level2() 
 		{
 			super();
-			
 		}
 		
+		protected override function OnEnterFrame(e:Event):void
+		{
+			if (frozenEnemies == Constants.N_PROJECTILES) 
+			{
+				EndLevel();
+			}
+			
+			MoveEntities(enemies, bullets);
+			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
+		}
 		
 		protected override function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
@@ -74,6 +84,7 @@ package screens
 							{
 								if (!pelotas[i].Frozen)
 								{
+									frozenEnemies += 1;
 									pelotas[i].Frozen = true;
 									pelotas[i].m_Image.alpha = 0.1;
 									pelotas[i].Vx = 0;
@@ -81,6 +92,7 @@ package screens
 								}
 								else 
 								{
+									frozenEnemies -= 1;
 									pelotas[i].Frozen = false;
 									pelotas[i].m_Image.alpha = 1;
 									pelotas[i].Vx = Constants.SPEED * Math.cos(Math.random());
