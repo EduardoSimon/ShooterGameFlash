@@ -18,6 +18,7 @@
     <class path="src" />
     <class path="libs\Advanced_games_design\Advanced_games_design" />
     <class path="libs\Starling-Framework-1.8\Starling-Framework-1.8\starling\src" />
+    <class path="libs\GreenSock-AS3\GreenSock-AS3" />
   </classpaths>
   <!-- Build options -->
   <build>
