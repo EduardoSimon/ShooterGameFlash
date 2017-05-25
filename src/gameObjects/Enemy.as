@@ -23,7 +23,7 @@ package gameObjects
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, OnAddedToStage);
 			
-			m_Image = new Image(Assets.getTexture("BallBitmapEnemy"));
+			m_Image = new Image(Assets.getAtlas().getTexture("ball_red"));
 			
 			this.addChild(m_Image);
 					

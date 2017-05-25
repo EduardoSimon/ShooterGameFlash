@@ -33,26 +33,23 @@ package screens
 		
 		private function drawScreen():void 
 		{
-			btnPlayLevel1 = new Button(Assets.getTexture("Level1"));
+			btnPlayLevel1 = new Button(Assets.getAtlas().getTexture("level1"));
 			btnPlayLevel1.scale = .3;
 			btnPlayLevel1.x = 200 - btnPlayLevel1.width / 2;
 			btnPlayLevel1.y = 300 - btnPlayLevel1.height / 2;
 			this.addChild(btnPlayLevel1);
-
-			
-			btnPlayLevel2 = new Button(Assets.getTexture("Level2"));
+		
+			btnPlayLevel2 = new Button(Assets.getAtlas().getTexture("level2"));
 			btnPlayLevel2.scale = .3;
 			btnPlayLevel2.x = 400 - btnPlayLevel2.width / 2;
 			btnPlayLevel2.y = 300 - btnPlayLevel2.height / 2;
 			this.addChild(btnPlayLevel2);
 			
-			btnPlayLevel3 = new Button(Assets.getTexture("Level3"));
+			btnPlayLevel3 = new Button(Assets.getAtlas().getTexture("level3"));
 			btnPlayLevel3.scale = .3;
 			btnPlayLevel3.x = 600 - btnPlayLevel3.width / 2;
 			btnPlayLevel3.y = 300 - btnPlayLevel3.height / 2;
 			this.addChild(btnPlayLevel3);
-			
-			
 			
 			addEventListener(Event.TRIGGERED, onChooseLevelButtonClick);
 
@@ -72,12 +69,8 @@ package screens
 			
 			if((buttonClicked as Button) == btnPlayLevel3){
 				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "level3"}, true));
-			}
-			
-			
+			}			
 		}
-		
-		
 		
 		public function disposeTemporarily():void{
 			this.visible = false;

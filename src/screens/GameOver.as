@@ -56,7 +56,7 @@ package screens
 		
 		private function drawScreen():void 
 		{	
-			backToMenu = new Button(Assets.getTexture("WelcomePlayBtn"));
+			backToMenu = new Button(Assets.getAtlas().getTexture("welcome_playButton"));
 			backToMenu.x = 500;
 			backToMenu.y = 360;
 			this.addChild(backToMenu);
