@@ -26,7 +26,7 @@ package gameObjects
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, OnAddedToStage);
 			
-			m_Image = new Image(Assets.getAtlas().getTexture("ball_blue"));
+			m_Image = new Image(Assets.getTexture("BallBitmapBullet"));
 			
 			this.addChild(m_Image);
 					

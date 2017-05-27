@@ -71,8 +71,8 @@ package main
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
 					screenLevel1 = new Level1();
-					channelMain.stop();
 					addChild(screenLevel1);
+					channelMain.stop();
 					trackLevel.load(new URLRequest("../media/sound/level1.mp3"));
 					channelLevel = trackLevel.play();
 					break;
@@ -80,8 +80,8 @@ package main
 				case "level2":
 					screenChooseLevel.disposeTemporarily();
 					screenLevel2 = new Level2();
-					channelMain.stop();
 					addChild(screenLevel2);
+					channelMain.stop();
 					trackLevel.load(new URLRequest("../media/sound/level2.mp3"));
 					channelLevel = trackLevel.play();
 					break;
@@ -89,8 +89,8 @@ package main
 				case "level3":
 					screenChooseLevel.disposeTemporarily();
 					screenLevel3 = new Level3();
-					channelMain.stop();
 					addChild(screenLevel3);
+					channelMain.stop();
 					trackLevel.load(new URLRequest("../media/sound/level3.mp3"));
 					channelLevel = trackLevel.play();
 					break;
@@ -113,8 +113,7 @@ package main
 					}
 					
 					
-					screenGameOver.initialize();						
-					channelLevel.stop();
+					screenGameOver.initialize();
 					channelMain = trackMain.play();
 					break;
 			}

@@ -30,7 +30,7 @@ package gameObjects
 						
 			//starling sprite creation
 			
-			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
+			m_Image = new Image(Assets.getTexture("CannonBitmap"));
 			
 			PLAYER_CENTER_X = (m_Image.width / 2);
 			PLAYER_CENTER_Y = (m_Image.height / 2);

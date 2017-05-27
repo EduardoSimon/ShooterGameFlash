@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'26/05/2017'</value>
+      <value>'15/05/2017'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -35,7 +35,6 @@
       <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\src</path-element>
       <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\libs\Advanced_games_design\Advanced_games_design</path-element>
       <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\libs\Starling-Framework-1.8\Starling-Framework-1.8\starling\src</path-element>
-      <path-element>C:\Users\Marc\Documents\GitHub\ShooterGameJuegosWeb\libs\GreenSock-AS3\GreenSock-AS3</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
