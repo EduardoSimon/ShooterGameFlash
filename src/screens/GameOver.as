@@ -1,6 +1,7 @@
 package screens 
 {
 	import flash.text.TextField;
+	import main.Game;
 	import starling.display.Sprite;
 	import utils.*;
 	import gameObjects.*;
@@ -35,7 +36,12 @@ package screens
 		private function onGameOver(e:GameOverEvent):void 
 		{
 			score = e.score;
+			Game.totalScore += score.ScoreInt;
+			score.SetScoreInt(Game.totalScore);
 			addChild(score);
+			score.x = 100;
+			score.y = 100;
+			score.scale = 1.5;
 			drawScreen();
 			
 			this.addEventListener(Event.TRIGGERED, onBackToMenuClick);

@@ -6,6 +6,7 @@ package main
 	import flash.media.SoundChannel;
 	import screens.*;
 	import flash.media.Sound;
+	import gameObjects.Score;
 	import screens.Welcome;
 	import events.NavigationEvent;
 	import starling.display.Sprite;
@@ -18,6 +19,7 @@ package main
 	 */
 	public class Game extends Sprite 
 	{
+		public static var totalScore:Number;
 		
 		private var screenWelcome:Welcome;
 		private var screenLevel1:Level;
@@ -25,30 +27,34 @@ package main
 		private var screenLevel3:Level3;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
-		private var trackMain:Sound;
-		private var trackLevel:Sound;
 		private var channelMain:SoundChannel;
 		private var channelLevel:SoundChannel;
+		private var ChooseLevelSong:Sound;
+		private var Level1Song:Sound;
+		private var Level2Song:Sound;
+		private var Level3Song:Sound;
 		
 		public function Game() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
-			trackMain = new Sound();
 			channelMain = new SoundChannel();
-			
-			trackLevel = new Sound();
 			channelLevel = new SoundChannel();
 			
-			trackMain.load(new URLRequest("../media/sound/levelSong.mp3"));
+			ChooseLevelSong = new Sound(new URLRequest("../media/sound/levelSong.mp3"));
+			Level1Song = new Sound(new URLRequest("../media/sound/level1.mp3"));
+			Level2Song = new Sound(new URLRequest("../media/sound/level2.mp3"));
+			Level3Song = new Sound(new URLRequest("../media/sound/level3.mp3"));
+			
+			totalScore = 0;
 		}
 		
 		private function onAddedToStage(e:Event):void 
 		{
 			
 			this.addEventListener(events.NavigationEvent.CHANGE_SCREEN, onChangeScreen);
-			
+
 			screenWelcome = new screens.Welcome();
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
@@ -61,8 +67,7 @@ package main
 			screenGameOver.disposeTemporarily();
 			this.addChild(screenGameOver);
 			
-			channelMain = trackMain.play();
-
+			channelMain = ChooseLevelSong.play();
 		}
 		
 		private function onChangeScreen(e:events.NavigationEvent):void 
@@ -73,8 +78,7 @@ package main
 					screenLevel1 = new Level1();
 					addChild(screenLevel1);
 					channelMain.stop();
-					trackLevel.load(new URLRequest("../media/sound/level1.mp3"));
-					channelLevel = trackLevel.play();
+					channelLevel = Level1Song.play();
 					break;
 					
 				case "level2":
@@ -82,8 +86,7 @@ package main
 					screenLevel2 = new Level2();
 					addChild(screenLevel2);
 					channelMain.stop();
-					trackLevel.load(new URLRequest("../media/sound/level2.mp3"));
-					channelLevel = trackLevel.play();
+					channelLevel = Level2Song.play();
 					break;
 					
 				case "level3":
@@ -91,12 +94,10 @@ package main
 					screenLevel3 = new Level3();
 					addChild(screenLevel3);
 					channelMain.stop();
-					trackLevel.load(new URLRequest("../media/sound/level3.mp3"));
-					channelLevel = trackLevel.play();
+					channelLevel = Level3Song.play();
 					break;
 					
 				case "chooseLevel":
-					
 					screenWelcome.disposeTemporarily();
 					screenChooseLevel.initialize();
 					break;
@@ -111,10 +112,9 @@ package main
 					if (screenLevel3 != null){
 						removeChild(screenLevel3);
 					}
-					
-					
+					channelLevel.stop();
 					screenGameOver.initialize();
-					channelMain = trackMain.play();
+					channelMain = ChooseLevelSong.play();
 					break;
 			}
 		}

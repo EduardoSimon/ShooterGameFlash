@@ -10,6 +10,9 @@ package screens
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import gameObjects.*;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.*;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.*;
@@ -17,10 +20,18 @@ package screens
 	public class Level2 extends Level 
 	{
 		private var frozenEnemies:int = 0;
+		private var soundsChannel:SoundChannel;
+		private var freezeTrack:Sound;
+		private var unfreezeTrack:Sound;
 		
 		public function Level2() 
 		{
 			super();
+			
+			soundsChannel = new SoundChannel();
+			//TODO: cambiar por las pistas que tocan
+			freezeTrack = new Sound(new URLRequest("../media/sound/laser.mp3"));
+			unfreezeTrack = new Sound(new URLRequest("../media/sound/laser.mp3"));
 		}
 		
 		protected override function OnEnterFrame(e:Event):void
@@ -81,6 +92,7 @@ package screens
 							{
 								if (!pelotas[i].Frozen)
 								{
+									soundsChannel = freezeTrack.play();
 									frozenEnemies += 1;
 									pelotas[i].Frozen = true;
 									pelotas[i].m_Image.alpha = 0.1;
@@ -89,6 +101,7 @@ package screens
 								}
 								else 
 								{
+									soundsChannel = unfreezeTrack.play();
 									frozenEnemies -= 1;
 									pelotas[i].Frozen = false;
 									pelotas[i].m_Image.alpha = 1;
