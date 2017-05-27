@@ -8,6 +8,7 @@ package screens
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import main.Game;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.*;
@@ -24,7 +25,7 @@ package screens
 		protected var physics:Physics;
 		protected var track:Sound;
 		protected var channel:SoundChannel;
-
+		protected var gameIstance:Game;
 		public static var CANNON:Cannon;
 
 		public function Level() 
@@ -123,7 +124,7 @@ package screens
 			physics = new Physics();
 			CANNON = new Cannon();
 			track = new Sound(new URLRequest("../media/sound/laser.mp3"));
-			
+
 		}
 		
 		public function get Visible(): Boolean{

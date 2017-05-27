@@ -56,6 +56,12 @@ package gameObjects
 			return this.scoreInt;
 		}
 		
+		public function  SetScoreInt(value:int):void
+		{
+			scoreInt = value;
+			score.text = scoreInt.toString();
+		}
+		
 	}
 
 }

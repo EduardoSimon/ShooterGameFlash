@@ -2,6 +2,7 @@ package screens
 {
 	import utils.*;
 	import com.adobe.tvsdk.mediacore.TextFormat;
+	import main.Game;
 	import starling.display.Sprite;
 	import events.NavigationEvent;
 	import starling.display.Button;
@@ -19,11 +20,13 @@ package screens
 		private var btnPlayLevel1:Button;
 		private var btnPlayLevel2:Button;
 		private var btnPlayLevel3:Button;
+		private var gameInstace:Game;
 		
 		public function ChooseLevel() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			gameInstace = new Game();
 		}
 		
 		private function onAddedToStage(e:Event):void 
@@ -73,14 +76,11 @@ package screens
 			if((buttonClicked as Button) == btnPlayLevel3){
 				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "level3"}, true));
 			}
-			
-			
 		}
-		
-		
 		
 		public function disposeTemporarily():void{
 			this.visible = false;
+			//removeChild(gameInstace.totalScore);
 		}
 		
 		public function initialize():void{
