@@ -27,6 +27,8 @@ package main
 		private var screenLevel3:Level3;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
+		
+		
 		private var channelMain:SoundChannel;
 		private var channelLevel:SoundChannel;
 		private var ChooseLevelSong:Sound;

@@ -30,8 +30,8 @@ package screens
 			
 			soundsChannel = new SoundChannel();
 			//TODO: cambiar por las pistas que tocan
-			freezeTrack = new Sound(new URLRequest("../media/sound/laser.mp3"));
-			unfreezeTrack = new Sound(new URLRequest("../media/sound/laser.mp3"));
+			freezeTrack = new Sound(new URLRequest("../media/sound/fx_freeze.mp3"));
+			unfreezeTrack = new Sound(new URLRequest("../media/sound/fx_unfreeze.mp3"));
 		}
 		
 		protected override function OnEnterFrame(e:Event):void

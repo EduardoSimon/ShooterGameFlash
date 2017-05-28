@@ -12,12 +12,7 @@ package gameObjects
 		
 		public function Bullet(angle:Number=0, speed:Number=20, radius:Number=0) 
 		{
-			m_Speed = speed;
-			
-			this.posX = speed * Math.cos(angle);
-			this.posY = speed * Math.sin(angle);
-			
-			m_Radius = radius;
+			super(angle,speed,radius);
 			
 			addEventListener(Event.ADDED_TO_STAGE, OnAddedToStage);
 		}
