@@ -7,11 +7,7 @@ package utils
 
 	public class Assets 
 	{
-		
-		[Embed(source = "/../media/img/welcomeScreen/bgWelcome.jpg")]
-		public static const BgWelcome:Class;
-		
-<<<<<<< HEAD
+
 		[Embed(source = "/../media/img/welcomeScreen/welcome_title.png")]
 		public static const WelcomeTitle:Class;
 		
@@ -46,41 +42,32 @@ package utils
 		public static const ShieldAtlasXML:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary(); 
+		private static var shieldTextureAtlas:TextureAtlas;
 		private static var gameTextureAtlas:TextureAtlas;
 		
-		public static function getAtlas():TextureAtlas
+		public static function getAtlasShield():TextureAtlas
 		{
-			if (gameTextureAtlas == null)
+			if (shieldTextureAtlas == null)
 
 			{
-
 				var texture:Texture = getTexture("ShieldAtlas");
 
 				var xml:XML = XML(new ShieldAtlasXML());
 
-				gameTextureAtlas=new TextureAtlas(texture, xml);
+				shieldTextureAtlas=new TextureAtlas(texture, xml);
 
 			}
 
-			return gameTextureAtlas;
+			return shieldTextureAtlas;
 
 		}
-=======
+
 		[Embed(source="/../media/img/mySpritesheet.png")]
 		public static const AtlasTextureGame:Class;
 		
 		[Embed(source="/../media/img/mySpritesheet.xml", mimeType="application/octet-stream")]
 		public static const AtlasXmlGame:Class;
-		
-		
-		private static var gameTextures:Dictionary = new Dictionary();
-		private static var gameTextureAtlas:TextureAtlas;
-		
-		/**
-		 * Returns the Texture atlas instance.
-		 * @return the TextureAtlas instance (there is only oneinstance per app)
-		 */
->>>>>>> origin/master
+
 		
 		public static function getAtlas():TextureAtlas
 		{

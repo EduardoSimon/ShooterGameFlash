@@ -29,7 +29,7 @@ package gameObjects
 		private var shieldMovieClip:MovieClip;
 		private var shieldSoundChannel:SoundChannel;
 		private var shieldTrack:Sound;
-		private var m_Image_shade:Image;
+		private var m_ImageShade:Image;
 
 		
 		public function Cannon() 
@@ -53,22 +53,22 @@ package gameObjects
 						
 			//starling sprite creation
 
-			m_Image = new Image(Assets.getTexture("CannonBitmap"));
+			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
 			shieldMovieClip = new MovieClip(Assets.getAtlasShield().getTextures("shield_"), 8);
 			Starling.juggler.add(shieldMovieClip);
 			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
-			m_Image_shade = new Image(Assets.getAtlas().getTexture("cannonShade"));
+			m_ImageShade = new Image(Assets.getAtlas().getTexture("cannonShade"));
 
 			SetPivotToCenter();
 			PLAYER_CENTER_X = (m_Image.width / 2);
 			PLAYER_CENTER_Y = (m_Image.height / 2);
 			m_Image.scale *= 0.6;
-			m_Image_shade.scale *= 0.6;
+			m_ImageShade.scale *= 0.6;
 									
 			//display it on the stage
 			addChild(m_Image);
 			addChild(shieldMovieClip);	
-			addChild(m_Image_shade);
+			addChild(m_ImageShade);
 			
 			//positionate the shield animation
 			shieldMovieClip.alignPivot();
@@ -97,7 +97,7 @@ package gameObjects
 					var cont:Number = m_Image.x - touch.globalX;
 					var angleToRotate:Number = Math.atan2(op,cont);
 					m_Image.rotation = angleToRotate;
-					m_Image_shade.rotation = angleToRotate;
+					m_ImageShade.rotation = angleToRotate;
 				}
 			}
 		}
@@ -106,8 +106,8 @@ package gameObjects
 		{
 			m_Image.x = 400;
 			m_Image.y = 300;
-			m_Image_shade.x = 400;
-			m_Image_shade.y = 300;
+			m_ImageShade.x = 400;
+			m_ImageShade.y = 300;
 			
 			posX = stage.stageWidth/2;
 			posY = stage.stageHeight/2;
@@ -118,8 +118,8 @@ package gameObjects
 		{
 			m_Image.pivotX = PLAYER_CENTER_X;
 			m_Image.pivotY = PLAYER_CENTER_Y;
-			m_Image_shade.pivotX = PLAYER_CENTER_X;
-			m_Image_shade.pivotY = PLAYER_CENTER_Y;
+			m_ImageShade.pivotX = PLAYER_CENTER_X;
+			m_ImageShade.pivotY = PLAYER_CENTER_Y;
 		}
 		
 		private function degreesToRad(degrees:Number):Number
