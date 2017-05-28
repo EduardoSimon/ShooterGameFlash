@@ -16,6 +16,8 @@ package screens
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.*;
+	import starling.display.Image;
+
 	
 	public class Level2 extends Level 
 	{
@@ -27,6 +29,8 @@ package screens
 		public function Level2() 
 		{
 			super();
+			backgound = new Image(Assets.getAtlas().getTexture("bg2"));
+			this.addChild(backgound);
 			
 			soundsChannel = new SoundChannel();
 			//TODO: cambiar por las pistas que tocan
