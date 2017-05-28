@@ -11,6 +11,7 @@ package utils
 		[Embed(source = "/../media/img/welcomeScreen/bgWelcome.jpg")]
 		public static const BgWelcome:Class;
 		
+<<<<<<< HEAD
 		[Embed(source = "/../media/img/welcomeScreen/welcome_title.png")]
 		public static const WelcomeTitle:Class;
 		
@@ -64,7 +65,35 @@ package utils
 			return gameTextureAtlas;
 
 		}
+=======
+		[Embed(source="/../media/img/mySpritesheet.png")]
+		public static const AtlasTextureGame:Class;
 		
+		[Embed(source="/../media/img/mySpritesheet.xml", mimeType="application/octet-stream")]
+		public static const AtlasXmlGame:Class;
+		
+		
+		private static var gameTextures:Dictionary = new Dictionary();
+		private static var gameTextureAtlas:TextureAtlas;
+		
+		/**
+		 * Returns the Texture atlas instance.
+		 * @return the TextureAtlas instance (there is only oneinstance per app)
+		 */
+>>>>>>> origin/master
+		
+		public static function getAtlas():TextureAtlas
+		{
+			if (gameTextureAtlas == null)
+			{
+				var texture:Texture = getTexture("AtlasTextureGame");
+				var xml:XML = XML(new AtlasXmlGame());
+				gameTextureAtlas=new TextureAtlas(texture, xml);
+			}
+			
+			return gameTextureAtlas;
+		}
+				
 		public static function getTexture(name:String):Texture
 		{
 			if (gameTextures[name] == undefined)
@@ -73,10 +102,7 @@ package utils
 				gameTextures[name]=Texture.fromBitmap(bitmap);
 			}
 		
-		return gameTextures[name];
+			return gameTextures[name];
 		}
 	}
-	
-	
-
 }

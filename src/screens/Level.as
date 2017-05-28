@@ -9,6 +9,7 @@ package screens
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import main.Game;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.*;
@@ -28,6 +29,8 @@ package screens
 		protected var gameIstance:Game;
 		
 		public static var CANNON:Cannon;
+		public var backgound:Image;
+
 
 		public function Level() 
 		{
