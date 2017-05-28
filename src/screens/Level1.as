@@ -9,6 +9,7 @@ package screens
 	import flash.geom.Point;
 	import mx.core.SoundAsset;
 	import gameObjects.*;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.*;
 	import utils.*;
@@ -20,6 +21,8 @@ package screens
 		public function Level1() 
 		{
 			super();
+			backgound = new Image(Assets.getAtlas().getTexture("bg1"));
+			this.addChild(backgound);
 		}
 
 		override protected function OnEnterFrame(e:Event):void 

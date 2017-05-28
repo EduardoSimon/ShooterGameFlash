@@ -21,6 +21,7 @@ package screens
 		private var btnPlayLevel2:Button;
 		private var btnPlayLevel3:Button;
 		private var gameInstace:Game;
+		private var bg:Image;
 		
 		public function ChooseLevel() 
 		{
@@ -36,23 +37,26 @@ package screens
 		
 		private function drawScreen():void 
 		{
-			btnPlayLevel1 = new Button(Assets.getTexture("Level1"));
-			btnPlayLevel1.scale = .3;
-			btnPlayLevel1.x = 200 - btnPlayLevel1.width / 2;
-			btnPlayLevel1.y = 300 - btnPlayLevel1.height / 2;
+			bg = new Image(Assets.getAtlas().getTexture("bgWelcome"));
+			this.addChild(bg);
+			
+			btnPlayLevel1 = new Button(Assets.getAtlas().getTexture("level1"));
+			btnPlayLevel1.scale = 1.4;
+			btnPlayLevel1.x = 520 - btnPlayLevel1.width / 2;
+			btnPlayLevel1.y = 350 - btnPlayLevel1.height / 2;
 			this.addChild(btnPlayLevel1);
 
 			
-			btnPlayLevel2 = new Button(Assets.getTexture("Level2"));
-			btnPlayLevel2.scale = .3;
-			btnPlayLevel2.x = 400 - btnPlayLevel2.width / 2;
-			btnPlayLevel2.y = 300 - btnPlayLevel2.height / 2;
+			btnPlayLevel2 = new Button(Assets.getAtlas().getTexture("level2"));
+			btnPlayLevel2.scale = 1.4;
+			btnPlayLevel2.x = 520 - btnPlayLevel2.width / 2;
+			btnPlayLevel2.y = 429 - btnPlayLevel2.height / 2;
 			this.addChild(btnPlayLevel2);
 			
-			btnPlayLevel3 = new Button(Assets.getTexture("Level3"));
-			btnPlayLevel3.scale = .3;
-			btnPlayLevel3.x = 600 - btnPlayLevel3.width / 2;
-			btnPlayLevel3.y = 300 - btnPlayLevel3.height / 2;
+			btnPlayLevel3 = new Button(Assets.getAtlas().getTexture("level3"));
+			btnPlayLevel3.scale = 1.4;
+			btnPlayLevel3.x = 520 - btnPlayLevel3.width / 2;
+			btnPlayLevel3.y = 508 - btnPlayLevel3.height / 2;
 			this.addChild(btnPlayLevel3);
 			
 			

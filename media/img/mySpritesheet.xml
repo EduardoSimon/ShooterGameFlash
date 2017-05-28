@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:74bdc60626cd860d4afd8bb9b4fc3273:a48f95d52565d9896b13b1357d90e790:0a0078b3cc7f3f1f86c7495246795cdd$ -->
+<TextureAtlas imagePath="mySpritesheet.png" width="1404" height="1864">
+    <SubTexture name="ball_blue" x="1" y="1205" rotated="true" width="684" height="658" frameX="-173" frameY="-148" frameWidth="990" frameHeight="968"/>
+    <SubTexture name="ball_red" x="687" y="1418" width="55" height="55"/>
+    <SubTexture name="ballfrost" x="744" y="1418" width="55" height="55"/>
+    <SubTexture name="bg1" x="1" y="1" width="800" height="600"/>
+    <SubTexture name="bg2" x="803" y="1" rotated="true" width="600" height="800"/>
+    <SubTexture name="bg3" x="1" y="603" width="800" height="600"/>
+    <SubTexture name="bgWelcome" x="803" y="803" rotated="true" width="600" height="800"/>
+    <SubTexture name="cannon" x="687" y="1205" rotated="true" width="112" height="75"/>
+    <SubTexture name="cannonShade" x="687" y="1282" width="95" height="134"/>
+    <SubTexture name="level1" x="687" y="1475" rotated="true" width="47" height="137"/>
+    <SubTexture name="level1_active" x="736" y="1475" rotated="true" width="47" height="137"/>
+    <SubTexture name="level2" x="687" y="1755" width="137" height="47"/>
+    <SubTexture name="level2_active" x="687" y="1804" width="137" height="47"/>
+    <SubTexture name="level3" x="826" y="1755" width="137" height="47"/>
+    <SubTexture name="level3_active" x="828" y="1605" rotated="true" width="47" height="137"/>
+    <SubTexture name="welcome_playButton" x="687" y="1614" width="139" height="139" frameX="-7" frameY="-7" frameWidth="150" frameHeight="150"/>
+</TextureAtlas>

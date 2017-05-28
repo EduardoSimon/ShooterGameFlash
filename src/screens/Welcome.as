@@ -40,18 +40,10 @@ package screens
 		
 		private function drawScreen():void 
 		{
-			bg = new Image(Assets.getTexture("BgWelcome"));
+			bg = new Image(Assets.getAtlas().getTexture("bgWelcome"));
 			this.addChild(bg);
 			
-			title = new Image(Assets.getTexture("WelcomeTitle"));
-			title.x = 440;
-			title.y = 60;
-			this.addChild(title);
-			
-			hero = new Image(Assets.getTexture("WelcomeHero"));
-			this.addChild(hero);
-			
-			playBtn = new Button(Assets.getTexture("WelcomePlayBtn"));
+			playBtn = new Button(Assets.getAtlas().getTexture("welcome_playButton"));
 			playBtn.x = 500;
 			playBtn.y = 360;
 			this.addChild(playBtn);

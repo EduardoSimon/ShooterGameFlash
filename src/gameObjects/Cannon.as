@@ -18,6 +18,7 @@ package gameObjects
 		
 		private var PLAYER_CENTER_X:Number;
 		private var PLAYER_CENTER_Y:Number;
+		private var m_Image_shade:Image;
 		
 		public function Cannon() 
 		{
@@ -30,15 +31,17 @@ package gameObjects
 						
 			//starling sprite creation
 			
-			m_Image = new Image(Assets.getTexture("CannonBitmap"));
-			
+			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
+			m_Image_shade = new Image(Assets.getAtlas().getTexture("cannonShade"));
 			PLAYER_CENTER_X = (m_Image.width / 2);
 			PLAYER_CENTER_Y = (m_Image.height / 2);
 
 			m_Image.scale *= 0.6;
-						
+			m_Image_shade.scale *= 0.6;
+									
 			//display it on the stage
 			addChild(m_Image);
+			addChild(m_Image_shade);
 			
 			SetPivotToCenter();
 						
@@ -60,6 +63,7 @@ package gameObjects
 					var cont:Number = m_Image.x - touch.globalX;
 					var angleToRotate:Number = Math.atan2(op,cont);
 					m_Image.rotation = angleToRotate;
+					m_Image_shade.rotation = angleToRotate;
 				}
 			}
 		}
@@ -68,6 +72,8 @@ package gameObjects
 		{
 			m_Image.x = 400;
 			m_Image.y = 300;
+			m_Image_shade.x = 400;
+			m_Image_shade.y = 300;
 			
 			posX = stage.stageWidth/2;
 			posY = stage.stageHeight/2;
@@ -78,6 +84,8 @@ package gameObjects
 		{
 			m_Image.pivotX = PLAYER_CENTER_X;
 			m_Image.pivotY = PLAYER_CENTER_Y;
+			m_Image_shade.pivotX = PLAYER_CENTER_X;
+			m_Image_shade.pivotY = PLAYER_CENTER_Y;
 		}
 		
 		private function degreesToRad(degrees:Number):Number
