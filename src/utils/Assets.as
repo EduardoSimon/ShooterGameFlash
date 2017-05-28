@@ -8,9 +8,6 @@ package utils
 	public class Assets 
 	{
 		
-		[Embed(source = "/../media/img/welcomeScreen/bgWelcome.jpg")]
-		public static const BgWelcome:Class;
-		
 		[Embed(source="/../media/img/mySpritesheet.png")]
 		public static const AtlasTextureGame:Class;
 		

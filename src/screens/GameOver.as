@@ -19,22 +19,26 @@ package screens
 	public class GameOver extends Sprite 
 	{
 		private var score:Score;
-		
+		private var backgound:Image;
 		private var backToMenu:Button;
 		
 		public function GameOver() 
 		{
 			super(); 
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			
+			
 		}
 			
 		private function onAddedToStage(e:Event):void 
 		{ 
 			stage.addEventListener(GameOverEvent.GAME_OVER, onGameOver);
+			
 		}
 		
 		private function onGameOver(e:GameOverEvent):void 
 		{
+			
 			score = e.score;
 			Game.totalScore += score.ScoreInt;
 			score.SetScoreInt(Game.totalScore);
@@ -57,11 +61,14 @@ package screens
 			}
 			
 			backToMenu.visible = false;
+			backgound.visible = false;
 			removeEventListener(Event.TRIGGERED, onBackToMenuClick);
 		}
 		
 		private function drawScreen():void 
 		{	
+			backgound = new Image(Assets.getAtlas().getTexture("bgWelcome"));
+			this.addChild(backgound);
 			backToMenu = new Button(Assets.getAtlas().getTexture("welcome_playButton"));
 			backToMenu.x = 500;
 			backToMenu.y = 360;

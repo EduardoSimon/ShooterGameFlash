@@ -27,6 +27,7 @@ package screens
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+
 			gameInstace = new Game();
 		}
 		
