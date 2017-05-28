@@ -12,8 +12,6 @@ package utils
 	
 	public class Physics extends Sprite 
 	{
-		//private var pelotas:Vector.<Projectile>;
-
 		private var v0:VectorModel;
 		private var v1:VectorModel;
 		private var v2:VectorModel;

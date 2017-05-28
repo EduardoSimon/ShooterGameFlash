@@ -26,6 +26,7 @@ package screens
 		protected var track:Sound;
 		protected var channel:SoundChannel;
 		protected var gameIstance:Game;
+		
 		public static var CANNON:Cannon;
 
 		public function Level() 
@@ -64,11 +65,12 @@ package screens
 			{
 				if (touch.phase == TouchPhase.BEGAN)
 				{
-					//calculate the angel which we will use to determine the speed in x and y
+					//calculate the angle which we will use to determine the speed in x and y
 					var angle:Number = Math.atan2(touch.globalY - Constants.PLAYER_Y, touch.globalX -  Constants.PLAYER_X);
 					
 					//push to the vector and add to the display list
 					var bullet:Bullet = new Bullet(angle, Constants.SPEED);
+					//40 is the length of the cannon.
 					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 40);
 					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
 					bullets.push(bullet);
@@ -84,18 +86,20 @@ package screens
 			//create and display the enemies
 			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
 			{
+				//random angle in RADIANS
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var temp:Enemy = new Enemy(randomAngle, 5);
+				var tempEnemy:Enemy = new Enemy(randomAngle, 5);
 				
-				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
-				temp.x = temp.posX;
-				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
-				temp.y = temp.posY;
+				//select a random x and a random y between the width and the height of the stage.
+				tempEnemy.SetX = Math.random() * stage.stageWidth - tempEnemy.width / 2;
+				tempEnemy.x = tempEnemy.posX;
+				tempEnemy.SetY = Math.random() * stage.stageHeight - tempEnemy.height / 2;
+				tempEnemy.y = tempEnemy.posY;
 				
-				enemies.push(temp);
+				enemies.push(tempEnemy);
 				
-				addChild(temp);
+				addChild(tempEnemy);
 			}
 			
 			//show the score

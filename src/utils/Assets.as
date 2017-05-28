@@ -3,6 +3,7 @@ package utils
 	import flash.utils.Dictionary;
 	import starling.textures.Texture;
 	import flash.display.Bitmap;
+	import starling.textures.TextureAtlas;
 
 	public class Assets 
 	{
@@ -36,11 +37,33 @@ package utils
 		
 		[Embed(source = "/../media/img/chooseLevel/level3.png")]
 		public static const Level3:Class;
+				
+		[Embed(source = "/../media/img/level/shield_atlas.png")]
+		public static const ShieldAtlas:Class;
 		
+		[Embed(source = "/../media/img/level/mySpritesheet.xml", mimeType = "application/octet-stream")]
+		public static const ShieldAtlasXML:Class;
 		
+		private static var gameTextures:Dictionary = new Dictionary(); 
+		private static var gameTextureAtlas:TextureAtlas;
 		
-		
-		private static var gameTextures:Dictionary = new Dictionary();
+		public static function getAtlas():TextureAtlas
+		{
+			if (gameTextureAtlas == null)
+
+			{
+
+				var texture:Texture = getTexture("ShieldAtlas");
+
+				var xml:XML = XML(new ShieldAtlasXML());
+
+				gameTextureAtlas=new TextureAtlas(texture, xml);
+
+			}
+
+			return gameTextureAtlas;
+
+		}
 		
 		public static function getTexture(name:String):Texture
 		{
