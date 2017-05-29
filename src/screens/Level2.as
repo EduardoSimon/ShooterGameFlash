@@ -31,8 +31,8 @@ package screens
 			super();
 			backgound = new Image(Assets.getAtlas().getTexture("bg2"));
 			this.addChild(backgound);
-			
 			soundsChannel = new SoundChannel();
+			
 			//TODO: cambiar por las pistas que tocan
 			freezeTrack = new Sound(new URLRequest("../media/sound/fx_freeze.mp3"));
 			unfreezeTrack = new Sound(new URLRequest("../media/sound/fx_unfreeze.mp3"));
@@ -87,8 +87,6 @@ package screens
 							
 						}
 						
-						
-						
 							//check if there's collision between bullets and enemies
 						for (var k:int = bullets.length - 1; k >= 0; k--) 
 						{
@@ -99,31 +97,25 @@ package screens
 									soundsChannel = freezeTrack.play();
 									frozenEnemies += 1;
 									pelotas[i].Frozen = true;
-									pelotas[i].m_Image.alpha = 0.1;
+									pelotas[i].m_Image.texture = pelotas[i].FrozenImage;
 									pelotas[i].Vx = 0;
 									pelotas[i].Vy = 0;
+									score.AddScore(300);
 								}
 								else 
 								{
 									soundsChannel = unfreezeTrack.play();
 									frozenEnemies -= 1;
 									pelotas[i].Frozen = false;
-									pelotas[i].m_Image.alpha = 1;
-									pelotas[i].Vx = Constants.SPEED * Math.cos(Math.random());
-									pelotas[i].Vy = Constants.SPEED * Math.sin(Math.random());
+									pelotas[i].m_Image.texture = pelotas[i].NormalImage;
+									pelotas[i].Vx = Constants.BOUNCE_SPEED * Math.cos(Math.random());
+									pelotas[i].Vy = Constants.BOUNCE_SPEED * Math.sin(Math.random());
+									score.AddScore( -300);
 								}
-								
-								//TODO add score, this should be done on level class
-								//score.AddScore(300);
-								
-								//remove the enemy
-								//removeChild(pelotas[i].removeChild(pelotas[i].m_Image));
-								//pelotas.removeAt(i);
-								
-								//reomve the bullet
+
+								//remove the bullet
 								removeChild(bullets[k].removeChild(bullets[k].m_Image));
 								bullets.removeAt(k);
-								
 							}
 						}
 						

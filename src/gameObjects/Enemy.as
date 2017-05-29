@@ -3,6 +3,7 @@ package gameObjects
 	import starling.events.Event;
 	import starling.display.Image;
 	import utils.*;
+	import starling.textures.Texture;
 	/**
 	 * ...
 	 * @author EDUARDO SIMON
@@ -10,7 +11,6 @@ package gameObjects
 	public class Enemy extends Ball 
 	{
 		private var m_isFrozen:Boolean;
-		private var m_Image_frozen:Image;
 
 		
 		public function Enemy(angle:Number=0, speed:Number=20, radius:Number=0) 
@@ -18,7 +18,6 @@ package gameObjects
 			super(angle, speed, radius);
 			addEventListener(Event.ADDED_TO_STAGE, OnAddedToStage);
 			m_isFrozen = false;
-			
 		}
 		
 		private function OnAddedToStage(e:Event):void 
@@ -26,17 +25,12 @@ package gameObjects
 			removeEventListener(Event.ADDED_TO_STAGE, OnAddedToStage);
 			
 			m_Image = new Image(Assets.getAtlas().getTexture("ball_red"));
-			
-			m_Image_frozen = new Image(Assets.getAtlas().getTexture("ballfrost"));
-			
+
 			this.addChild(m_Image);
 					
 			m_Image.scale = .5;
-			m_Image_frozen.scale = .5;
-			
 			m_Image.alignPivot();
-			m_Image_frozen.alignPivot();
-			
+
 			m_Radius = m_Image.width/2;
 			
 		}
@@ -49,6 +43,16 @@ package gameObjects
 		public function set Frozen(value:Boolean):void
 		{
 			m_isFrozen = value;
+		}
+		
+		public function get FrozenImage():Texture
+		{
+			return Assets.getAtlas().getTexture("ballfrost");
+		}
+		
+		public function get NormalImage():Texture
+		{
+			return Assets.getAtlas().getTexture("ball_red");
 		}
 		
 		public override function update():void

@@ -1,5 +1,6 @@
 package gameObjects
 {
+	import com.adobe.tvsdk.mediacore.TextFormat;
 	import starling.display.Sprite;
 	import starling.text.TextField;
 	import starling.events.*;
@@ -60,6 +61,11 @@ package gameObjects
 		{
 			scoreInt = value;
 			score.text = scoreInt.toString();
+		}
+		
+		public function get ScoreTextField():TextField
+		{
+			return this.score;
 		}
 		
 	}

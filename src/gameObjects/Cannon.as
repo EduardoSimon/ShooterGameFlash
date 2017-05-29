@@ -56,19 +56,19 @@ package gameObjects
 			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
 			shieldMovieClip = new MovieClip(Assets.getAtlasShield().getTextures("shield_"), 8);
 			Starling.juggler.add(shieldMovieClip);
-			m_Image = new Image(Assets.getAtlas().getTexture("cannon"));
 			m_ImageShade = new Image(Assets.getAtlas().getTexture("cannonShade"));
 
-			SetPivotToCenter();
+
 			PLAYER_CENTER_X = (m_Image.width / 2);
 			PLAYER_CENTER_Y = (m_Image.height / 2);
+			SetPivotToCenter();
 			m_Image.scale *= 0.6;
 			m_ImageShade.scale *= 0.6;
 									
 			//display it on the stage
-			addChild(m_Image);
 			addChild(shieldMovieClip);	
 			addChild(m_ImageShade);
+			addChild(m_Image);
 			
 			//positionate the shield animation
 			shieldMovieClip.alignPivot();
@@ -77,7 +77,7 @@ package gameObjects
 			shieldMovieClip.y = stage.stageHeight / 2;
 	
 			//play shield loop
-			shieldSoundChannel = shieldTrack.play();
+			shieldSoundChannel = shieldTrack.play(0, int.MAX_VALUE);
 			
 			stage.addEventListener(TouchEvent.TOUCH, onTouched);
 			
@@ -96,8 +96,8 @@ package gameObjects
 					var op:Number = m_Image.y - touch.globalY;
 					var cont:Number = m_Image.x - touch.globalX;
 					var angleToRotate:Number = Math.atan2(op,cont);
-					m_Image.rotation = angleToRotate;
-					m_ImageShade.rotation = angleToRotate;
+					m_Image.rotation = angleToRotate - 1.7;
+					m_ImageShade.rotation = angleToRotate - 1.7;
 				}
 			}
 		}

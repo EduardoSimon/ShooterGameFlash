@@ -7,6 +7,11 @@ package utils
 
 	public class Assets 
 	{
+		[Embed(source = "/../media/fonts/doomFont.ttf", embedAsCFF = 'false', fontName = 'Doom')]
+		public static var Doom:Class;
+		
+		[Embed(source = "/../media/img/background/bg1_v2.jpg")]
+		public static const Level1Backgorund:Class;
 
 		[Embed(source = "/../media/img/welcomeScreen/welcome_title.png")]
 		public static const WelcomeTitle:Class;
