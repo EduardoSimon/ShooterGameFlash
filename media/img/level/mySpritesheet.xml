@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:4a95ad621f894f1f5896b1dfeb8f9d59:a0ce6340b1b734d0968860e4f9495f2a:4e7f11af70af6a7b42f304ebeba3174e$ -->
+<TextureAtlas imagePath="shield_atlas.png" width="2048" height="2048">
+    <SubTexture name="shield_1" x="1" y="1" width="472" height="472"/>
+    <SubTexture name="shield_2" x="475" y="949" width="472" height="472"/>
+    <SubTexture name="shield_3" x="475" y="1423" width="472" height="472"/>
+    <SubTexture name="shield_4" x="949" y="475" width="472" height="472"/>
+    <SubTexture name="shield_5" x="1423" y="475" width="472" height="472"/>
+    <SubTexture name="shield_6" x="949" y="949" width="472" height="472"/>
+    <SubTexture name="shield_7" x="949" y="1423" width="472" height="472"/>
+    <SubTexture name="shield_8" x="1423" y="949" width="472" height="472"/>
+    <SubTexture name="shield_9" x="1423" y="1423" width="472" height="472"/>
+    <SubTexture name="shield_10" x="1" y="475" width="472" height="472"/>
+    <SubTexture name="shield_11" x="1" y="949" width="472" height="472"/>
+    <SubTexture name="shield_12" x="1" y="1423" width="472" height="472"/>
+    <SubTexture name="shield_13" x="475" y="1" width="472" height="472"/>
+    <SubTexture name="shield_14" x="949" y="1" width="472" height="472"/>
+    <SubTexture name="shield_15" x="1423" y="1" width="472" height="472"/>
+    <SubTexture name="shield_16" x="475" y="475" width="472" height="472"/>
+</TextureAtlas>
