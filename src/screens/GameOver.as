@@ -11,7 +11,8 @@ package screens
 	import com.friendsofed.vector.*;
 	import String;
 	import events.*;
-	
+	import starling.text.TextFieldAutoSize;
+	import flash.text.Font;
 	/**
 	 * ...
 	 * @author Marc
@@ -19,34 +20,44 @@ package screens
 	public class GameOver extends Sprite 
 	{
 		private var score:Score;
-		private var backgound:Image;
+		private var infoText:starling.text.TextField;
+		private var doomFont:Font = new Assets.Doom();
+		
 		private var backToMenu:Button;
+		private var background:Image;
 		
 		public function GameOver() 
 		{
 			super(); 
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			
-			
 		}
 			
 		private function onAddedToStage(e:Event):void 
 		{ 
 			stage.addEventListener(GameOverEvent.GAME_OVER, onGameOver);
-			
 		}
 		
 		private function onGameOver(e:GameOverEvent):void 
 		{
-			
 			score = e.score;
 			Game.totalScore += score.ScoreInt;
 			score.SetScoreInt(Game.totalScore);
-			addChild(score);
-			score.x = 100;
-			score.y = 100;
-			score.scale = 1.5;
+
 			drawScreen();
+
+			//we draw the score on top of everything else
+			addChild(score);
+			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			score.ScoreTextField.fontSize = 180;
+			score.x = 100;
+			score.y = 200;
+
+			infoText = new starling.text.TextField(200, 100, "TOTAL SCORE: ", doomFont.fontName, 130, 0x00FF00);
+			infoText.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			infoText.x = 100;
+			infoText.y = 50;
+			addChild(infoText);
+			
 			
 			this.addEventListener(Event.TRIGGERED, onBackToMenuClick);
 		}
@@ -60,20 +71,24 @@ package screens
 				removeChild(score);
 			}
 			
+			infoText.visible = false;
 			backToMenu.visible = false;
-			backgound.visible = false;
+			background.visible = false;
 			removeEventListener(Event.TRIGGERED, onBackToMenuClick);
 		}
 		
 		private function drawScreen():void 
 		{	
-			backgound = new Image(Assets.getAtlas().getTexture("bgWelcome"));
-			this.addChild(backgound);
+			background = new Image(Assets.getAtlas().getTexture("bg1"));
+			background.alignPivot();
+			background.x = stage.stageWidth / 2;
+			background.y = stage.stageHeight / 2;
+			this.addChild(background);
+			
 			backToMenu = new Button(Assets.getAtlas().getTexture("welcome_playButton"));
-			backToMenu.x = 500;
-			backToMenu.y = 360;
+			backToMenu.x = 610;
+			backToMenu.y = 420;
 			this.addChild(backToMenu);
-
 		}
 		
 		public function disposeTemporarily():void{

@@ -8,6 +8,7 @@ package screens
 	import com.friendsofed.utils.TextBox;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import flash.text.Font;
 	import main.Game;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -15,7 +16,7 @@ package screens
 	import utils.*;
 	import events.NavigationEvent;
 	import gameObjects.*;
-
+	import starling.text.TextFieldAutoSize;
 
 	public class Level extends Sprite
 	{
@@ -26,7 +27,8 @@ package screens
 		protected var physics:Physics;
 		protected var track:Sound;
 		protected var channel:SoundChannel;
-		protected var gameIstance:Game;
+		protected var doomFont:Font = new Assets.Doom();
+		
 		public static var CANNON:Cannon;
 		public var backgound:Image;
 
@@ -56,6 +58,11 @@ package screens
 		{
 			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 			MoveEntities(enemies, bullets);
+			
+			if (score.ScoreInt <= 0) 
+			{
+				EndLevel();
+			}
 		}
 		
 		
@@ -67,15 +74,17 @@ package screens
 			{
 				if (touch.phase == TouchPhase.BEGAN)
 				{
-					//calculate the angel which we will use to determine the speed in x and y
+					//calculate the angle which we will use to determine the speed in x and y
 					var angle:Number = Math.atan2(touch.globalY - Constants.PLAYER_Y, touch.globalX -  Constants.PLAYER_X);
 					
 					//push to the vector and add to the display list
 					var bullet:Bullet = new Bullet(angle, Constants.SPEED);
-					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 40);
-					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 40);
+					//40 is the length of the cannon.
+					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 20);
+					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 20);
 					bullets.push(bullet);
 					addChild(bullet);
+					score.AddScore( -100);
 					channel = track.play();
 				}
 			}
@@ -87,22 +96,25 @@ package screens
 			//create and display the enemies
 			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
 			{
+				//random angle in RADIANS
 				var randomAngle:Number = Math.random() * (2 * Math.PI);
 				
-				var temp:Enemy = new Enemy(randomAngle, 5);
+				var tempEnemy:Enemy = new Enemy(randomAngle, 5);
 				
-				temp.SetX = Math.random() * stage.stageWidth - temp.width / 2;
-				temp.x = temp.posX;
-				temp.SetY = Math.random() * stage.stageHeight - temp.height / 2;
-				temp.y = temp.posY;
+				//select a random x and a random y between the width and the height of the stage.
+				tempEnemy.SetX = Math.random() * stage.stageWidth - tempEnemy.width / 2;
+				tempEnemy.x = tempEnemy.posX;
+				tempEnemy.SetY = Math.random() * stage.stageHeight - tempEnemy.height / 2;
+				tempEnemy.y = tempEnemy.posY;
 				
-				enemies.push(temp);
+				enemies.push(tempEnemy);
 				
-				addChild(temp);
+				addChild(tempEnemy);
 			}
 			
 			//show the score
 			addChild(score);
+			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
 			addChild(physics);
 			
 			//set the cannon in its correct position
@@ -121,7 +133,7 @@ package screens
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 
-			score = new Score(5000, 10, 10, 100, 30, 2);
+			score = new Score(Constants.START_SCORE, 0, 0, 80, 60, 2, "", doomFont.fontName, 40, 0x00FF00, false);
 			enemies = new Vector.<Enemy>();
 			bullets = new Vector.<Bullet>();
 			physics = new Physics();

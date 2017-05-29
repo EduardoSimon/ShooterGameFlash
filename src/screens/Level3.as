@@ -3,9 +3,11 @@ package screens
 	
 	import gameObjects.*;
 	import utils.*;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import starling.events.Event;
 	import starling.display.Image;
-
+	import flash.net.URLRequest;
 	/**
 	 * ...
 	 * @author Marc
@@ -13,6 +15,9 @@ package screens
 	public class Level3 extends Level 
 	{
 		private var frozenEnemies:int = 0;
+		private var freezeTrack:Sound = new Sound(new URLRequest("../media/sound/fx_freeze.mp3"));
+		private var unfreezeTrack:Sound = new Sound(new URLRequest("../media/sound/fx_unfreeze.mp3"));
+		private var levelChannel:SoundChannel = new SoundChannel();
 		
 		public function Level3() 
 		{
@@ -75,6 +80,8 @@ package screens
 										frozenEnemies -= 1;
 										UnfreezeBall(pelotas[j]);
 									}
+									
+									score.AddScore( -300);
 								}
 								else
 								{
@@ -91,15 +98,21 @@ package screens
 								if (!pelotas[i].Frozen)
 								{
 									//freeze ball if it collides with a bullet
-									//TODO : PLAY A SOUND
 									frozenEnemies += 1;
 									FreezeBall(pelotas[i]);
 									score.AddScore(300);
-								
-									//remove the bullet
-									removeChild(bullets[k].removeChild(bullets[k].m_Image));
-									bullets.removeAt(k);
 								}
+								else
+								{
+									frozenEnemies -= 1;
+									UnfreezeBall(pelotas[i]);
+									score.AddScore( -200);
+									
+								}
+								
+								//remove the bullet
+								removeChild(bullets[k].removeChild(bullets[k].m_Image));
+								bullets.removeAt(k);
 							}
 						}
 						
@@ -125,7 +138,8 @@ package screens
 		private function FreezeBall(enemy:Enemy):void
 		{
 			enemy.Frozen = true;
-			enemy.m_Image.alpha = 0.1;
+			enemy.m_Image.texture = enemy.FrozenImage;
+			levelChannel = freezeTrack.play();
 			enemy.Vx = 0;
 			enemy.Vy = 0;
 		}
@@ -133,7 +147,8 @@ package screens
 		private function UnfreezeBall(enemy:Enemy):void
 		{
 			enemy.Frozen = false;
-			enemy.m_Image.alpha = 1;
+			enemy.m_Image.texture = enemy.NormalImage;
+			levelChannel = unfreezeTrack.play();
 			enemy.Vx = Constants.BOUNCE_SPEED * Math.cos(Math.random());
 			enemy.Vy = Constants.BOUNCE_SPEED * Math.sin(Math.random());
 		}

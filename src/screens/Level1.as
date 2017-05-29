@@ -21,8 +21,7 @@ package screens
 		public function Level1() 
 		{
 			super();
-			backgound = new Image(Assets.getAtlas().getTexture("bg1"));
-			this.addChild(backgound);
+
 		}
 
 		override protected function OnEnterFrame(e:Event):void 
@@ -34,6 +33,22 @@ package screens
 				super.EndLevel();
 				return;
 			}
+		}
+		
+		override protected function onAddedToStage(e:Event):void 
+		{
+			super.onAddedToStage(e);
+			
+			backgound = new Image(Assets.getTexture("Level1Backgorund"));
+			backgound.alignPivot();
+			this.addChildAt(backgound, stage.numChildren - 1);
+			
+			backgound.x = stage.stageWidth / 2;
+			backgound.y = stage.stageHeight / 2;
+			
+			backgound.scale = 1.4;
+			
+			
 		}
 		
 		override protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
