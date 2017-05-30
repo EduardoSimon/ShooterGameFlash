@@ -26,6 +26,7 @@ package screens
 
 		override protected function OnEnterFrame(e:Event):void 
 		{
+			//we override the enterframe handler keeping the previous one and adding some other behaviour
 			super.OnEnterFrame(e);
 			
 			if (enemyHits == Constants.N_PROJECTILES) 
@@ -39,6 +40,7 @@ package screens
 		{
 			super.onAddedToStage(e);
 			
+			//we positionate and draw the background
 			backgound = new Image(Assets.getTexture("Level1Backgorund"));
 			backgound.alignPivot();
 			this.addChildAt(backgound, stage.numChildren - 1);
@@ -47,8 +49,6 @@ package screens
 			backgound.y = stage.stageHeight / 2;
 			
 			backgound.scale = 1.4;
-			
-			
 		}
 		
 		override protected function MoveEntities(enemigos:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
@@ -85,7 +85,7 @@ package screens
 					{
 						if (physics.AreBallsColliding(bullets[k],enemigos[i]))
 						{
-							//TODO add score, this should be done on level class
+							//we add 300 to the score each time we hit an enemy
 							score.AddScore(300);
 							
 							//remove the enemy

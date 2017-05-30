@@ -22,9 +22,6 @@ package screens
 		private var playBtn:Button;
 		private var aboutBtn:Button;
 		
-		private var model:VectorModel = new VectorModel();
-		private var view:VectorView = new VectorView(model,"status",1);
-		
 		public function Welcome() 
 		{
 		
@@ -48,7 +45,6 @@ package screens
 			playBtn.y = 360;
 			this.addChild(playBtn);
 			
-			
 			this.addEventListener(Event.TRIGGERED, onMainMenuClick);
 			
 		}
@@ -56,7 +52,8 @@ package screens
 		private function onMainMenuClick(e:Event):void 
 		{
 			var buttonClicked:Button = e.target as Button;
-
+			
+			//if the button we clicked was the play one we dispatch the navigation event
 			if((buttonClicked as Button) == playBtn){
 				this.dispatchEvent(new events.NavigationEvent(events.NavigationEvent.CHANGE_SCREEN, {id: "chooseLevel"}, true));
 			}

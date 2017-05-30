@@ -39,25 +39,18 @@ package screens
 		
 		private function onGameOver(e:GameOverEvent):void 
 		{
+			//we take the score that comes with the event and add it to the static property totalScore
 			score = e.score;
 			Game.totalScore += score.ScoreInt;
 			score.SetScoreInt(Game.totalScore);
+			
+			if (score.ScoreInt < 0) 
+			{
+				score.SetScoreInt(0);
+			}
+
 
 			drawScreen();
-
-			//we draw the score on top of everything else
-			addChild(score);
-			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			score.ScoreTextField.fontSize = 180;
-			score.x = 100;
-			score.y = 200;
-
-			infoText = new starling.text.TextField(200, 100, "TOTAL SCORE: ", doomFont.fontName, 130, 0x00FF00);
-			infoText.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			infoText.x = 100;
-			infoText.y = 50;
-			addChild(infoText);
-			
 			
 			this.addEventListener(Event.TRIGGERED, onBackToMenuClick);
 		}
@@ -89,6 +82,20 @@ package screens
 			backToMenu.x = 610;
 			backToMenu.y = 420;
 			this.addChild(backToMenu);
+		
+			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			score.ScoreTextField.fontSize = 180;
+			score.x = 100;
+			score.y = 200;
+
+			infoText = new starling.text.TextField(200, 100, "TOTAL SCORE: ", doomFont.fontName, 130, 0x00FF00);
+			infoText.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			infoText.x = 100;
+			infoText.y = 50;
+			addChild(infoText);
+			
+			//we have to display the score that we receive from the gameover event			
+			addChild(score);
 		}
 		
 		public function disposeTemporarily():void{

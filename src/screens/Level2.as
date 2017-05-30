@@ -29,11 +29,11 @@ package screens
 		public function Level2() 
 		{
 			super();
+			
 			backgound = new Image(Assets.getAtlas().getTexture("bg2"));
 			this.addChild(backgound);
+		
 			soundsChannel = new SoundChannel();
-			
-			//TODO: cambiar por las pistas que tocan
 			freezeTrack = new Sound(new URLRequest("../media/sound/fx_freeze.mp3"));
 			unfreezeTrack = new Sound(new URLRequest("../media/sound/fx_unfreeze.mp3"));
 		}
@@ -49,38 +49,40 @@ package screens
 			}
 		}
 		
-		protected override function MoveEntities(pelotas:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
+
+		protected override function MoveEntities(enemies:Vector.<Enemy>,bullets:Vector.<Bullet>):void 
 		{
 			//if there are balls
-			if (pelotas.length > 0)
+			if (enemies.length > 0)
 			{
-					for (var i:int = pelotas.length - 1; i >= 0 ; i--)
+					for (var i:int = enemies.length - 1; i >= 0 ; i--)
 					{
 							
 						//check if theres collision with the stage boundaries
-						if (physics.TestBoundaries(pelotas[i])) 
+						if (physics.TestBoundaries(enemies[i])) 
 						{
 							//if there is collision calculate the bounce vector
-							physics.bounceWithBoundarie(pelotas[i]);
+							physics.bounceWithBoundarie(enemies[i]);
 						}
 					
-						if (!pelotas[i].Frozen)
+						if (!enemies[i].Frozen)
 						{
 
 							//check for every other ball but without comparing them twice // j < i
 							for (var j:int = 0; j < i; j++)
 							{
 								//check again against the boundaries
-								if (physics.TestBoundaries(pelotas[j])) 
+								if (physics.TestBoundaries(enemies[j])) 
 								{
-									physics.bounceWithBoundarie(pelotas[j]);
+									physics.bounceWithBoundarie(enemies[j]);
 								}
 								
-								if (physics.AreBallsColliding(pelotas[i], pelotas[j]))
+								if (physics.AreBallsColliding(enemies[i], enemies[j]))
 								{
-									if (!pelotas[i].Frozen && !pelotas[j].Frozen) 
+									//theres bounce between balls only when none of both is frozen
+									if (!enemies[i].Frozen && !enemies[j].Frozen) 
 									{
-										physics.BounceBetweenBalls(pelotas[i], pelotas[j]);
+										physics.BounceBetweenBalls(enemies[i], enemies[j]);
 									}
 								}		
 							}
@@ -90,27 +92,16 @@ package screens
 							//check if there's collision between bullets and enemies
 						for (var k:int = bullets.length - 1; k >= 0; k--) 
 						{
-							if (physics.AreBallsColliding(bullets[k],pelotas[i]))
+							if (physics.AreBallsColliding(bullets[k],enemies[i]))
 							{
-								if (!pelotas[i].Frozen)
+								//if we hit an enemy with a bullet we freeze it
+								if (!enemies[i].Frozen)
 								{
-									soundsChannel = freezeTrack.play();
-									frozenEnemies += 1;
-									pelotas[i].Frozen = true;
-									pelotas[i].m_Image.texture = pelotas[i].FrozenImage;
-									pelotas[i].Vx = 0;
-									pelotas[i].Vy = 0;
-									score.AddScore(300);
+									Freeze(enemies[i]);
 								}
 								else 
 								{
-									soundsChannel = unfreezeTrack.play();
-									frozenEnemies -= 1;
-									pelotas[i].Frozen = false;
-									pelotas[i].m_Image.texture = pelotas[i].NormalImage;
-									pelotas[i].Vx = Constants.BOUNCE_SPEED * Math.cos(Math.random());
-									pelotas[i].Vy = Constants.BOUNCE_SPEED * Math.sin(Math.random());
-									score.AddScore( -300);
+									Unfreeze(enemies[i]);
 								}
 
 								//remove the bullet
@@ -121,14 +112,14 @@ package screens
 						
 
 						//Test if they collide with the player
-						if (physics.AreBallsColliding(pelotas[i], CANNON))
+						if (physics.AreBallsColliding(enemies[i], CANNON))
 						{
-							physics.bounceWithPlayer(pelotas[i],CANNON);
+							physics.bounceWithPlayer(enemies[i],CANNON);
 						}
 						
-						pelotas[i].update();
-						pelotas[i].x = pelotas[i].posX;
-						pelotas[i].y = pelotas[i].posY;	
+						enemies[i].update();
+						enemies[i].x = enemies[i].posX;
+						enemies[i].y = enemies[i].posY;	
 						
 					}
 					
@@ -137,6 +128,35 @@ package screens
 				
 				MoveBullets(bullets);
 			}	
+		}
+		
+		private function Freeze(e:Enemy):void
+		{
+			//we check the frozen flag and add 1 to the counter
+			soundsChannel = freezeTrack.play();
+			frozenEnemies += 1;
+			e.Frozen = true;
+			
+			//in order to change the image's texture on run-time, we have to access its public texture setter
+			e.m_Image.texture = e.FrozenImage;
+			e.Vx = 0;
+			e.Vy = 0;
+			
+			//we add score too if we freeze an enemy
+			score.AddScore(300);
+		}
+		
+		private function Unfreeze(e:Enemy):void
+		{
+			soundsChannel = unfreezeTrack.play();
+			frozenEnemies -= 1;
+			e.Frozen = false;
+			
+			e.m_Image.texture = e.NormalImage;
+			e.Vx = Constants.BOUNCE_SPEED * Math.cos(Math.random());
+			e.Vy = Constants.BOUNCE_SPEED * Math.sin(Math.random());
+			
+			score.AddScore( -300);
 		}
 		
 	}

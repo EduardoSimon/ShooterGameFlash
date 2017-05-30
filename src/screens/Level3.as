@@ -22,8 +22,10 @@ package screens
 		public function Level3() 
 		{
 			super();
+			
 			backgound = new Image(Assets.getAtlas().getTexture("bg3"));
 			this.addChild(backgound);
+
 		}
 		
 		override protected function OnEnterFrame(e:Event):void 

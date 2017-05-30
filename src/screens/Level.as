@@ -38,6 +38,20 @@ package screens
 			initialize();
 		}
 		
+		protected function initialize():void
+		{
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
+
+			score = new Score(Constants.START_SCORE, 0, 0, 80, 60, 2, "", doomFont.fontName, 40, 0x00FF00, false);
+			enemies = new Vector.<Enemy>();
+			bullets = new Vector.<Bullet>();
+			physics = new Physics();
+			CANNON = new Cannon();
+			track = new Sound(new URLRequest("../media/sound/laser.mp3"));
+
+		}
+		
 		protected function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -46,6 +60,42 @@ package screens
 			
 			drawLevel();
 		}
+		
+		private function drawLevel():void
+		{
+			
+			//create and display the enemies
+			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
+			{
+				//random angle in RADIANS that we pass to the Enemy constructor
+				var randomAngle:Number = Math.random() * (2 * Math.PI);
+				var tempEnemy:Enemy = new Enemy(randomAngle, 5);
+				
+				//select a random x and a random y between the width and the height of the stage.
+				tempEnemy.SetX = Math.random() * stage.stageWidth - tempEnemy.width / 2;
+				tempEnemy.x = tempEnemy.posX;
+				tempEnemy.SetY = Math.random() * stage.stageHeight - tempEnemy.height / 2;
+				tempEnemy.y = tempEnemy.posY;
+				
+				enemies.push(tempEnemy);
+				
+				addChild(tempEnemy);
+			}
+		
+			//show the score and autosize it
+			addChild(score);
+			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
+			
+			//we need to add the physics object to the display list because it uses objects of starling.
+			addChild(physics);
+			
+			//set the cannon in its correct position
+			addChild(CANNON);
+			CANNON.CenterPlayerToStage();
+			CANNON.SetX = Constants.PLAYER_X;
+			CANNON.SetY = Constants.PLAYER_Y;
+		}
+	
 		
 		protected function onRemovedFromStage(e:Event):void 
 		{
@@ -56,9 +106,11 @@ package screens
 		
 		protected function OnEnterFrame(e:Event):void 
 		{
+			//delta is the constant which is used to decrement gradually the score.
 			score.UpdateScoreWithDelta(Constants.SCORE_DELTA);
 			MoveEntities(enemies, bullets);
 			
+			//if the score is less than 0 we end the level and dispatch the navigation and gameover event
 			if (score.ScoreInt <= 0) 
 			{
 				EndLevel();
@@ -79,68 +131,28 @@ package screens
 					
 					//push to the vector and add to the display list
 					var bullet:Bullet = new Bullet(angle, Constants.SPEED);
+					
 					//40 is the length of the cannon.
 					bullet.SetX = Constants.PLAYER_X + (Math.cos(angle) * 20);
 					bullet.SetY = Constants.PLAYER_Y + (Math.sin(angle) * 20);
 					bullets.push(bullet);
 					addChild(bullet);
+					
+					//to make the game more difficul we substract score each time we shoot. If we hit a ball we still got a positive balance of 200
 					score.AddScore( -100);
 					channel = track.play();
 				}
 			}
 		}
 				
-		private function drawLevel():void
-		{
+
 			
-			//create and display the enemies
-			for (var i:int = 0; i < Constants.N_PROJECTILES; i++)
-			{
-				//random angle in RADIANS
-				var randomAngle:Number = Math.random() * (2 * Math.PI);
-				
-				var tempEnemy:Enemy = new Enemy(randomAngle, 5);
-				
-				//select a random x and a random y between the width and the height of the stage.
-				tempEnemy.SetX = Math.random() * stage.stageWidth - tempEnemy.width / 2;
-				tempEnemy.x = tempEnemy.posX;
-				tempEnemy.SetY = Math.random() * stage.stageHeight - tempEnemy.height / 2;
-				tempEnemy.y = tempEnemy.posY;
-				
-				enemies.push(tempEnemy);
-				
-				addChild(tempEnemy);
-			}
-			
-			//show the score
-			addChild(score);
-			score.ScoreTextField.autoSize = TextFieldAutoSize.BOTH_DIRECTIONS;
-			addChild(physics);
-			
-			//set the cannon in its correct position
-			addChild(CANNON);
-			CANNON.CenterPlayerToStage();
-			CANNON.SetX = Constants.PLAYER_X;
-			CANNON.SetY = Constants.PLAYER_Y;
-		}
-		
+
 		public function disposeTemporarily():void{
 			this.visible = false;
 		}
 		
-		protected function initialize():void
-		{
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, OnEnterFrame);
 
-			score = new Score(Constants.START_SCORE, 0, 0, 80, 60, 2, "", doomFont.fontName, 40, 0x00FF00, false);
-			enemies = new Vector.<Enemy>();
-			bullets = new Vector.<Bullet>();
-			physics = new Physics();
-			CANNON = new Cannon();
-			track = new Sound(new URLRequest("../media/sound/laser.mp3"));
-
-		}
 		
 		public function get Visible(): Boolean{
 			return this.visible;
@@ -181,7 +193,7 @@ package screens
 					{
 						if (physics.AreBallsColliding(bullets[k],enemigos[i]))
 						{
-							//TODO add score, this should be done on level class
+							//we add score when we hit an enemy
 							score.AddScore(300);
 							
 							//remove the enemy
@@ -222,6 +234,7 @@ package screens
 			{
 				for (var i:int = bullets.length - 1; i >= 0; i-- ) 
 				{
+					//if theres no collision with the walls we update the bullets
 					if (!physics.TestBoundaries(bullets[i])) 
 					{
 						bullets[i].update();

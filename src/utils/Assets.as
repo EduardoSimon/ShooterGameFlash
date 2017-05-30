@@ -7,6 +7,10 @@ package utils
 
 	public class Assets 
 	{
+		private static var gameTextures:Dictionary = new Dictionary(); 
+		private static var shieldTextureAtlas:TextureAtlas;
+		private static var gameTextureAtlas:TextureAtlas;
+		
 		[Embed(source = "/../media/fonts/doomFont.ttf", embedAsCFF = 'false', fontName = 'Doom')]
 		public static var Doom:Class;
 		
@@ -46,10 +50,13 @@ package utils
 		[Embed(source = "/../media/img/level/mySpritesheet.xml", mimeType = "application/octet-stream")]
 		public static const ShieldAtlasXML:Class;
 		
-		private static var gameTextures:Dictionary = new Dictionary(); 
-		private static var shieldTextureAtlas:TextureAtlas;
-		private static var gameTextureAtlas:TextureAtlas;
+		[Embed(source="/../media/img/mySpritesheet.png")]
+		public static const AtlasTextureGame:Class;
 		
+		[Embed(source="/../media/img/mySpritesheet.xml", mimeType="application/octet-stream")]
+		public static const AtlasXmlGame:Class;
+		
+
 		public static function getAtlasShield():TextureAtlas
 		{
 			if (shieldTextureAtlas == null)
@@ -67,13 +74,6 @@ package utils
 
 		}
 
-		[Embed(source="/../media/img/mySpritesheet.png")]
-		public static const AtlasTextureGame:Class;
-		
-		[Embed(source="/../media/img/mySpritesheet.xml", mimeType="application/octet-stream")]
-		public static const AtlasXmlGame:Class;
-
-		
 		public static function getAtlas():TextureAtlas
 		{
 			if (gameTextureAtlas == null)

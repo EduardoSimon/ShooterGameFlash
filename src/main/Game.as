@@ -27,8 +27,6 @@ package main
 		private var screenLevel3:Level3;
 		private var screenChooseLevel:ChooseLevel;
 		private var screenGameOver:GameOver;
-		
-		
 		private var channelMain:SoundChannel;
 		private var channelLevel:SoundChannel;
 		private var ChooseLevelSong:Sound;
@@ -57,6 +55,7 @@ package main
 			
 			this.addEventListener(events.NavigationEvent.CHANGE_SCREEN, onChangeScreen);
 
+			//initialize and create all the screens
 			screenWelcome = new screens.Welcome();
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
@@ -74,6 +73,7 @@ package main
 		
 		private function onChangeScreen(e:events.NavigationEvent):void 
 		{
+			//each time we dispatch the navigation event we need the id for knowing the level we have came from
 			switch(e.params.id){
 				case "level1":
 					screenChooseLevel.disposeTemporarily();
