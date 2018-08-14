@@ -1,2 +1,2 @@
-# ShooterGameJuegosWeb
-Repositorio de Edu y Marc para el trabajo de juegos web.
+# ShooterGame
+In order to run the game you need FLASH PLAYER.
